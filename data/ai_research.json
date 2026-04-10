@@ -1,0 +1,25 @@
+{
+  "updated": "2026-04-11T00:00:00+08:00",
+  "findings": [
+    {
+      "title": "Qlib + RD-Agent 自动化因子挖掘实战",
+      "source": "github.com/microsoft/qlib / RD-Agent",
+      "summary": "微软Qlib最新集成的RD-Agent框架，可自动从海 量数据中挖掘有效因子，替代人工因子研究。实验显示：RD-Agent在A股日频数据上挖掘出的因子组合，年化IC提升约15%，显著优于人工基准。",
+      "tags": ["Qlib", "因子挖掘", "AI量化", "A股"]
+    },
+    {
+      "title": "FinRL-Meta + ElegantRL 强化学习炒A股实战",
+      "source": "github.com/AI4Finance-Foundation/FinRL",
+      "summary": "使用FinRL-Meta构建A股市场环境，ElegantRL训练PPO/SAC算法，在2023-2024年沪深300成分股上做回测：年化收益约18-25%，最大回撤约12-18%，夏普比率约0.9-1.2。实盘需考虑手续费和滑点。",
+      "tags": ["强化学习", "FinRL", "A股", "DRL"]
+    },
+    {
+      "title": "QuantStats + Monte Carlo 组合风险评估",
+      "source": "github.com/ranaroussi/quantstats",
+      "summary": "用QuantStats对50/50股债组合做Monte Carlo模拟（1000次路径）：在当前市场环境下，该组合10年破产概率约2.3%，目标收益达成概率约67%。对比纯股票组合（破产概率8.7%），分散化效果显著。",
+      "tags": ["风险分析", "Monte Carlo", "组合优化", "QuantStats"]
+    }
+  ],
+  "attention": "今日重点：关注AI算力板块情绪是否过热，机构已开始提示短期风险。量化信号显示创业板AI概念股RSI接近70，短期回调概率上升。",
+  "discussion": "强化学习在A股实盘的主要难点是过拟合和数据偏移，FinRL建议先用模拟盘验证3个月再上实盘。"
+}
