@@ -1044,18 +1044,21 @@ setTimeout(function(){ location.reload(); }, 5 * 60 * 1000);
 
       <!-- 可视化图表 -->
       <div class="card">
-        <h2><span class="emoji">🥧</span> 持仓分布 <span class="badge">实时</span></h2>
+        <h2><span class="emoji">🥧</span> 持仓分布 <span class="badge">模拟数据</span></h2>
         <div style="position:relative;height:220px;"><canvas id="pieAllocation"></canvas></div>
+        <div style="margin-top:0.5rem;font-size:0.72rem;color:var(--muted);">⚠️ 示例数据，API连接后可显示真实持仓</div>
       </div>
 
       <div class="card">
-        <h2><span class="emoji">📈</span> 净值曲线 <span class="badge">每日记录</span></h2>
+        <h2><span class="emoji">📈</span> 净值曲线 <span class="badge">模拟数据</span></h2>
         <div style="position:relative;height:220px;"><canvas id="equityCurve"></canvas></div>
+        <div style="margin-top:0.5rem;font-size:0.72rem;color:var(--muted);">模拟30天走势，API记录后显示真实净值</div>
       </div>
 
       <div class="card">
         <h2><span class="emoji">⚖️</span> 板块配置 <span class="badge">AI vs 电力</span></h2>
         <div style="position:relative;height:180px;"><canvas id="sectorBar"></canvas></div>
+        <div style="margin-top:0.4rem;font-size:0.72rem;color:var(--muted);">点击股票卡 → 查看详情 | 点击数据库Tab → 管理持仓</div>
       </div>
 
       <!-- T+1 规则说明 -->
@@ -1571,44 +1574,34 @@ function hexToRgba(hex, alpha) {
 }
 
 function renderPieChart(positions) {
-  var ctx = document.getElementById('pieAllocation').getContext('2d');
-  if(!ctx) return;
+  var canvas = document.getElementById('pieAllocation');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
   if(pieChart) pieChart.destroy();
 
-  var cash = 190000;
-  var labels = [];
-  var data = [];
-  var colors = ['#58a6ff','#3fb950','#d29922','#f85149','#a371f7','#39c5cf','#f0883e','#79c0ff','#56d364'];
+  // 演示数据：始终显示，API返回真实数据后替换
+  var labels = ['海光信息 688041','科大讯飞 002230','长江电力 600900','国电南瑞 600406','现金备用'];
+  var data = [105000, 78000, 90000, 37000, 190000];
+  var colors = ['#58a6ff','#a371f7','#3fb950','#39c5cf','#8b949e'];
 
-  positions.forEach(function(p,i){
-    var val = p.shares * (p.current_price || p.avg_cost);
-    labels.push(p.name + ' ' + p.code);
-    data.push(Math.round(val));
-  });
-
-  // 加入现金
-  labels.push('现金备用');
-  data.push(cash);
+  // 有真实持仓数据时替换
+  if(positions && positions.length > 0) {
+    labels = []; data = [];
+    positions.forEach(function(p){
+      labels.push(p.name + ' ' + p.code);
+      data.push(Math.round(p.shares * (p.current_price || p.avg_cost)));
+    });
+    labels.push('现金备用');
+    data.push(190000);
+  }
 
   pieChart = new Chart(ctx, {
     type: 'doughnut',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: data,
-        backgroundColor: colors.slice(0, labels.length),
-        borderWidth: 2,
-        borderColor: '#0d1117',
-      }]
-    },
+    data: { labels: labels, datasets: [{ data: data, backgroundColor: colors.slice(0, labels.length), borderWidth: 2, borderColor: '#0d1117' }] },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: 'right',
-          labels: { color: '#8b949e', font: { size: 11 }, padding: 8, boxWidth: 12 }
-        },
+        legend: { position: 'right', labels: { color: '#8b949e', font: { size: 11 }, padding: 8, boxWidth: 12 } },
         tooltip: {
           callbacks: {
             label: function(ctx) {
@@ -1755,6 +1748,8 @@ function loadAll() {
   loadPositions();
   loadTrades();
   loadRecords();
+  // 图表立即渲染演示数据，不等API
+  renderPieChart([]);
   renderEquityCurve();
   renderSectorChart([]);
 }
