@@ -1,0 +1,39 @@
+{
+  "updated": "2026-04-10",
+  "countries": {
+    "cambodia": {
+      "emoji": "🇰🇭",
+      "name": "柬埔寨",
+      "new_projects": [],
+      "updates": [],
+      "no_change": true,
+      "crm_new": 0
+    },
+    "vietnam": {
+      "emoji": "🇻🇳",
+      "name": "越南",
+      "new_projects": [],
+      "updates": [],
+      "no_change": true,
+      "crm_new": 0
+    },
+    "singapore": {
+      "emoji": "🇸🇬",
+      "name": "新加坡",
+      "new_projects": [],
+      "updates": [],
+      "no_change": true,
+      "crm_new": 0
+    },
+    "india": {
+      "emoji": "🇮🇳",
+      "name": "印度",
+      "new_projects": [],
+      "updates": [],
+      "no_change": true,
+      "crm_new": 0
+    }
+  },
+  "total_crm": 0,
+  "total_new_today": 0
+}
