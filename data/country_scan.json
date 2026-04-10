@@ -1,0 +1,42 @@
+{
+  "updated": "2026-04-11T00:00:00+08:00",
+  "total_new_today": 3,
+  "total_crm": 47,
+  "countries": {
+    "cambodia": {
+      "no_change": false,
+      "new_projects": [
+        "三星C&T 预中标 金边某商业综合体项目（金额待确认）",
+        "中国路桥 新签 公路改造升级协议（约$2800万）"
+      ],
+      "updates": [
+        "柬埔寨2026年基建预算同比+12%，外资参与门槛降低"
+      ]
+    },
+    "vietnam": {
+      "no_change": false,
+      "new_projects": [
+        "三星C&T 河内地铁5号线意向函（4月30日前确认）",
+        "VinGroup 工业区光伏EPC分包招标（5月截标）"
+      ],
+      "updates": [
+        "越南制造业PMI创24个月新高，外资FDI加速流入"
+      ]
+    },
+    "singapore": {
+      "no_change": true,
+      "new_projects": [],
+      "updates": []
+    },
+    "india": {
+      "no_change": false,
+      "new_projects": [
+        "印度Reliance 工业园区污水处理厂EPC议标（邀请制）"
+      ],
+      "updates": [
+        "印度政府推动制造业国产化，中国工程企业进入难度增加",
+        "印度卢比持续走弱，在印资产汇兑风险上升"
+      ]
+    }
+  }
+}
