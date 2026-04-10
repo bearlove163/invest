@@ -15,7 +15,7 @@
     .live-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
     .refresh-btn{background:var(--blue);color:#000;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600;}
-    .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0;flex-wrap:wrap;}
     .tab{padding:0.6rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;font-size:0.9rem;transition:all 0.2s;}
     .tab:hover{color:var(--text);}
     .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
@@ -27,8 +27,6 @@
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
     .card h2{font-size:0.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
     .card h2 .emoji{font-size:1.1rem;}
-    .card h2 a{color:var(--blue);text-decoration:none;font-size:0.75rem;margin-left:auto;}
-    .card h2 a:hover{text-decoration:underline;}
     .stat-row{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);}
     .stat-row:last-child{border-bottom:none;}
     .stat-label{color:var(--muted);font-size:0.9rem;}
@@ -39,7 +37,7 @@
     .stat-value.blue{color:var(--blue);}
     .stat-value.purple{color:var(--purple);}
     .stat-value.orange{color:var(--orange);}
-    .stock-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;display:flex;justify-content:space-between;align-items:center;}
+    .stock-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
     .stock-info{flex:1;}
     .stock-name{font-weight:700;font-size:1rem;margin-bottom:0.2rem;}
     .stock-code{color:var(--muted);font-size:0.8rem;}
@@ -62,19 +60,6 @@
     .memory-entry .content{font-size:0.85rem;}
     .memory-entry.new{border-left-color:var(--purple);background:rgba(163,113,247,0.06);}
     .memory-entry.new .time{color:var(--purple);}
-    .kb-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:0.8rem;}
-    .kb-card:last-child{margin-bottom:0;}
-    .kb-card h3{color:var(--blue);font-size:0.95rem;margin-bottom:0.3rem;}
-    .kb-card h3 a{color:var(--blue);text-decoration:none;}
-    .kb-card h3 a:hover{text-decoration:underline;}
-    .kb-card .desc{color:var(--muted);font-size:0.82rem;margin-bottom:0.5rem;line-height:1.5;}
-    .kb-meta{display:flex;gap:0.5rem;flex-wrap:wrap;}
-    .kb-tag{background:rgba(88,166,255,0.1);color:var(--blue);font-size:0.72rem;padding:2px 7px;border-radius:6px;}
-    .kb-tag.green{background:rgba(63,185,80,0.1);color:var(--green);}
-    .kb-tag.purple{background:rgba(163,113,247,0.1);color:var(--purple);}
-    .kb-tag.orange{background:rgba(240,136,62,0.1);color:var(--orange);}
-    .backtest-result{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:0.8rem;}
-    .backtest-result h4{color:var(--blue);font-size:0.9rem;margin-bottom:0.5rem;}
     .bt-row{display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.85rem;}
     .bt-label{color:var(--muted);}
     .bt-value{font-weight:600;}
@@ -82,710 +67,486 @@
     .bt-value.neg{color:var(--red);}
     .footer-bar{text-align:center;color:var(--muted);font-size:0.8rem;padding:1.5rem 0 0.5rem;}
     .last-updated{text-align:center;color:var(--muted);font-size:0.75rem;margin-top:0.5rem;}
-    .btn{padding:0.4rem 1rem;border-radius:6px;border:none;cursor:pointer;font-size:0.85rem;font-weight:600;}
-    .btn-primary{background:var(--blue);color:#000;}
-    .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
-    .desc-detail{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:0.8rem 0;}
-    .desc-detail p{font-size:0.82rem;color:var(--muted);margin-bottom:0.4rem;}
-    .desc-detail strong{color:var(--text);}
-    .desc-detail span.green{color:var(--green);}
-    .desc-detail span.yellow{color:var(--yellow);}
-  
-    /* 响应式适配 - 手机+平板 */
+    .data-note{text-align:right;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;}
+    .country-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
+    .country-card .country-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;}
+    .country-card .country-name{font-weight:700;font-size:1rem;}
+    .country-card .country-status{font-size:1.2rem;}
+    .country-card .detail-line{font-size:0.82rem;color:var(--muted);margin-left:0.5rem;}
+    .method-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
+    .method-card h3{color:var(--blue);font-size:1rem;margin-bottom:0.6rem;}
+    .method-pros{display:flex;gap:0.4rem;flex-wrap:wrap;margin:0.6rem 0;}
+    .pro-tag{background:rgba(63,185,80,0.12);color:var(--green);font-size:0.72rem;padding:2px 7px;border-radius:6px;}
+    .con-tag{background:rgba(248,81,73,0.12);color:var(--red);font-size:0.72rem;padding:2px 7px;border-radius:6px;}
+    .effect-item{display:flex;justify-content:space-between;padding:0.4rem 0;font-size:0.85rem;border-bottom:1px solid var(--border);}
+    .effect-item:last-child{border-bottom:none;}
+    .effect-label{color:var(--muted);}
+    .effect-value{font-weight:600;}
+    .effect-value.good{color:var(--green);}
+    .effect-value.bad{color:var(--red);}
+    .effect-value.warn{color:var(--yellow);}
     @media (max-width: 768px) {
       .container { padding: 1rem; }
       header { flex-direction: column; gap: 0.8rem; text-align: center; }
-      header h1 { font-size: 1.1rem; }
-      .header-right { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
-      .tabs { overflow-x: auto; white-space: nowrap; }
-      .tab { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
       .grid { grid-template-columns: 1fr; gap: 1rem; }
       .grid-3 { grid-template-columns: 1fr; }
-      .card { padding: 1rem; }
-      .card h2 { font-size: 0.8rem; }
-      .stock-card { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-      .stock-price { text-align: left; }
-      .price { font-size: 1.1rem; }
-      .progress-stages { font-size: 0.65rem; }
-      .stat-row { padding: 0.4rem 0; }
-      .stat-label { font-size: 0.82rem; }
-      .stat-value { font-size: 0.85rem; }
-      table { font-size: 0.78rem; }
-      th, td { padding: 0.4rem 0.4rem !important; }
+      .tabs { overflow-x: auto; white-space: nowrap; }
     }
-    @media (max-width: 480px) {
-      .container { padding: 0.8rem; }
-      header h1 { font-size: 1rem; }
-      .card { padding: 0.8rem; }
-      .bt-row { font-size: 0.78rem; }
-      .effect-item { font-size: 0.78rem; }
-      .method-card h3 { font-size: 0.9rem; }
-    }
-
-  
-    /* 股票详情模态框 */
-    .stock-modal { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; }
-    .stock-modal.show { display:flex; }
-    .stock-modal .modal-content { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; max-width:560px; width:92%; max-height:88vh; overflow-y:auto; }
-    .modal-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
-    .modal-header h3 { color:var(--blue); font-size:1.1rem; margin-bottom:0.3rem; }
-    .modal-header .stock-code-tag { color:var(--muted); font-size:0.82rem; }
-    .modal-close { background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; padding:0; line-height:1; }
-    .modal-close:hover { color:var(--text); }
-    .modal-section { margin-bottom:1.2rem; }
-    .modal-section h4 { color:var(--text); font-size:0.88rem; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
-    .modal-section p { color:var(--muted); font-size:0.82rem; line-height:1.7; }
-    .modal-tag { display:inline-block; background:rgba(88,166,255,0.12); color:var(--blue); font-size:0.72rem; padding:2px 8px; border-radius:6px; margin:0.2rem; }
-    .modal-tag.green { background:rgba(63,185,80,0.12); color:var(--green); }
-    .modal-tag.yellow { background:rgba(210,153,34,0.12); color:var(--yellow); }
-    .modal-tag.red { background:rgba(248,81,73,0.12); color:var(--red); }
-    .timeline { border-left:2px solid var(--border); padding-left:1rem; margin-left:0.5rem; }
-    .timeline-item { position:relative; padding-bottom:0.8rem; font-size:0.82rem; }
-    .timeline-item::before { content:''; position:absolute; left:-1.25rem; top:0.3rem; width:8px; height:8px; background:var(--blue); border-radius:50%; }
-    .timeline-item .year { color:var(--blue); font-weight:600; margin-bottom:0.2rem; }
-    .timeline-item .event { color:var(--muted); }
-    .modal-metric { display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.85rem; }
-    .modal-metric:last-child { border-bottom:none; }
-    .modal-metric .label { color:var(--muted); }
-    .modal-metric .val { font-weight:600; }
-
+    .stock-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center;}
+    .stock-modal.show{display:flex;}
+    .stock-modal .modal-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;max-width:560px;width:92%;max-height:88vh;overflow-y:auto;}
+    .modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+    .modal-header h3{color:var(--blue);font-size:1.1rem;margin-bottom:0.3rem;}
+    .modal-header .stock-code-tag{color:var(--muted);font-size:0.82rem;}
+    .modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;padding:0;line-height:1;}
+    .modal-close:hover{color:var(--text);}
+    .modal-section{margin-bottom:1.2rem;}
+    .modal-section h4{color:var(--text);font-size:0.88rem;margin-bottom:0.5rem;}
+    .modal-section p{color:var(--muted);font-size:0.82rem;line-height:1.7;}
+    .modal-tag{display:inline-block;background:rgba(88,166,255,0.12);color:var(--blue);font-size:0.72rem;padding:2px 8px;border-radius:6px;margin:0.2rem;}
+    .modal-tag.red{background:rgba(248,81,73,0.12);color:var(--red);}
+    .timeline{border-left:2px solid var(--border);padding-left:1rem;margin-left:0.5rem;}
+    .timeline-item{position:relative;padding-bottom:0.8rem;font-size:0.82rem;}
+    .timeline-item::before{content:'';position:absolute;left:-1.25rem;top:0.3rem;width:8px;height:8px;background:var(--blue);border-radius:50%;}
+    .timeline-item .year{color:var(--blue);font-weight:600;margin-bottom:0.2rem;}
+    .timeline-item .event{color:var(--muted);}
+    .modal-metric{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;}
+    .modal-metric:last-child{border-bottom:none;}
+    .modal-metric .label{color:var(--muted);}
+    .modal-metric .val{font-weight:600;}
+    .topic-date-block{margin-bottom:1.5rem;}
+    .topic-date-header{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center;}
+    .topic-date-header .date{color:var(--blue);font-weight:700;font-size:1rem;}
+    .topic-date-header .badge{font-size:0.72rem;padding:2px 8px;border-radius:6px;background:rgba(88,166,255,0.15);color:var(--blue);}
+    .topic-cat-block{margin-bottom:0.8rem;}
+    .topic-cat-label{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.4rem;}
+    .topic-card{border-left:3px solid var(--border);padding:0.5rem 0.8rem;margin-bottom:0.4rem;background:rgba(255,255,255,0.02);border-radius:0 6px 6px 0;}
+    .topic-event{font-size:0.88rem;color:var(--text);margin-bottom:0.2rem;}
+    .topic-heat{display:inline-block;font-size:0.65rem;padding:1px 5px;border-radius:4px;margin-right:4px;}
+    .topic-heat.high{background:rgba(248,81,73,0.15);color:var(--red);}
+    .topic-heat.med{background:rgba(210,153,34,0.15);color:var(--yellow);}
+    .topic-heat.low{background:rgba(63,185,80,0.15);color:var(--green);}
+    .topic-angle{font-size:0.78rem;color:var(--muted);}
+    .highlight-block{background:rgba(163,113,247,0.08);border:1px solid rgba(163,113,247,0.3);border-radius:8px;padding:0.8rem 1rem;margin:0.6rem 0;}
+    .highlight-block h4{color:var(--purple);font-size:0.82rem;margin-bottom:0.3rem;}
+    .highlight-block .reason{font-size:0.8rem;color:var(--muted);}
+    .discussion-block{background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.2);border-radius:8px;padding:0.8rem 1rem;margin:0.6rem 0;}
+    .discussion-block h4{color:var(--blue);font-size:0.82rem;margin-bottom:0.3rem;}
+    .discussion-block .question{font-size:0.85rem;color:var(--text);}
+    .scan-country{margin-bottom:0.6rem;}
+    .scan-country .sc-header{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 1rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;}
+    .scan-country .sc-name{font-weight:600;}
+    .scan-country .sc-detail{font-size:0.82rem;color:var(--muted);padding:0.4rem 1rem 0;}
+    .ai-research-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:0.8rem;}
+    .ai-research-card h4{color:var(--blue);font-size:0.9rem;margin-bottom:0.4rem;}
+    .ai-research-card .source{color:var(--muted);font-size:0.78rem;margin-bottom:0.3rem;}
+    .ai-research-card .summary{font-size:0.82rem;color:var(--text);}
   </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>📊 财经专家 | 量化投资分析平台</h1>
+    <h1>财经专家 | 量化投资分析平台</h1>
     <div class="header-right">
       <span><span class="live-dot"></span> Live</span>
       <span id="clock" style="color:var(--muted);font-size:0.85rem;"></span>
-      <button class="refresh-btn" onclick="location.reload()">🔄 刷新</button>
+      <button class="refresh-btn" onclick="location.reload()">刷新</button>
     </div>
   </header>
 
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('dashboard')">📊 市场概览</div>
-    <div class="tab" onclick="switchTab('memory')">🧠 记忆系统</div>
-    <div class="tab" onclick="switchTab('knowledge')">📚 量化知识库</div>
-    <div class="tab" onclick="switchTab('backtest')">🔬 回测验证</div>
+    <div class="tab active" onclick="switchTab('dashboard')">市场概览</div>
+    <div class="tab" onclick="switchTab('memory')">记忆系统</div>
+    <div class="tab" onclick="switchTab('knowledge')">量化知识库</div>
+    <div class="tab" onclick="switchTab('market')">市场扫描</div>
+    <div class="tab" onclick="switchTab('topics')">每日选题</div>
+    <div class="tab" onclick="switchTab('backtest')">回测验证</div>
   </div>
 
-  <!-- 市场概览 -->
   <div id="tab-dashboard" class="tab-content active">
     <div class="grid">
       <div class="card full">
-        <h2><span class="emoji">🤖</span> AI板块核心股 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">2026-04-10 实时行情</span></h2>
+        <h2><span class="emoji">🤖</span> AI板块核心股 <span style="font-size:0.72rem;color:var(--muted);">实时行情</span></h2>
         <div class="grid-3">
-          <div class="stock-card" onclick="openStockModal('002230')" style="cursor:pointer" title="点击查看详情">
-            <div class="stock-info">
-              <div class="stock-name"><span class="tag ai">AI</span>科大讯飞</div>
-              <div class="stock-code">SZ 002230</div>
-              <div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">算力+大模型龙头</div>
-            </div>
-            <div class="stock-price">
-              <div class="price">47.65</div>
-              <div class="change"><span class="tag up">+0.89%</span></div>
-            </div>
+          <div class="stock-card ai-stock-card" onclick="openStockModal('002230')">
+            <div class="stock-info"><div class="stock-name"><span class="tag ai">AI</span>科大讯飞</div><div class="stock-code">SZ 002230</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">算力+大模型龙头</div></div>
+            <div class="stock-price"><div class="price">47.65</div><div class="change"><span class="tag up">+0.89%</span></div></div>
           </div>
-          <div class="stock-card" onclick="openStockModal('688041')" style="cursor:pointer" title="点击查看详情">
-            <div class="stock-info">
-              <div class="stock-name"><span class="tag ai">AI</span>海光信息</div>
-              <div class="stock-code">SH 688041</div>
-              <div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">国产GPU/AI芯片</div>
-            </div>
-            <div class="stock-price">
-              <div class="price">231.70</div>
-              <div class="change"><span class="tag up">+2.07%</span></div>
-            </div>
+          <div class="stock-card ai-stock-card" onclick="openStockModal('688041')">
+            <div class="stock-info"><div class="stock-name"><span class="tag ai">AI</span>海光信息</div><div class="stock-code">SH 688041</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">国产GPU/AI芯片</div></div>
+            <div class="stock-price"><div class="price">231.70</div><div class="change"><span class="tag up">+2.07%</span></div></div>
           </div>
-          <div class="stock-card" onclick="openStockModal('688256')" style="cursor:pointer" title="点击查看详情">
-            <div class="stock-info">
-              <div class="stock-name"><span class="tag ai">AI</span>寒武纪</div>
-              <div class="stock-code">SH 688256</div>
-              <div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">AI处理器芯片</div>
-            </div>
-            <div class="stock-price">
-              <div class="price">178.32</div>
-              <div class="change"><span class="tag up">+3.45%</span></div>
-            </div>
+          <div class="stock-card ai-stock-card" onclick="openStockModal('688256')">
+            <div class="stock-info"><div class="stock-name"><span class="tag ai">AI</span>寒武纪</div><div class="stock-code">SH 688256</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">AI处理器芯片</div></div>
+            <div class="stock-price"><div class="price">178.32</div><div class="change"><span class="tag up">+3.45%</span></div></div>
           </div>
         </div>
       </div>
-
       <div class="card full">
-        <h2><span class="emoji">⚡</span> 电力防御板块 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">高股息稳健</span></h2>
+        <h2><span class="emoji">⚡</span> 电力防御板块 <span style="font-size:0.72rem;color:var(--muted);">高股息稳健</span></h2>
         <div class="grid-3">
-          <div class="stock-card" onclick="openStockModal('600900')" style="cursor:pointer" title="点击查看详情">
-            <div class="stock-info">
-              <div class="stock-name"><span class="tag power">电力</span>长江电力</div>
-              <div class="stock-code">SH 600900</div>
-              <div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">水电/高股息防御</div>
-            </div>
-            <div class="stock-price">
-              <div class="price">26.37</div>
-              <div class="change"><span class="tag down">-0.15%</span></div>
-            </div>
+          <div class="stock-card power-stock-card" onclick="openStockModal('600900')">
+            <div class="stock-info"><div class="stock-name"><span class="tag power">电力</span>长江电力</div><div class="stock-code">SH 600900</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">水电/高股息防御</div></div>
+            <div class="stock-price"><div class="price">26.37</div><div class="change"><span class="tag down">-0.15%</span></div></div>
           </div>
-          <div class="stock-card" onclick="openStockModal('600406')" style="cursor:pointer" title="点击查看详情">
-            <div class="stock-info">
-              <div class="stock-name"><span class="tag power">电力</span>国电南瑞</div>
-              <div class="stock-code">SH 600406</div>
-              <div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">电网自动化/AI调度</div>
-            </div>
-            <div class="stock-price">
-              <div class="price">31.25</div>
-              <div class="change"><span class="tag up">+0.52%</span></div>
-            </div>
+          <div class="stock-card power-stock-card" onclick="openStockModal('600406')">
+            <div class="stock-info"><div class="stock-name"><span class="tag power">电力</span>国电南瑞</div><div class="stock-code">SH 600406</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">电网自动化/AI调度</div></div>
+            <div class="stock-price"><div class="price">31.25</div><div class="change"><span class="tag up">+0.52%</span></div></div>
           </div>
-          <div class="stock-card" onclick="openStockModal('601985')" style="cursor:pointer" title="点击查看详情">
-            <div class="stock-info">
-              <div class="stock-name"><span class="tag power">电力</span>中国核电</div>
-              <div class="stock-code">SH 601985</div>
-              <div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">核电/绿电转型</div>
-            </div>
-            <div class="stock-price">
-              <div class="price">8.47</div>
-              <div class="change"><span class="tag up">+1.08%</span></div>
-            </div>
+          <div class="stock-card power-stock-card" onclick="openStockModal('601985')">
+            <div class="stock-info"><div class="stock-name"><span class="tag power">电力</span>中国核电</div><div class="stock-code">SH 601985</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">核电/绿电转型</div></div>
+            <div class="stock-price"><div class="price">8.47</div><div class="change"><span class="tag up">+1.08%</span></div></div>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <h2><span class="emoji">📈</span> 大盘指数</h2>
-        <div class="stat-row"><span class="stat-label">上证指数</span><span class="stat-value">3985.46 <span style="color:var(--green);font-size:0.8rem;">+0.12%</span></span></div>
-        <div class="stat-row"><span class="stat-label">深证成指</span><span class="stat-value">17352.18 <span style="color:var(--green);font-size:0.8rem;">+0.43%</span></span></div>
-        <div class="stat-row"><span class="stat-label">创业板指</span><span class="stat-value">2587.32 <span style="color:var(--green);font-size:0.8rem;">+0.87%</span></span></div>
-        <div class="stat-row"><span class="stat-label">沪深300</span><span class="stat-value">3985.52 <span style="color:var(--green);font-size:0.8rem;">+0.08%</span></span></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">🌡️</span> 市场情绪</h2>
-        <div class="stat-row"><span class="stat-label">涨跌停</span><span class="stat-value green">86 / 6</span></div>
-        <div class="stat-row"><span class="stat-label">成交量</span><span class="stat-value blue">927亿 ↑</span></div>
-        <div class="stat-row"><span class="stat-label">北向资金</span><span class="stat-value green">+23.5亿</span></div>
-        <div class="stat-row"><span class="stat-label">情绪</span><span class="stat-value yellow">偏热</span></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">🔥</span> 今日热门板块</h2>
-        <div class="stat-row"><span class="stat-label">1. AI算力</span><span class="stat-value green">+4.2%</span></div>
-        <div class="stat-row"><span class="stat-label">2. 半导体设备</span><span class="stat-value green">+3.1%</span></div>
-        <div class="stat-row"><span class="stat-label">3. 机器人概念</span><span class="stat-value green">+2.8%</span></div>
-        <div class="stat-row"><span class="stat-label">4. 电力设备</span><span class="stat-value blue">+1.2%</span></div>
-        <div class="stat-row"><span class="stat-label">5. 创新药</span><span class="stat-value yellow">+0.6%</span></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">💡</span> 今日策略建议</h2>
-        <div class="stat-row"><span class="stat-label">方向</span><span class="stat-value purple">AI进攻 + 电力防御</span></div>
-        <div class="stat-row"><span class="stat-label">仓位</span><span class="stat-value yellow">6成仓</span></div>
-        <div class="stat-row"><span class="stat-label">风险</span><span class="stat-value orange">中等</span></div>
-        <div class="stat-row"><span class="stat-label">逻辑</span><span class="stat-value blue">AI主线+高股息防御</span></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">💰</span> 资金状态 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">50万滚动资金</span></h2>
-        <div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value blue">¥500,000</span></div>
-        <div class="stat-row"><span class="stat-label">持仓市值</span><span class="stat-value yellow">¥310,000</span></div>
-        <div class="stat-row"><span class="stat-label">现金余额</span><span class="stat-value green">¥190,000</span></div>
-        <div class="stat-row"><span class="stat-label">持仓仓位</span><span class="stat-value yellow">62%</span></div>
-        <div class="stat-row"><span class="stat-label">今日盈亏</span><span class="stat-value green">+¥4,210 (+0.84%)</span></div>
-        <div class="stat-row"><span class="stat-label">总盈亏</span><span class="stat-value green">+¥44,650 (+9.8%)</span></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">📋</span> 持仓明细</h2>
-        <div class="stat-row"><span class="stat-label">海光信息 688041</span><span class="stat-value green">持仓 ¥105,000 (21%)</span></div>
-        <div class="stat-row"><span class="stat-label">科大讯飞 002230</span><span class="stat-value green">持仓 ¥78,000 (15.6%)</span></div>
-        <div class="stat-row"><span class="stat-label">长江电力 600900</span><span class="stat-value blue">持仓 ¥90,000 (18%)</span></div>
-        <div class="stat-row"><span class="stat-label">国电南瑞 600406</span><span class="stat-value blue">持仓 ¥37,000 (7.4%)</span></div>
-        <div class="stat-row"><span class="stat-label">现金备用</span><span class="stat-value">¥190,000 (38%)</span></div>
-      </div>
+      <div class="card"><h2><span class="emoji">📈</span> 大盘指数</h2><div id="indices-data"><div class="stat-row"><span class="stat-label">上证指数</span><span class="stat-value">3985.46 <span style="color:var(--green);font-size:0.8rem;">+0.12%</span></span></div><div class="stat-row"><span class="stat-label">深证成指</span><span class="stat-value">17352.18 <span style="color:var(--green);font-size:0.8rem;">+0.43%</span></span></div><div class="stat-row"><span class="stat-label">创业板指</span><span class="stat-value">2587.32 <span style="color:var(--green);font-size:0.8rem;">+0.87%</span></span></div><div class="stat-row"><span class="stat-label">沪深300</span><span class="stat-value">3985.52 <span style="color:var(--green);font-size:0.8rem;">+0.08%</span></span></div></div></div>
+      <div class="card"><h2><span class="emoji">🌡️</span> 市场情绪</h2><div id="sentiment-data"><div class="stat-row"><span class="stat-label">涨跌停</span><span class="stat-value green">86 / 6</span></div><div class="stat-row"><span class="stat-label">成交量</span><span class="stat-value blue">927亿</span></div><div class="stat-row"><span class="stat-label">北向资金</span><span class="stat-value green">+23.5亿</span></div><div class="stat-row"><span class="stat-label">情绪</span><span class="stat-value yellow">偏热</span></div></div></div>
+      <div class="card"><h2><span class="emoji">🔥</span> 今日热门板块</h2><div id="hot-sectors-data"><div class="stat-row"><span class="stat-label">1. AI算力</span><span class="stat-value green">+4.2%</span></div><div class="stat-row"><span class="stat-label">2. 半导体设备</span><span class="stat-value green">+3.1%</span></div><div class="stat-row"><span class="stat-label">3. 机器人概念</span><span class="stat-value green">+2.8%</span></div><div class="stat-row"><span class="stat-label">4. 电力设备</span><span class="stat-value blue">+1.2%</span></div><div class="stat-row"><span class="stat-label">5. 创新药</span><span class="stat-value yellow">+0.6%</span></div></div></div>
+      <div class="card"><h2><span class="emoji">💡</span> 今日策略建议</h2><div id="strategy-data"><div class="stat-row"><span class="stat-label">方向</span><span class="stat-value purple">AI进攻 + 电力防御</span></div><div class="stat-row"><span class="stat-label">仓位</span><span class="stat-value yellow">6成仓</span></div><div class="stat-row"><span class="stat-label">风险</span><span class="stat-value orange">中等</span></div><div class="stat-row"><span class="stat-label">逻辑</span><span class="stat-value blue">AI主线+高股息防御</span></div></div></div>
+      <div class="card"><h2><span class="emoji">💰</span> 资金状态 <span style="font-size:0.72rem;color:var(--muted);">50万滚动资金</span></h2><div id="position-data"><div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value blue">¥500,000</span></div><div class="stat-row"><span class="stat-label">持仓市值</span><span class="stat-value yellow">¥310,000</span></div><div class="stat-row"><span class="stat-label">现金余额</span><span class="stat-value green">¥190,000</span></div><div class="stat-row"><span class="stat-label">持仓仓位</span><span class="stat-value yellow">62%</span></div><div class="stat-row"><span class="stat-label">今日盈亏</span><span class="stat-value green">+¥4,210 (+0.84%)</span></div><div class="stat-row"><span class="stat-label">总盈亏</span><span class="stat-value green">+¥44,650 (+9.8%)</span></div></div></div>
+      <div class="card"><h2><span class="emoji">📋</span> 持仓明细</h2><div id="holdings-data"><div class="stat-row"><span class="stat-label">海光信息 688041</span><span class="stat-value green">持仓 ¥105,000 (21%)</span></div><div class="stat-row"><span class="stat-label">科大讯飞 002230</span><span class="stat-value green">持仓 ¥78,000 (15.6%)</span></div><div class="stat-row"><span class="stat-label">长江电力 600900</span><span class="stat-value blue">持仓 ¥90,000 (18%)</span></div><div class="stat-row"><span class="stat-label">国电南瑞 600406</span><span class="stat-value blue">持仓 ¥37,000 (7.4%)</span></div><div class="stat-row"><span class="stat-label">现金备用</span><span class="stat-value">¥190,000 (38%)</span></div></div><div id="data-note" class="data-note">模拟分析，仅供参考</div></div>
     </div>
   </div>
 
-  <!-- 记忆系统 -->
   <div id="tab-memory" class="tab-content">
     <div class="grid">
       <div class="card full">
         <h2><span class="emoji">🧠</span> 记忆系统安装进度</h2>
-        <div style="margin-bottom:0.5rem;font-size:0.85rem;color:var(--muted);">总体进度 <span class="stat-value blue">75%</span></div>
-        <div class="progress-bar"><div class="progress-fill" style="width:75%">75%</div></div>
-        <div class="progress-stages">
-          <span class="done">✅ 安装完成</span>
-          <span class="done">✅ 数据写入</span>
-          <span class="active">🔄 界面可视化</span>
-          <span>⏳ 自动化同步</span>
-        </div>
+        <div style="margin-bottom:0.5rem;font-size:0.85rem;color:var(--muted);">总体进度 <span class="stat-value blue">85%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:85%">85%</div></div>
+        <div class="progress-stages"><span class="done">✅ 安装完成</span><span class="done">✅ 数据写入</span><span class="done">✅ 界面可视化</span><span class="active">🔄 动态数据加载</span></div>
       </div>
-
       <div class="card full">
         <h2><span class="emoji">📋</span> 记忆日志</h2>
-        <div class="memory-log" style="max-height:320px;overflow-y:auto;">
-          <div class="memory-entry new">
-            <div class="time">2026-04-10 14:53 ⭐ NEW</div>
-            <div class="content">用户要求：记忆系统可点击查看内容、可在线修改</div>
-          </div>
-          <div class="memory-entry new">
-            <div class="time">2026-04-10 14:28</div>
-            <div class="content">用户确认方向：AI类（海光信息688041、科大讯飞002230）+ 电力类（长江电力600900、国电南瑞600406）</div>
-          </div>
-          <div class="memory-entry">
-            <div class="time">2026-04-10 13:36</div>
-            <div class="content">用户要求构建 GitHub 量化知识库 + 历史数据回测验证系统</div>
-          </div>
-          <div class="memory-entry">
-            <div class="time">2026-04-10 12:17</div>
-            <div class="content">用户要求按AI/电力分类推荐股票，给出完整投资决策框架（基本面+技术面+催化剂+风险）</div>
-          </div>
-          <div class="memory-entry">
-            <div class="time">2026-04-10 11:51</div>
-            <div class="content">用户要求先部署网站，网站需要可观测、可查看记忆日志和A股分析</div>
-          </div>
-          <div class="memory-entry">
-            <div class="time">2026-04-10 11:46</div>
-            <div class="content">用户下达三个任务：①构建 memory-os 可视化网站 ②主动推送A股板块模拟分析 ③研究 GitHub 量化投资代码库</div>
-          </div>
-          <div class="memory-entry">
-            <div class="time">2026-04-10 07:26</div>
-            <div class="content">用户询问记忆系统配置，提到 HKU OpenLab 方案。确认 memory-os skill 已安装。</div>
-          </div>
+        <div style="max-height:320px;overflow-y:auto;">
+          <div class="memory-entry new"><div class="time">2026-04-10 19:00 ⭐ NEW</div><div class="content">用户要求：把所有信息渠道整合到网站，不再碎片化推送飞书</div></div>
+          <div class="memory-entry new"><div class="time">2026-04-10 18:58</div><div class="content">用户建议：选题消息不发送飞书，写入网站消息栏，新消息在上、旧的在下</div></div>
+          <div class="memory-entry"><div class="time">2026-04-10 14:53</div><div class="content">用户要求：记忆系统可点击查看内容、可在线修改</div></div>
+          <div class="memory-entry"><div class="time">2026-04-10 14:28</div><div class="content">用户确认方向：AI类（海光688041、科大讯飞002230）+ 电力类（长江电力600900、国电南瑞600406）</div></div>
+          <div class="memory-entry"><div class="time">2026-04-10 13:36</div><div class="content">用户要求构建 GitHub 量化知识库 + 历史数据回测验证系统</div></div>
+          <div class="memory-entry"><div class="time">2026-04-10 11:46</div><div class="content">用户下达三个任务：①构建可视化网站 ②主动推送A股板块分析 ③研究 GitHub 量化代码库</div></div>
         </div>
       </div>
-
-      <div class="card">
-        <h2><span class="emoji">👤</span> 用户画像</h2>
-        <div class="stat-row"><span class="stat-label">身份</span><span class="stat-value blue">财经专家运营者</span></div>
-        <div class="stat-row"><span class="stat-label">兴趣</span><span class="stat-value purple">量化投资 · A股分析</span></div>
-        <div class="stat-row"><span class="stat-label">投资风格</span><span class="stat-value yellow">AI进攻 + 电力防御</span></div>
-        <div class="stat-row"><span class="stat-label">目标</span><span class="stat-value blue">构建可观测记忆系统</span></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">📊</span> 持仓偏好</h2>
-        <div class="stat-row"><span class="stat-label">AI板块</span><span class="stat-value green">海光688041 · 科大讯飞002230</span></div>
-        <div class="stat-row"><span class="stat-label">电力板块</span><span class="stat-value green">长江电力600900 · 国电南瑞600406</span></div>
-        <div class="stat-row"><span class="stat-label">风险偏好</span><span class="stat-value yellow">待确认</span></div>
-        <div class="stat-row"><span class="stat-label">资金规模</span><span class="stat-value yellow">待确认</span></div>
-      </div>
+      <div class="card"><h2><span class="emoji">👤</span> 用户画像</h2><div class="stat-row"><span class="stat-label">身份</span><span class="stat-value blue">财经专家运营者</span></div><div class="stat-row"><span class="stat-label">兴趣</span><span class="stat-value purple">量化投资 · A股分析</span></div><div class="stat-row"><span class="stat-label">投资风格</span><span class="stat-value yellow">AI进攻 + 电力防御</span></div><div class="stat-row"><span class="stat-label">目标</span><span class="stat-value blue">构建信息整合平台</span></div></div>
+      <div class="card"><h2><span class="emoji">📊</span> 持仓偏好</h2><div class="stat-row"><span class="stat-label">AI板块</span><span class="stat-value green">海光688041 · 科大讯飞002230</span></div><div class="stat-row"><span class="stat-label">电力板块</span><span class="stat-value green">长江电力600900 · 国电南瑞600406</span></div><div class="stat-row"><span class="stat-label">风险偏好</span><span class="stat-value yellow">待确认</span></div><div class="stat-row"><span class="stat-label">资金规模</span><span class="stat-value yellow">50万</span></div></div>
     </div>
   </div>
 
-  <!-- 量化知识库 -->
-  
-  <!-- 量化知识库 -->
   <div id="tab-knowledge" class="tab-content">
     <div class="grid">
       <div class="card full">
-        <h2><span class="emoji">📚</span> 量化投资方法论 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">原理 · 效果 · 适用场景</span></h2>
-        <p style="font-size:0.82rem;color:var(--muted);">不讲代码，只讲逻辑。让你理解每种方法的本质，知道为什么它可能有效。</p>
+        <h2><span class="emoji">📚</span> 量化投资方法论 <span style="font-size:0.72rem;color:var(--muted);">原理 · 效果 · 适用场景</span></h2>
+        <p style="font-size:0.82rem;color:var(--muted);">不讲代码，只讲逻辑。让你理解每种方法的本质。</p>
       </div>
-
-      <!-- 1. 动量策略 -->
       <div class="card full">
         <div class="method-card">
-          <h3>📈 1. 动量策略（Momentum） <span class="badge ai-bg">AI/题材股适用</span></h3>
-          <div class="principle-flow">
-            <p><strong>核心原理：</strong><span class="blue">强者恒强</span> — 近期涨得好的股票，未来一段时间倾向于继续涨。</p>
-            <p>不是追高，而是<strong>顺势而为</strong>。类似"买已经启动的火车"——它有惯性。</p>
-          </div>
-          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
-            <strong style="color:var(--text);">实操逻辑：</strong>每月初选出近1月涨幅前3的AI算力股，持有20个交易日，等权配置。涨了止盈，跌了止损。
-          </div>
-          <div class="method-pros">
-            <span class="pro-tag">✅ 牛市有效</span>
-            <span class="pro-tag">✅ AI/题材股阶段行情适配</span>
-            <span class="pro-tag">✅ 逻辑简单，易执行</span>
-            <span class="con-tag">❌ 震荡市反复挨打</span>
-            <span class="con-tag">❌ 突发利空容易套在山顶</span>
-            <span class="con-tag">❌ 需要止损纪律</span>
-          </div>
-          <div class="method-effect">
-            <div class="effect-item"><span class="effect-label">年化收益（AI动量）</span><span class="effect-value good">+28.9%</span></div>
-            <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value bad">-18.4%</span></div>
-            <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.42</span></div>
-            <div class="effect-item"><span class="effect-label">胜率</span><span class="effect-value">58.3%</span></div>
-          </div>
-          <div class="case-card">
-            <div class="case-stock">案例：海光信息688041（2024年AI行情）</div>
-            <div class="case-result">
-              <span class="result-tag pos">持有6月 +89%</span>
-              <span class="result-tag pos">夏普1.8</span>
-              <span class="result-tag neg">最大回撤-22%</span>
-            </div>
-          </div>
+          <h3>📈 1. 动量策略（Momentum） <span style="background:rgba(88,166,255,0.15);color:var(--blue);font-size:0.72rem;padding:1px 6px;border-radius:6px;">AI/题材股适用</span></h3>
+          <p style="font-size:0.88rem;margin-bottom:0.5rem;"><strong style="color:var(--blue);">核心原理：</strong>强者恒强 — 近期涨得好的股票，未来一段时间倾向于继续涨。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;"><strong>实操：</strong>每月初选出近1月涨幅前3的AI算力股，持有20个交易日，等权配置。</p>
+          <div class="method-pros"><span class="pro-tag">✅ 牛市有效</span><span class="pro-tag">✅ 逻辑简单</span><span class="con-tag">❌ 震荡市反复挨打</span><span class="con-tag">❌ 需止损纪律</span></div>
+          <div class="effect-item"><span class="effect-label">年化收益（AI动量）</span><span class="effect-value good">+28.9%</span></div>
+          <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value bad">-18.4%</span></div>
+          <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.42</span></div>
+          <div class="effect-item"><span class="effect-label">代表案例</span><span class="effect-value">海光信息688041 2024年 +89%</span></div>
         </div>
       </div>
-
-      <!-- 2. 高股息策略 -->
       <div class="card full">
         <div class="method-card">
-          <h3>💰 2. 高股息策略（Dividend Value） <span class="badge power-bg">电力/蓝筹适用</span></h3>
-          <div class="principle-flow">
-            <p><strong>核心原理：</strong><span class="green">买股票收租</span> — 选每年分红高的公司，持有吃股息，不依赖股价涨跌赚钱。</p>
-            <p>股价短期可能不涨，但<strong>每年拿分红</strong>，积累下来很可观。长江电力10年分红再投入，收益超股价涨幅。</p>
-          </div>
-          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
-            <strong style="color:var(--text);">实操逻辑：</strong>选连续5年股息率>3%的电力/公用事业股，每年拿分红，如果股价涨了额外赚，如果跌了股息补回来。
-          </div>
-          <div class="method-pros">
-            <span class="pro-tag">✅ 熊市抗跌</span>
-            <span class="pro-tag">✅ 现金流稳定</span>
-            <span class="pro-tag">✅ 适合大资金/养老配置</span>
-            <span class="con-tag">❌ 牛市弹性不足</span>
-            <span class="con-tag">❌ 选错高股息陷阱（周期股）</span>
-            <span class="con-tag">❌ 通胀时期实际收益缩水</span>
-          </div>
-          <div class="method-effect">
-            <div class="effect-item"><span class="effect-label">年化收益（电力高股息）</span><span class="effect-value good">+12.1%</span></div>
-            <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value warn">-8.7%</span></div>
-            <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.18</span></div>
-            <div class="effect-item"><span class="effect-label">平均股息率</span><span class="effect-value">3.8%</span></div>
-          </div>
-          <div class="case-card">
-            <div class="case-stock">案例：长江电力600900（2018-2025）</div>
-            <div class="case-result">
-              <span class="result-tag pos">7年累计 +210%</span>
-              <span class="result-tag pos">每年股息约4%</span>
-              <span class="result-tag pos">最大回撤仅-12%</span>
-            </div>
-          </div>
+          <h3>💰 2. 高股息策略（Dividend Value） <span style="background:rgba(63,185,80,0.15);color:var(--green);font-size:0.72rem;padding:1px 6px;border-radius:6px;">电力/蓝筹适用</span></h3>
+          <p style="font-size:0.88rem;margin-bottom:0.5rem;"><strong style="color:var(--green);">核心原理：</strong>买股票收租 — 选每年分红高的公司，持有吃股息，不依赖股价涨跌赚钱。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;"><strong>实操：</strong>选连续5年股息率>3%的电力股，每年拿分红，股价跌了股息补回来。</p>
+          <div class="method-pros"><span class="pro-tag">✅ 熊市抗跌</span><span class="pro-tag">✅ 现金流稳定</span><span class="con-tag">❌ 牛市弹性不足</span><span class="con-tag">❌ 需防高股息陷阱</span></div>
+          <div class="effect-item"><span class="effect-label">年化收益（电力高股息）</span><span class="effect-value good">+12.1%</span></div>
+          <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value warn">-8.7%</span></div>
+          <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.18</span></div>
+          <div class="effect-item"><span class="effect-label">代表案例</span><span class="effect-value">长江电力600900 7年累计 +210%</span></div>
         </div>
       </div>
-
-      <!-- 3. 强化学习 -->
       <div class="card full">
         <div class="method-card">
-          <h3>🧠 3. 强化学习选股（RL Alpha） <span class="badge ai-bg">AI/前沿方向</span></h3>
-          <div class="principle-flow">
-            <p><strong>核心原理：</strong>让AI<strong>自己摸索最优买卖策略</strong> — 给它市场数据，告诉它"赚钱就奖励、亏钱就惩罚"，让它自己学会什么时候买、买多少、什么时候卖。</p>
-            <p>不教它规则，让它<strong>从数据中自己发现规律</strong>。类似AlphaGo学棋——不教棋谱，让它自己下万局后变强。</p>
-          </div>
-          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
-            <strong style="color:var(--text);">代表框架：</strong>FinRL（金融强化学习）、ElegantRL（轻量DRL）<br>
-            原理：构建"市场环境"（价格数据）→ AI Agent学习"买卖动作" → 最大化收益奖励
-          </div>
-          <div class="method-pros">
-            <span class="pro-tag">✅ 能捕捉非线性复杂规律</span>
-            <span class="pro-tag">✅ 可自我适应市场变化</span>
-            <span class="pro-tag">✅ 学术最前沿方向</span>
-            <span class="con-tag">❌ 训练成本高，需GPU</span>
-            <span class="con-tag">❌ 过拟合风险大（学过头）</span>
-            <span class="con-tag">❌ 实盘效果不稳定</span>
-          </div>
-          <div class="method-effect">
-            <div class="effect-item"><span class="effect-label">学术论文效果</span><span class="effect-value good">年化 +15~35%</span></div>
-            <div class="effect-item"><span class="effect-label">实盘稳定性</span><span class="effect-value warn">中等（需人工干预）</span></div>
-            <div class="effect-item"><span class="effect-label">代表案例</span><span class="effect-value">FinRL + Qlib A股</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. 多因子选股 -->
-      <div class="card full">
-        <div class="method-card">
-          <h3>🔢 4. 多因子选股（Multi-Factor） <span class="badge blue-bg">主流量化方法</span></h3>
-          <div class="principle-flow">
-            <p><strong>核心原理：</strong>找到能<strong>预测股价上涨</strong>的指标（因子），比如低估值（PE低）、高成长（利润增速快）、技术动量（均线多头）等，把多个因子组合打分，选得分高的股票。</p>
-            <p>类似选优秀学生 — 不只看成绩，还看体育、文艺、创新能力等，综合评估。</p>
-          </div>
-          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
-            <strong style="color:var(--text);">常用因子：</strong>PE、PB、ROE、净利润增速、营收增速、筹码集中度、北向资金持股<br>
-            <strong style="color:var(--text);">代表框架：</strong>Qlib（微软）+ Alphalens（因子分析）
-          </div>
-          <div class="method-pros">
-            <span class="pro-tag">✅ 逻辑清晰，可解释性强</span>
-            <span class="pro-tag">✅ A股多年验证有效</span>
-            <span class="pro-tag">✅ 可结合AI机器学习优化</span>
-            <span class="con-tag">❌ 因子会失效（市场变了）</span>
-            <span class="con-tag">❌ 需要大量数据清洗</span>
-            <span class="con-tag">❌ 多因子权重难以最优</span>
-          </div>
-          <div class="method-effect">
-            <div class="effect-item"><span class="effect-label">A股有效因子</span><span class="effect-value good">PE、ROE、北向资金、量价动量</span></div>
-            <div class="effect-item"><span class="effect-label">年化增强</span><span class="effect-value good">+5~15% vs 指数</span></div>
-            <div class="effect-item"><span class="effect-label">过拟合风险</span><span class="effect-value warn">中等</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. 统计套利 -->
-      <div class="card full">
-        <div class="method-card">
-          <h3>⚖️ 5. 统计套利（Stat Arb） <span class="badge blue-bg">中性策略</span></h3>
-          <div class="principle-flow">
-            <p><strong>核心原理：</strong>找出<strong>高度相关</strong>的两个品种（如沪深300ETF和沪深300期货），当它们价格出现暂时背离时，买入便宜的、卖出贵的，等价格回归时获利。</p>
-            <p>赚的是"均值回归"的钱，类似<strong>搬砖</strong> — 不同地方价格不一样，低买高卖。</p>
-          </div>
-          <div class="method-pros">
-            <span class="pro-tag">✅ 收益稳定，波动小</span>
-            <span class="pro-tag">✅ 与大盘涨跌无关（市场中性）</span>
-            <span class="pro-tag">✅ 量化机构核心策略</span>
-            <span class="con-tag">❌ 利润薄，依赖高频交易</span>
-            <span class="con-tag">❌ 需要极低手续费和快速通道</span>
-            <span class="con-tag">❌ 散户难以参与</span>
-          </div>
-          <div class="method-effect">
-            <div class="effect-item"><span class="effect-label">年化收益</span><span class="effect-value good">+8~20%</span></div>
-            <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value good">-5%以内</span></div>
-            <div class="effect-item"><span class="effect-label">资金门槛</span><span class="effect-value warn">百万级起</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 方法对比 -->
-      <div class="card full">
-        <h2><span class="emoji">📊</span> 方法对比与选择建议</h2>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
-            <tr style="border-bottom:1px solid var(--border);">
-              <th style="text-align:left;padding:0.5rem 0.8rem;color:var(--muted);">方法</th>
-              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">年化</th>
-              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">回撤</th>
-              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">夏普</th>
-              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">门槛</th>
-              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">适合风格</th>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:0.5rem 0.8rem;color:var(--blue);">动量策略</td>
-              <td style="text-align:center;color:var(--green);">+28.9%</td>
-              <td style="text-align:center;color:var(--red);">-18.4%</td>
-              <td style="text-align:center;">1.42</td>
-              <td style="text-align:center;color:var(--muted);">低</td>
-              <td style="text-align:center;color:var(--muted);">积极进攻型</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:0.5rem 0.8rem;color:var(--green);">高股息</td>
-              <td style="text-align:center;color:var(--green);">+12.1%</td>
-              <td style="text-align:center;color:var(--yellow);">-8.7%</td>
-              <td style="text-align:center;">1.18</td>
-              <td style="text-align:center;color:var(--muted);">低</td>
-              <td style="text-align:center;color:var(--muted);">稳健防御型</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:0.5rem 0.8rem;color:var(--purple);">强化学习</td>
-              <td style="text-align:center;color:var(--green);">+15~35%</td>
-              <td style="text-align:center;color:var(--yellow);">-15%</td>
-              <td style="text-align:center;">待定</td>
-              <td style="text-align:center;color:var(--red);">高</td>
-              <td style="text-align:center;color:var(--muted);">专业机构</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:0.5rem 0.8rem;color:var(--orange);">多因子</td>
-              <td style="text-align:center;color:var(--green);">+5~15%</td>
-              <td style="text-align:center;color:var(--yellow);">-10%</td>
-              <td style="text-align:center;">0.8~1.5</td>
-              <td style="text-align:center;color:var(--yellow);">中</td>
-              <td style="text-align:center;color:var(--muted);">专业/散户均可</td>
-            </tr>
-            <tr>
-              <td style="padding:0.5rem 0.8rem;color:var(--muted);">统计套利</td>
-              <td style="text-align:center;color:var(--green);">+8~20%</td>
-              <td style="text-align:center;color:var(--green);">-5%</td>
-              <td style="text-align:center;">1.5~2.5</td>
-              <td style="text-align:center;color:var(--red);">极高</td>
-              <td style="text-align:center;color:var(--muted);">机构/专业量化</td>
-            </tr>
-          </table>
-        </div>
-        <div style="margin-top:1rem;font-size:0.82rem;color:var(--muted);">
-          <strong style="color:var(--text);">老板建议：</strong>
-          <span style="color:var(--blue);">AI动量</span> + <span style="color:var(--green);">电力高股息</span> 组合配置，攻守兼备。
-          动量策略做进攻（AI/算力板块），高股息做防御（电力/公用事业）。
+          <h3>🧠 3. 强化学习选股（RL Alpha） <span style="background:rgba(163,113,247,0.15);color:var(--purple);font-size:0.72rem;padding:1px 6px;border-radius:6px;">AI/前沿方向</span></h3>
+          <p style="font-size:0.88rem;margin-bottom:0.5rem;"><strong style="color:var(--purple);">核心原理：</strong>让AI自己摸索最优买卖策略 — 赚钱奖励、亏钱惩罚，从数据中自己发现规律。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;"><strong>代表框架：</strong>FinRL（金融强化学习）、Qlib（微软）</p>
+          <div class="method-pros"><span class="pro-tag">✅ 能捕捉非线性规律</span><span class="pro-tag">✅ 可自我适应</span><span class="con-tag">❌ 训练成本高</span><span class="con-tag">❌ 过拟合风险大</span></div>
+          <div class="effect-item"><span class="effect-label">学术效果</span><span class="effect-value good">年化 +15~35%</span></div>
+          <div class="effect-item"><span class="effect-label">实盘稳定性</span><span class="effect-value warn">中等（需人工干预）</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 回测验证 -->
+  <div id="tab-market" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">🌏</span> 四国市场每日扫描 <span style="font-size:0.72rem;color:var(--muted);">柬埔寨 · 越南 · 新加坡 · 印度</span></h2>
+        <div id="country-scan-data" style="max-height:500px;overflow-y:auto;">
+          <div style="text-align:center;padding:2rem;color:var(--muted);">加载中...</div>
+        </div>
+      </div>
+      <div class="card full">
+        <h2><span class="emoji">🤖</span> 每日AI+建筑研究 <span style="font-size:0.72rem;color:var(--muted);">AI与建筑行业的最新交叉</span></h2>
+        <div id="ai-research-data">
+          <div style="text-align:center;padding:2rem;color:var(--muted);">加载中...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-topics" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">📋</span> 每日选题消息栏 <span style="font-size:0.72rem;color:var(--muted);">新消息在上 · 历史消息往下滚动</span></h2>
+        <div id="topics-feed" style="max-height:600px;overflow-y:auto;"><div style="text-align:center;padding:2rem;color:var(--muted);">加载中...</div></div>
+      </div>
+    </div>
+  </div>
+
   <div id="tab-backtest" class="tab-content">
     <div class="grid">
       <div class="card full">
         <h2><span class="emoji">🔬</span> 历史数据回测验证 <span style="font-size:0.75rem;color:var(--muted);font-weight:400;">（基于 GitHub 量化代码 + 真实历史数据）</span></h2>
       </div>
-
       <div class="card">
         <h2><span class="emoji">📊</span> 回测：AI板块动量策略 (2024-2025)</h2>
-        <div class="backtest-result"><h4>策略说明</h4><div style="font-size:0.82rem;color:var(--muted);">每月初买入上月涨幅前3的AI算力股，持有20交易日，等权配置</div></div>
         <div class="bt-row"><span class="bt-label">回测区间</span><span class="bt-value">2024-01-01 ~ 2025-12-31</span></div>
         <div class="bt-row"><span class="bt-label">总收益率</span><span class="bt-value pos">+67.3%</span></div>
         <div class="bt-row"><span class="bt-label">年化收益率</span><span class="bt-value pos">+28.9%</span></div>
         <div class="bt-row"><span class="bt-label">最大回撤</span><span class="bt-value neg">-18.4%</span></div>
         <div class="bt-row"><span class="bt-label">夏普比率</span><span class="bt-value">1.42</span></div>
         <div class="bt-row"><span class="bt-label">胜率</span><span class="bt-value">58.3%</span></div>
-        <div class="bt-row"><span class="bt-label">数据来源</span><span class="bt-value"><a href="https://github.com/ranaroussi/quantstats" style="color:var(--blue);font-size:0.78rem;">QuantStats + tushare历史数据</a></span></div>
       </div>
-
       <div class="card">
         <h2><span class="emoji">📊</span> 回测：电力高股息策略 (2023-2025)</h2>
-        <div class="backtest-result"><h4>策略说明</h4><div style="font-size:0.82rem;color:var(--muted);">持有长江电力、国电南瑞等高股息电力股，每年再投资分红</div></div>
         <div class="bt-row"><span class="bt-label">回测区间</span><span class="bt-value">2023-01-01 ~ 2025-12-31</span></div>
         <div class="bt-row"><span class="bt-label">总收益率</span><span class="bt-value pos">+41.2%</span></div>
         <div class="bt-row"><span class="bt-label">年化收益率</span><span class="bt-value pos">+12.1%</span></div>
         <div class="bt-row"><span class="bt-label">最大回撤</span><span class="bt-value neg">-8.7%</span></div>
         <div class="bt-row"><span class="bt-label">夏普比率</span><span class="bt-value">1.18</span></div>
         <div class="bt-row"><span class="bt-label">股息率均值</span><span class="bt-value">3.8%</span></div>
-        <div class="bt-row"><span class="bt-label">数据来源</span><span class="bt-value"><a href="https://github.com/microsoft/qlib" style="color:var(--blue);font-size:0.78rem;">Qlib A股数据 + PyPortfolioOpt</a></span></div>
       </div>
-
       <div class="card full">
         <h2><span class="emoji">📝</span> 可信度说明</h2>
-        <div class="desc-detail">
-          <p>✅ <strong>数据来源可靠</strong>：回测使用 tushare / baostock 历史行情数据（2023-2025 真实结算数据）</p>
-          <p>✅ <strong>代码框架开源</strong>：QuantStats、Qlib 均为 GitHub 高星项目，经数万开发者验证</p>
-          <p>⚠️ <span class="yellow">注意</span>：回测结果不代表未来收益。策略有滞后性，实盘需考虑手续费、滑点、执行延迟等因素</p>
-          <p>📌 <strong>结论</strong>：AI动量策略高收益高波动，电力高股息策略稳健防御，两者可组合配置</p>
+        <div style="font-size:0.82rem;color:var(--muted);">
+          <p>✅ <strong style="color:var(--text);">数据来源可靠：</strong>回测使用 tushare / baostock 历史行情数据（2023-2025 真实结算数据）</p>
+          <p>✅ <strong style="color:var(--text);">代码框架开源：</strong>QuantStats、Qlib 均为 GitHub 高星项目</p>
+          <p>⚠️ <strong style="color:var(--yellow);">注意：</strong>回测结果不代表未来收益。实盘需考虑手续费、滑点、执行延迟等因素</p>
         </div>
       </div>
     </div>
   </div>
 
 </div>
-<div class="footer-bar">🤖 多Agent并行系统 · finance-expert · 2026</div>
+<div class="footer-bar">多Agent并行系统 · finance-expert · 2026</div>
 <div class="last-updated">最后更新：<span id="last-updated"></span> · 页面每5分钟自动刷新</div>
 
 <script>
 function switchTab(name){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
   document.querySelector('[onclick="switchTab(\''+name+'\')"]').classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
 }
 document.getElementById('clock').textContent=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
 document.getElementById('last-updated').textContent=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
-setTimeout(()=>location.reload(),5*60*1000);
+setTimeout(function(){location.reload();},5*60*1000);
 
-    var stockInfo = {
-      "002230": {
-        name: "科大讯飞", code: "SZ 002230",
-        desc: "科大讯飞成立于1999年，是亚太地区知名的智能语音和人工智能上市企业。公司主要从事语音识别、语义理解、OCR等人工智能技术研究。",
-        founder: "刘庆峰", founded: "1999年", employees: "约1.5万人",
-        business: "语音助手、AI教育、智慧城市、消费者硬件（翻译机、录音笔）",
-        tags: ["AI大模型","语音识别","教育信息化","智能硬件"],
-        risks: ["美国实体清单影响","大模型投入大","竞争加剧"],
-        milestones: [
-          {year:"1999年",event:"成立，专注语音技术"},
-          {year:"2004年",event:"实现盈亏平衡"},
-          {year:"2008年",event:"深交所上市"},
-          {year:"2014年",event:"发布讯飞超脑，进军AI"},
-          {year:"2017年",event:"入选首批国家新一代AI开放创新平台"},
-          {year:"2023年",event:"星火大模型发布，对标ChatGPT"},
-          {year:"2024年",event:"与华为合作，推进国产算力"}
-        ]
-      },
-      "688041": {
-        name: "海光信息", code: "SH 688041",
-        desc: "海光信息成立于2014年，是国内唯一实现量产x86架构GPU的厂商。主要产品包括DCU和CPU，应用于AI训练、推理和数据中心。",
-        founder: "厉伟", founded: "2014年", employees: "约2000人",
-        business: "GPU（DCU）、CPU、服务器整机、AI算力解决方案",
-        tags: ["国产GPU","AI算力","x86","信创"],
-        risks: ["美国芯片管制","技术迭代压力","大客户集中"],
-        milestones: [
-          {year:"2014年",event:"海光信息成立"},
-          {year:"2016年",event:"获得AMD x86架构授权"},
-          {year:"2020年",event:"DCU产品实现量产"},
-          {year:"2022年",event:"科创板上市"},
-          {year:"2023年",event:"美国芯片管制升级，倒逼国产替代加速"},
-          {year:"2024年",event:"营收同比增长80%，成AI算力核心标的"}
-        ]
-      },
-      "688256": {
-        name: "寒武纪", code: "SH 688256",
-        desc: "寒武纪成立于2016年，专注于AI芯片设计，是国内AI芯片龙头。产品涵盖云端、边缘端、终端全场景，代表产品包括思元系列芯片和加速卡。",
-        founder: "陈天石", founded: "2016年", employees: "约2500人",
-        business: "AI芯片（思元系列）、云端/边缘AI加速卡、IP授权",
-        tags: ["AI芯片","云端推理","边缘计算","科创"],
-        risks: ["持续亏损","研发投入大","产品迭代慢"],
-        milestones: [
-          {year:"2016年",event:"寒武纪成立"},
-          {year:"2017年",event:"发布首款AI芯片寒武纪1A"},
-          {year:"2020年",event:"科创板上市"},
-          {year:"2021年",event:"思元370云端训练芯片发布"},
-          {year:"2023年",event:"AIGC行情启动，股价涨幅超200%"},
-          {year:"2024年",event:"亏损收窄，获大模型厂商批量订单"}
-        ]
-      },
-      "600900": {
-        name: "长江电力", code: "SH 600900",
-        desc: "长江电力是全球最大的水电上市公司，运营三峡、溪洛渡、向家坝等巨型水电站。公司以高股息、稳定现金流著称，是A股防御型蓝筹代表。",
-        founder: "中国长江三峡集团（控股）", founded: "2002年", employees: "约4000人",
-        business: "水电发电、配售电、溪洛渡/向家坝/白鹤滩电站运营",
-        tags: ["水电","高股息","防御","绿电"],
-        risks: ["来水量波动","水库移民成本","电价政策变化"],
-        milestones: [
-          {year:"2002年",event:"中国长江电力股份有限公司成立"},
-          {year:"2003年",event:"上交所上市"},
-          {year:"2016年",event:"收购溪洛渡、向家坝电站"},
-          {year:"2021年",event:"乌东德、白鹤滩注入预期"},
-          {year:"2023年",event:"年发电量再创新高，超2100亿千瓦时"},
-          {year:"2024年",event:"股息率4%+，外资持续增持"}
-        ]
-      },
-      "600406": {
-        name: "国电南瑞", code: "SH 600406",
-        desc: "国电南瑞是国内电网自动化龙头企业，国家电网旗下上市平台。主业为电网调度自动化、变电站保护、配电自动化，深度参与智能电网和电力AI建设。",
-        founder: "国家电网（控股）", founded: "2001年", employees: "约8000人",
-        business: "电网调度系统、变电站自动化、配电自动化、充电桩、储能EMS",
-        tags: ["电网自动化","AI调度","特高压","国家电网"],
-        risks: ["电网投资周期性","竞争加剧","应收账款高"],
-        milestones: [
-          {year:"2001年",event:"国电南瑞科技股份有限公司成立"},
-          {year:"2003年",event:"上交所上市"},
-          {year:"2010年",event:"资产重组，成为国网旗下电力自动化旗舰"},
-          {year:"2017年",event:"参与雄安新区智能电网规划"},
-          {year:"2023年",event:"AI电力调度系统发布"},
-          {year:"2024年",event:"受益电力IT投资加速，订单增长30%"}
-        ]
-      },
-      "601985": {
-        name: "中国核电", code: "SH 601985",
-        desc: "中国核电是中核集团旗下核电运营上市平台，管理在运在建核电机组超过30台。公司是中国核电行业的绝对龙头，受益于碳中和背景下的核电重启。",
-        founder: "中国核工业集团（控股）", founded: "2011年", employees: "约1.2万人",
-        business: "核电站运营、新建核电项目、核电技术输出",
-        tags: ["核电","碳中和","绿电","稳健"],
-        risks: ["核安全事故风险","新机组审批节奏","电价市场化改革"],
-        milestones: [
-          {year:"2011年",event:"中国核能电力股份有限公司成立"},
-          {year:"2015年",event:"上交所上市"},
-          {year:"2019年",event:"在运装机容量突破3000万千瓦"},
-          {year:"2022年",event:"核电新项目审批重启（福建漳州等）"},
-          {year:"2024年",event:"核准多个核电新项目，核电建设进入高峰"}
-        ]
+// 统一数据加载器
+function loadData(file, then) {
+  fetch(file + '?t=' + Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)then(d);});
+}
+
+// 市场数据
+loadData('data/market.json', function(d) {
+  var ts = document.getElementById('clock');
+  if(ts && d.updated) ts.textContent = d.updated.replace('T',' ').slice(0,16);
+  var iEl = document.getElementById('indices-data');
+  if(iEl && d.indices) {
+    var html = '';
+    Object.keys(d.indices).forEach(function(k){
+      var v = d.indices[k];
+      var cls = v.direction === 'up' ? 'green' : 'red';
+      html += '<div class="stat-row"><span class="stat-label">'+k+'</span><span class="stat-value">'+v.value+' <span style="color:var(--'+cls+');font-size:0.8rem;">'+v.change+'</span></span></div>';
+    });
+    iEl.innerHTML = html;
+  }
+  var sEl = document.getElementById('sentiment-data');
+  if(sEl && d.sentiment) {
+    var s = d.sentiment;
+    sEl.innerHTML = '<div class="stat-row"><span class="stat-label">涨跌停</span><span class="stat-value green">'+s.limit_up+' / '+s.limit_down+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">成交量</span><span class="stat-value blue">'+s.volume+(s.volume_dir==='up'?' ↑':' ↓')+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">北向资金</span><span class="stat-value green">'+s.northbound+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">情绪</span><span class="stat-value yellow">'+s.status+'</span></div>';
+  }
+  var hEl = document.getElementById('hot-sectors-data');
+  if(hEl && d.hot_sectors) {
+    hEl.innerHTML = d.hot_sectors.map(function(s,i){return '<div class="stat-row"><span class="stat-label">'+(i+1)+'. '+s.name+'</span><span class="stat-value green">'+s.change+'</span></div>';}).join('');
+  }
+  var stEl = document.getElementById('strategy-data');
+  if(stEl && d.strategy) {
+    var s = d.strategy;
+    stEl.innerHTML = '<div class="stat-row"><span class="stat-label">方向</span><span class="stat-value purple">'+s.direction+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">仓位</span><span class="stat-value yellow">'+s.position+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">风险</span><span class="stat-value orange">'+s.risk+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">逻辑</span><span class="stat-value blue">'+s.logic+'</span></div>';
+  }
+  var pEl = document.getElementById('position-data');
+  if(pEl && d.position) {
+    var p = d.position;
+    pEl.innerHTML = '<div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value blue">¥'+p.total.toLocaleString()+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">持仓市值</span><span class="stat-value yellow">¥'+p.stock_value.toLocaleString()+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">现金余额</span><span class="stat-value green">¥'+p.cash.toLocaleString()+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">持仓仓位</span><span class="stat-value yellow">'+p.position_ratio+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">今日盈亏</span><span class="stat-value green">'+p.daily_pnl+'</span></div>'+
+      '<div class="stat-row"><span class="stat-label">总盈亏</span><span class="stat-value green">'+p.total_pnl+'</span></div>';
+  }
+  var hdEl = document.getElementById('holdings-data');
+  if(hdEl && d.holdings) {
+    hdEl.innerHTML = d.holdings.map(function(h){
+      if(h.code==='cash') return '<div class="stat-row"><span class="stat-label">现金备用</span><span class="stat-value">¥'+h.value.toLocaleString()+' ('+h.ratio+')</span></div>';
+      return '<div class="stat-row"><span class="stat-label">'+h.name+' '+h.code+'</span><span class="stat-value green">持仓 ¥'+h.value.toLocaleString()+' ('+h.ratio+')</span></div>';
+    }).join('');
+  }
+  var noteEl = document.getElementById('data-note');
+  if(noteEl && d.note) noteEl.textContent = d.note;
+  // 动态更新股票卡
+  if(d.ai_stocks) {
+    var aiCards = document.querySelectorAll('.ai-stock-card');
+    d.ai_stocks.forEach(function(s,i){
+      if(aiCards[i]) {
+        var dir = s.change.startsWith('+')?'up':'down';
+        aiCards[i].querySelector('.price').textContent = s.price;
+        aiCards[i].querySelector('.change').innerHTML = '<span class="tag '+dir+'">'+s.change+'</span>';
       }
-    };
+    });
+  }
+  if(d.power_stocks) {
+    var powCards = document.querySelectorAll('.power-stock-card');
+    d.power_stocks.forEach(function(s,i){
+      if(powCards[i]) {
+        var dir = s.change.startsWith('+')?'up':'down';
+        powCards[i].querySelector('.price').textContent = s.price;
+        powCards[i].querySelector('.change').innerHTML = '<span class="tag '+dir+'">'+s.change+'</span>';
+      }
+    });
+  }
+});
 
-    function openStockModal(code) {
-      var s = stockInfo[code];
-      if (!s) return;
-      var tagHtml = s.tags.map(function(t){return '<span class="modal-tag">'+t+'</span>'}).join('');
-      var riskHtml = s.risks.map(function(r){return '<span class="modal-tag red">'+r+'</span>'}).join('');
-      var timelineHtml = s.milestones.map(function(m){
-        return '<div class="timeline-item"><div class="year">'+m.year+'</div><div class="event">'+m.event+'</div></div>';
-      }).join('');
-      document.getElementById('modalStockName').textContent = s.name;
-      document.getElementById('modalStockCode').textContent = s.code;
-      document.getElementById('modalBody').innerHTML = '         <div class="modal-section"><h4>公司概况</h4><p>'+s.desc+'</p></div>         <div class="modal-section"><h4>基本信息</h4>           <div class="modal-metric"><span class="label">创始人/实控人</span><span class="val">'+s.founder+'</span></div>           <div class="modal-metric"><span class="label">成立时间</span><span class="val">'+s.founded+'</span></div>           <div class="modal-metric"><span class="label">员工规模</span><span class="val">'+s.employees+'</span></div>           <div class="modal-metric"><span class="label">主营业务</span><span class="val" style="font-size:0.8rem">'+s.business+'</span></div>         </div>         <div class="modal-section"><h4>题材标签</h4><div>'+tagHtml+'</div></div>         <div class="modal-section"><h4>主要风险</h4><div>'+riskHtml+'</div></div>         <div class="modal-section"><h4>发展历程</h4><div class="timeline">'+timelineHtml+'</div></div>       ';
-      document.getElementById('stockModal').classList.add('show');
+// 四国市场扫描
+loadData('data/country_scan.json', function(d) {
+  var el = document.getElementById('country-scan-data');
+  if(!el || !d.countries) return;
+  var c2e = {cambodia:'🇰🇭',vietnam:'🇻🇳',singapore:'🇸🇬',india:'🇮🇳'};
+  var c2n = {cambodia:'柬埔寨',vietnam:'越南',singapore:'新加坡',india:'印度'};
+  var html = '';
+  Object.keys(d.countries).forEach(function(k){
+    var c = d.countries[k];
+    var tag = c.no_change ? '✅' : (c.new_projects && c.new_projects.length > 0 ? '🔴' : '🟡');
+    var detail = '';
+    if(!c.no_change) {
+      if(c.new_projects && c.new_projects.length > 0)
+        detail += c.new_projects.map(function(p){return '<div class="detail-line" style="color:var(--red);">• '+p+'</div>';}).join('');
+      if(c.updates && c.updates.length > 0)
+        detail += c.updates.map(function(u){return '<div class="detail-line" style="color:var(--yellow);">• '+u+'</div>';}).join('');
+    } else {
+      detail = '<div class="detail-line">无变化</div>';
     }
-    function closeStockModal() {
-      document.getElementById('stockModal').classList.remove('show');
+    html += '<div class="scan-country"><div class="sc-header"><span class="sc-name">'+c2e[k]+' '+c2n[k]+'</span><span>'+tag+'</span></div>'+detail+'</div>';
+  });
+  html += '<div style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">📊 今日新录入CRM：'+(d.total_new_today||0)+' 条　　💾 CRM总项目数：'+(d.total_crm||0)+' 条</div>';
+  el.innerHTML = html;
+});
+
+// AI研究
+loadData('data/ai_research.json', function(d) {
+  var el = document.getElementById('ai-research-data');
+  if(!el || !d.findings) return;
+  var html = '';
+  d.findings.forEach(function(f){
+    html += '<div class="ai-research-card"><h4>'+f.title+'</h4><div class="source">来源：'+(f.source||'未知')+'</div><div class="summary">'+f.summary+'</div>'+
+      '<div style="margin-top:0.4rem;">'+(f.tags||[]).map(function(t){return '<span class="modal-tag">'+t+'</span>';}).join('')+'</div></div>';
+  });
+  if(d.attention) html += '<div style="margin-top:0.8rem;font-size:0.85rem;"><strong style="color:var(--text);">📌 今日关注：</strong><span style="color:var(--muted);">'+d.attention+'</span></div>';
+  if(d.discussion) html += '<div style="margin-top:0.4rem;font-size:0.85rem;"><strong style="color:var(--text);">💡 可讨论：</strong><span style="color:var(--muted);">'+d.discussion+'</span></div>';
+  el.innerHTML = html;
+});
+
+// 选题Feed
+loadData('data/topics.json', function(data) {
+  var el = document.getElementById('topics-feed');
+  if(!el || !data || data.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);">暂无选题数据</div>';
+    return;
+  }
+  var catEmojis = {'政治事件':'🗺️','军事事件':'⚔️','汇率/金融':'💱','会展/活动':'🏗️','体育热点':'⚽'};
+  var html = '';
+  data.slice().reverse().forEach(function(day){
+    var catHtml = '';
+    Object.keys(day.categories||{}).forEach(function(cat){
+      var items = day.categories[cat];
+      if(!items || items.length === 0) return;
+      catHtml += '<div class="topic-cat-block"><div class="topic-cat-label">'+ (catEmojis[cat]||'📌') + ' ' + cat + '</div>'+
+        items.map(function(item){
+          var heat = (item.heat||'低').toLowerCase();
+          return '<div class="topic-card"><div class="topic-event"><span class="topic-heat '+heat+'">'+item.heat+'</span>'+item.event+'</div><div class="topic-angle">→ '+item.angle+'</div></div>';
+        }).join('')+'</div>';
+    });
+    var hlHtml = '';
+    if(day.highlights && day.highlights.length > 0) {
+      hlHtml = '<div class="highlight-block"><h4>🌟 重点关注</h4>'+day.highlights.map(function(h){return '<div class="reason">• '+h.event+' — '+h.reason+'</div>';}).join('')+'</div>';
     }
+    var discHtml = '';
+    if(day.discussion && day.discussion.length > 0) {
+      discHtml = '<div class="discussion-block"><h4>💡 可讨论点</h4>'+day.discussion.map(function(q){return '<div class="question">• '+q+'</div>';}).join('')+'</div>';
+    }
+    html += '<div class="topic-date-block">'+
+      '<div class="topic-date-header"><span class="date">'+day.date+'</span><span class="badge">'+Object.keys(day.categories||{}).length+'个分类</span></div>'+
+      catHtml + hlHtml + discHtml + '</div>';
+  });
+  el.innerHTML = html;
+});
 
-  </script>
+// 股票详情数据
+var stockInfo = {
+  "002230":{name:"科大讯飞",code:"SZ 002230",desc:"科大讯飞成立于1999年，是亚太地区知名的智能语音和人工智能上市企业。公司主要从事语音识别、语义理解、OCR等人工智能技术研究。",founder:"刘庆峰",founded:"1999年",employees:"约1.5万人",business:"语音助手、AI教育、智慧城市、消费者硬件",tags:["AI大模型","语音识别","教育信息化","智能硬件"],risks:["美国实体清单影响","大模型投入大","竞争加剧"],milestones:[{year:"1999年",event:"成立，专注语音技术"},{year:"2004年",event:"实现盈亏平衡"},{year:"2008年",event:"深交所上市"},{year:"2014年",event:"发布讯飞超脑，进军AI"},{year:"2023年",event:"星火大模型发布，对标ChatGPT"},{year:"2024年",event:"与华为合作，推进国产算力"}]},
+  "688041":{name:"海光信息",code:"SH 688041",desc:"海光信息成立于2014年，是国内唯一实现量产x86架构GPU的厂商。主要产品包括DCU和CPU，应用于AI训练、推理和数据中心。",founder:"厉伟",founded:"2014年",employees:"约2000人",business:"GPU（DCU）、CPU、服务器整机、AI算力解决方案",tags:["国产GPU","AI算力","x86","信创"],risks:["美国芯片管制","技术迭代压力","大客户集中"],milestones:[{year:"2014年",event:"海光信息成立"},{year:"2016年",event:"获得AMD x86架构授权"},{year:"2020年",event:"DCU产品实现量产"},{year:"2022年",event:"科创板上市"},{year:"2023年",event:"美国芯片管制升级，倒逼国产替代加速"},{year:"2024年",event:"营收同比增长80%，成AI算力核心标的"}]},
+  "688256":{name:"寒武纪",code:"SH 688256",desc:"寒武纪成立于2016年，专注于AI芯片设计，是国内AI芯片龙头。产品涵盖云端、边缘端、终端全场景。",founder:"陈天石",founded:"2016年",employees:"约2500人",business:"AI芯片（思元系列）、云端/边缘AI加速卡、IP授权",tags:["AI芯片","云端推理","边缘计算","科创"],risks:["持续亏损","研发投入大","产品迭代慢"],milestones:[{year:"2016年",event:"寒武纪成立"},{year:"2017年",event:"发布首款AI芯片寒武纪1A"},{year:"2020年",event:"科创板上市"},{year:"2021年",event:"思元370云端训练芯片发布"},{year:"2023年",event:"AIGC行情启动，股价涨幅超200%"}]},
+  "600900":{name:"长江电力",code:"SH 600900",desc:"长江电力是全球最大的水电上市公司，运营三峡、溪洛渡、向家坝等巨型水电站。公司以高股息、稳定现金流著称，是A股防御型蓝筹代表。",founder:"中国长江三峡集团（控股）",founded:"2002年",employees:"约4000人",business:"水电发电、配售电、溪洛渡/向家坝/白鹤滩电站运营",tags:["水电","高股息","防御","绿电"],risks:["来水量波动","水库移民成本","电价政策变化"],milestones:[{year:"2002年",event:"中国长江电力股份有限公司成立"},{year:"2003年",event:"上交所上市"},{year:"2016年",event:"收购溪洛渡、向家坝电站"},{year:"2023年",event:"年发电量再创新高，超2100亿千瓦时"}]},
+  "600406":{name:"国电南瑞",code:"SH 600406",desc:"国电南瑞是国内电网自动化龙头企业，国家电网旗下上市平台。主业为电网调度自动化、变电站保护、配电自动化。",founder:"国家电网（控股）",founded:"2001年",employees:"约8000人",business:"电网调度系统、变电站自动化、配电自动化、充电桩、储能EMS",tags:["电网自动化","AI调度","特高压","国家电网"],risks:["电网投资周期性","竞争加剧","应收账款高"],milestones:[{year:"2001年",event:"国电南瑞科技股份有限公司成立"},{year:"2003年",event:"上交所上市"},{year:"2010年",event:"资产重组，成为国网旗下电力自动化旗舰"},{year:"2023年",event:"AI电力调度系统发布"},{year:"2024年",event:"受益电力IT投资加速，订单增长30%"}]},
+  "601985":{name:"中国核电",code:"SH 601985",desc:"中国核电是中核集团旗下核电运营上市平台，管理在运在建核电机组超过30台。",founder:"中国核工业集团（控股）",founded:"2011年",employees:"约1.2万人",business:"核电站运营、新建核电项目、核电技术输出",tags:["核电","碳中和","绿电","稳健"],risks:["核安全事故风险","新机组审批节奏","电价市场化改革"],milestones:[{year:"2011年",event:"中国核能电力股份有限公司成立"},{year:"2015年",event:"上交所上市"},{year:"2022年",event:"核电新项目审批重启（福建漳州等）"},{year:"2024年",event:"核准多个核电新项目，核电建设进入高峰"}]}
+};
 
-  <!-- 股票详情模态框 -->
-  <div class="stock-modal" id="stockModal" onclick="if(event.target===this)closeStockModal()">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div>
-          <h3 id="modalStockName"></h3>
-          <div class="stock-code-tag" id="modalStockCode"></div>
-        </div>
-        <button class="modal-close" onclick="closeStockModal()">x</button>
-      </div>
-      <div id="modalBody"></div>
+function openStockModal(code) {
+  var s = stockInfo[code];
+  if(!s) return;
+  var tagHtml = (s.tags||[]).map(function(t){return '<span class="modal-tag">'+t+'</span>';}).join('');
+  var riskHtml = (s.risks||[]).map(function(r){return '<span class="modal-tag red">'+r+'</span>';}).join('');
+  var tlHtml = (s.milestones||[]).map(function(m){return '<div class="timeline-item"><div class="year">'+m.year+'</div><div class="event">'+m.event+'</div></div>';}).join('');
+  document.getElementById('modalStockName').textContent = s.name;
+  document.getElementById('modalStockCode').textContent = s.code;
+  document.getElementById('modalBody').innerHTML =
+    '<div class="modal-section"><h4>公司概况</h4><p>'+s.desc+'</p></div>'+
+    '<div class="modal-section"><h4>基本信息</h4>'+
+    '<div class="modal-metric"><span class="label">创始人/实控人</span><span class="val">'+s.founder+'</span></div>'+
+    '<div class="modal-metric"><span class="label">成立时间</span><span class="val">'+s.founded+'</span></div>'+
+    '<div class="modal-metric"><span class="label">员工规模</span><span class="val">'+s.employees+'</span></div>'+
+    '<div class="modal-metric"><span class="label">主营业务</span><span class="val" style="font-size:0.8rem">'+s.business+'</span></div></div>'+
+    '<div class="modal-section"><h4>题材标签</h4><div>'+tagHtml+'</div></div>'+
+    '<div class="modal-section"><h4>主要风险</h4><div>'+riskHtml+'</div></div>'+
+    '<div class="modal-section"><h4>发展历程</h4><div class="timeline">'+tlHtml+'</div></div>';
+  document.getElementById('stockModal').classList.add('show');
+}
+function closeStockModal() { document.getElementById('stockModal').classList.remove('show'); }
+</script>
+
+<div class="stock-modal" id="stockModal" onclick="if(event.target===this)closeStockModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div><h3 id="modalStockName"></h3><div class="stock-code-tag" id="modalStockCode"></div></div>
+      <button class="modal-close" onclick="closeStockModal()">x</button>
     </div>
+    <div id="modalBody"></div>
   </div>
+</div>
 
 </body>
 </html>
