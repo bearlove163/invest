@@ -1,0 +1,60 @@
+{
+  "updated": "2026-04-11T00:18:00+08:00",
+  "is_trading": false,
+  "is_trading_session": "休市",
+  "market_open": false,
+  "indices": {
+    "上证指数": { "value": "3985.46", "change": "+0.12%", "direction": "up" },
+    "深证成指": { "value": "17352.18", "change": "+0.43%", "direction": "up" },
+    "创业板指": { "value": "2587.32", "change": "+0.87%", "direction": "up" },
+    "沪深300": { "value": "3985.52", "change": "+0.08%", "direction": "up" },
+    "科创50": { "value": "1124.38", "change": "+1.21%", "direction": "up" }
+  },
+  "sentiment": {
+    "limit_up": 86,
+    "limit_down": 6,
+    "volume": "927亿",
+    "volume_dir": "up",
+    "northbound": "+23.5亿",
+    "status": "偏热"
+  },
+  "hot_sectors": [
+    { "name": "AI算力", "change": "+4.2%" },
+    { "name": "半导体设备", "change": "+3.1%" },
+    { "name": "机器人概念", "change": "+2.8%" },
+    { "name": "电力设备", "change": "+1.2%" },
+    { "name": "创新药", "change": "+0.6%" }
+  ],
+  "strategy": {
+    "direction": "AI进攻 + 电力防御",
+    "position": "6成仓",
+    "risk": "中等",
+    "logic": "AI主线 + 高股息防御"
+  },
+  "position": {
+    "total": 500000,
+    "stock_value": 310000,
+    "cash": 190000,
+    "position_ratio": "62%",
+    "daily_pnl": "+¥4,210 (+0.84%)",
+    "total_pnl": "+¥44,650 (+9.8%)"
+  },
+  "holdings": [
+    { "name": "海光信息", "code": "688041", "value": 105000, "ratio": "21.0%" },
+    { "name": "科大讯飞", "code": "002230", "value": 78000, "ratio": "15.6%" },
+    { "name": "长江电力", "code": "600900", "value": 90000, "ratio": "18.0%" },
+    { "name": "国电南瑞", "code": "600406", "value": 37000, "ratio": "7.4%" },
+    { "code": "cash", "value": 190000, "ratio": "38.0%" }
+  ],
+  "ai_stocks": [
+    { "code": "002230", "price": "47.65", "change": "+0.89%" },
+    { "code": "688041", "price": "231.70", "change": "+2.07%" },
+    { "code": "688256", "price": "178.32", "change": "+3.45%" }
+  ],
+  "power_stocks": [
+    { "code": "600900", "price": "26.37", "change": "-0.15%" },
+    { "code": "600406", "price": "31.25", "change": "+0.52%" },
+    { "code": "601985", "price": "8.47", "change": "+1.08%" }
+  ],
+  "note": "模拟分析，仅供参考"
+}
