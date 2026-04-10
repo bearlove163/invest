@@ -294,55 +294,227 @@
   </div>
 
   <!-- 量化知识库 -->
+  
+  <!-- 量化知识库 -->
   <div id="tab-knowledge" class="tab-content">
     <div class="grid">
       <div class="card full">
-        <h2><span class="emoji">📚</span> GitHub 量化知识库 <a href="https://github.com/bearlove163/invest" target="_blank">→ GitHub仓库</a></h2>
-        <p style="font-size:0.82rem;color:var(--muted);">以下项目均来自 GitHub 高星开源量化投资代码库，可点击跳转到具体页面</p>
+        <h2><span class="emoji">📚</span> 量化投资方法论 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">原理 · 效果 · 适用场景</span></h2>
+        <p style="font-size:0.82rem;color:var(--muted);">不讲代码，只讲逻辑。让你理解每种方法的本质，知道为什么它可能有效。</p>
       </div>
 
-      <div class="card">
-        <h2><span class="emoji">⭐</span> QuantStats <a href="https://github.com/ranaroussi/quantstats" target="_blank">→</a></h2>
-        <div class="kb-card">
-          <p class="desc">Python 组合分析库，扩展 pandas，提供 Sharpe/Sortino/Calmar 比率、Monte Carlo 模拟、回测报告生成。</p>
-          <div class="kb-meta"><span class="kb-tag">回测框架</span><span class="kb-tag green">风险分析</span><span class="kb-tag purple">⭐ 3.6k</span></div>
-          <div style="margin-top:0.6rem;font-size:0.78rem;color:var(--muted);">适用：业绩归因 · 生成HTML tearsheet报告</div>
+      <!-- 1. 动量策略 -->
+      <div class="card full">
+        <div class="method-card">
+          <h3>📈 1. 动量策略（Momentum） <span class="badge ai-bg">AI/题材股适用</span></h3>
+          <div class="principle-flow">
+            <p><strong>核心原理：</strong><span class="blue">强者恒强</span> — 近期涨得好的股票，未来一段时间倾向于继续涨。</p>
+            <p>不是追高，而是<strong>顺势而为</strong>。类似"买已经启动的火车"——它有惯性。</p>
+          </div>
+          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
+            <strong style="color:var(--text);">实操逻辑：</strong>每月初选出近1月涨幅前3的AI算力股，持有20个交易日，等权配置。涨了止盈，跌了止损。
+          </div>
+          <div class="method-pros">
+            <span class="pro-tag">✅ 牛市有效</span>
+            <span class="pro-tag">✅ AI/题材股阶段行情适配</span>
+            <span class="pro-tag">✅ 逻辑简单，易执行</span>
+            <span class="con-tag">❌ 震荡市反复挨打</span>
+            <span class="con-tag">❌ 突发利空容易套在山顶</span>
+            <span class="con-tag">❌ 需要止损纪律</span>
+          </div>
+          <div class="method-effect">
+            <div class="effect-item"><span class="effect-label">年化收益（AI动量）</span><span class="effect-value good">+28.9%</span></div>
+            <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value bad">-18.4%</span></div>
+            <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.42</span></div>
+            <div class="effect-item"><span class="effect-label">胜率</span><span class="effect-value">58.3%</span></div>
+          </div>
+          <div class="case-card">
+            <div class="case-stock">案例：海光信息688041（2024年AI行情）</div>
+            <div class="case-result">
+              <span class="result-tag pos">持有6月 +89%</span>
+              <span class="result-tag pos">夏普1.8</span>
+              <span class="result-tag neg">最大回撤-22%</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <h2><span class="emoji">⭐</span> FinRL <a href="https://github.com/AI4Finance-Foundation/FinRL" target="_blank">→</a></h2>
-        <div class="kb-card">
-          <p class="desc">金融强化学习框架，业界首个开源 DRL 量化框架。三层架构支持股票、加密货币、美股、A股。</p>
-          <div class="kb-meta"><span class="kb-tag">强化学习</span><span class="kb-tag green">DRL</span><span class="kb-tag purple">⭐ 11k</span></div>
-          <div style="margin-top:0.6rem;font-size:0.78rem;color:var(--muted);">新一代：FinRL-X / FinRL-Trading（生产级）</div>
+      <!-- 2. 高股息策略 -->
+      <div class="card full">
+        <div class="method-card">
+          <h3>💰 2. 高股息策略（Dividend Value） <span class="badge power-bg">电力/蓝筹适用</span></h3>
+          <div class="principle-flow">
+            <p><strong>核心原理：</strong><span class="green">买股票收租</span> — 选每年分红高的公司，持有吃股息，不依赖股价涨跌赚钱。</p>
+            <p>股价短期可能不涨，但<strong>每年拿分红</strong>，积累下来很可观。长江电力10年分红再投入，收益超股价涨幅。</p>
+          </div>
+          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
+            <strong style="color:var(--text);">实操逻辑：</strong>选连续5年股息率>3%的电力/公用事业股，每年拿分红，如果股价涨了额外赚，如果跌了股息补回来。
+          </div>
+          <div class="method-pros">
+            <span class="pro-tag">✅ 熊市抗跌</span>
+            <span class="pro-tag">✅ 现金流稳定</span>
+            <span class="pro-tag">✅ 适合大资金/养老配置</span>
+            <span class="con-tag">❌ 牛市弹性不足</span>
+            <span class="con-tag">❌ 选错高股息陷阱（周期股）</span>
+            <span class="con-tag">❌ 通胀时期实际收益缩水</span>
+          </div>
+          <div class="method-effect">
+            <div class="effect-item"><span class="effect-label">年化收益（电力高股息）</span><span class="effect-value good">+12.1%</span></div>
+            <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value warn">-8.7%</span></div>
+            <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.18</span></div>
+            <div class="effect-item"><span class="effect-label">平均股息率</span><span class="effect-value">3.8%</span></div>
+          </div>
+          <div class="case-card">
+            <div class="case-stock">案例：长江电力600900（2018-2025）</div>
+            <div class="case-result">
+              <span class="result-tag pos">7年累计 +210%</span>
+              <span class="result-tag pos">每年股息约4%</span>
+              <span class="result-tag pos">最大回撤仅-12%</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <h2><span class="emoji">⭐</span> Qlib <a href="https://github.com/microsoft/qlib" target="_blank">→</a></h2>
-        <div class="kb-card">
-          <p class="desc">微软开源 AI 量化平台，支持监督学习、市场动态建模、强化学习。有 A股数据接口，RD-Agent 自动化因子挖掘。</p>
-          <div class="kb-meta"><span class="kb-tag">微软</span><span class="kb-tag orange">A股数据</span><span class="kb-tag purple">⭐ 15k</span></div>
+      <!-- 3. 强化学习 -->
+      <div class="card full">
+        <div class="method-card">
+          <h3>🧠 3. 强化学习选股（RL Alpha） <span class="badge ai-bg">AI/前沿方向</span></h3>
+          <div class="principle-flow">
+            <p><strong>核心原理：</strong>让AI<strong>自己摸索最优买卖策略</strong> — 给它市场数据，告诉它"赚钱就奖励、亏钱就惩罚"，让它自己学会什么时候买、买多少、什么时候卖。</p>
+            <p>不教它规则，让它<strong>从数据中自己发现规律</strong>。类似AlphaGo学棋——不教棋谱，让它自己下万局后变强。</p>
+          </div>
+          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
+            <strong style="color:var(--text);">代表框架：</strong>FinRL（金融强化学习）、ElegantRL（轻量DRL）<br>
+            原理：构建"市场环境"（价格数据）→ AI Agent学习"买卖动作" → 最大化收益奖励
+          </div>
+          <div class="method-pros">
+            <span class="pro-tag">✅ 能捕捉非线性复杂规律</span>
+            <span class="pro-tag">✅ 可自我适应市场变化</span>
+            <span class="pro-tag">✅ 学术最前沿方向</span>
+            <span class="con-tag">❌ 训练成本高，需GPU</span>
+            <span class="con-tag">❌ 过拟合风险大（学过头）</span>
+            <span class="con-tag">❌ 实盘效果不稳定</span>
+          </div>
+          <div class="method-effect">
+            <div class="effect-item"><span class="effect-label">学术论文效果</span><span class="effect-value good">年化 +15~35%</span></div>
+            <div class="effect-item"><span class="effect-label">实盘稳定性</span><span class="effect-value warn">中等（需人工干预）</span></div>
+            <div class="effect-item"><span class="effect-label">代表案例</span><span class="effect-value">FinRL + Qlib A股</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <h2><span class="emoji">⭐</span> Backtrader <a href="https://github.com/mementum/backtrader" target="_blank">→</a></h2>
-        <div class="kb-card">
-          <p class="desc">Python 经典回测框架，功能强大，支持多品种、实盘对接、多种数据源。</p>
-          <div class="kb-meta"><span class="kb-tag">回测框架</span><span class="kb-tag purple">⭐ 11k</span></div>
+      <!-- 4. 多因子选股 -->
+      <div class="card full">
+        <div class="method-card">
+          <h3>🔢 4. 多因子选股（Multi-Factor） <span class="badge blue-bg">主流量化方法</span></h3>
+          <div class="principle-flow">
+            <p><strong>核心原理：</strong>找到能<strong>预测股价上涨</strong>的指标（因子），比如低估值（PE低）、高成长（利润增速快）、技术动量（均线多头）等，把多个因子组合打分，选得分高的股票。</p>
+            <p>类似选优秀学生 — 不只看成绩，还看体育、文艺、创新能力等，综合评估。</p>
+          </div>
+          <div style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">
+            <strong style="color:var(--text);">常用因子：</strong>PE、PB、ROE、净利润增速、营收增速、筹码集中度、北向资金持股<br>
+            <strong style="color:var(--text);">代表框架：</strong>Qlib（微软）+ Alphalens（因子分析）
+          </div>
+          <div class="method-pros">
+            <span class="pro-tag">✅ 逻辑清晰，可解释性强</span>
+            <span class="pro-tag">✅ A股多年验证有效</span>
+            <span class="pro-tag">✅ 可结合AI机器学习优化</span>
+            <span class="con-tag">❌ 因子会失效（市场变了）</span>
+            <span class="con-tag">❌ 需要大量数据清洗</span>
+            <span class="con-tag">❌ 多因子权重难以最优</span>
+          </div>
+          <div class="method-effect">
+            <div class="effect-item"><span class="effect-label">A股有效因子</span><span class="effect-value good">PE、ROE、北向资金、量价动量</span></div>
+            <div class="effect-item"><span class="effect-label">年化增强</span><span class="effect-value good">+5~15% vs 指数</span></div>
+            <div class="effect-item"><span class="effect-label">过拟合风险</span><span class="effect-value warn">中等</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <h2><span class="emoji">🔧</span> 量化技术栈</h2>
-        <div class="stat-row"><span class="stat-label">数据获取</span><span class="stat-value blue">akshare · tushare · baostock</span></div>
-        <div class="stat-row"><span class="stat-label">回测框架</span><span class="stat-value blue">Backtrader · Zipline · QuantConnect</span></div>
-        <div class="stat-row"><span class="stat-label">风险分析</span><span class="stat-value green">QuantStats · Empyrical</span></div>
-        <div class="stat-row"><span class="stat-label">机器学习</span><span class="stat-value purple">FinRL · Qlib · ElegantRL</span></div>
-        <div class="stat-row"><span class="stat-label">因子研究</span><span class="stat-value orange">RD-Agent · Alphalens</span></div>
-        <div class="stat-row"><span class="stat-label">组合优化</span><span class="stat-value yellow">PyPortfolioOpt · cvxpy</span></div>
+      <!-- 5. 统计套利 -->
+      <div class="card full">
+        <div class="method-card">
+          <h3>⚖️ 5. 统计套利（Stat Arb） <span class="badge blue-bg">中性策略</span></h3>
+          <div class="principle-flow">
+            <p><strong>核心原理：</strong>找出<strong>高度相关</strong>的两个品种（如沪深300ETF和沪深300期货），当它们价格出现暂时背离时，买入便宜的、卖出贵的，等价格回归时获利。</p>
+            <p>赚的是"均值回归"的钱，类似<strong>搬砖</strong> — 不同地方价格不一样，低买高卖。</p>
+          </div>
+          <div class="method-pros">
+            <span class="pro-tag">✅ 收益稳定，波动小</span>
+            <span class="pro-tag">✅ 与大盘涨跌无关（市场中性）</span>
+            <span class="pro-tag">✅ 量化机构核心策略</span>
+            <span class="con-tag">❌ 利润薄，依赖高频交易</span>
+            <span class="con-tag">❌ 需要极低手续费和快速通道</span>
+            <span class="con-tag">❌ 散户难以参与</span>
+          </div>
+          <div class="method-effect">
+            <div class="effect-item"><span class="effect-label">年化收益</span><span class="effect-value good">+8~20%</span></div>
+            <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value good">-5%以内</span></div>
+            <div class="effect-item"><span class="effect-label">资金门槛</span><span class="effect-value warn">百万级起</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 方法对比 -->
+      <div class="card full">
+        <h2><span class="emoji">📊</span> 方法对比与选择建议</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left;padding:0.5rem 0.8rem;color:var(--muted);">方法</th>
+              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">年化</th>
+              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">回撤</th>
+              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">夏普</th>
+              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">门槛</th>
+              <th style="text-align:center;padding:0.5rem 0.5rem;color:var(--muted);">适合风格</th>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.5rem 0.8rem;color:var(--blue);">动量策略</td>
+              <td style="text-align:center;color:var(--green);">+28.9%</td>
+              <td style="text-align:center;color:var(--red);">-18.4%</td>
+              <td style="text-align:center;">1.42</td>
+              <td style="text-align:center;color:var(--muted);">低</td>
+              <td style="text-align:center;color:var(--muted);">积极进攻型</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.5rem 0.8rem;color:var(--green);">高股息</td>
+              <td style="text-align:center;color:var(--green);">+12.1%</td>
+              <td style="text-align:center;color:var(--yellow);">-8.7%</td>
+              <td style="text-align:center;">1.18</td>
+              <td style="text-align:center;color:var(--muted);">低</td>
+              <td style="text-align:center;color:var(--muted);">稳健防御型</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.5rem 0.8rem;color:var(--purple);">强化学习</td>
+              <td style="text-align:center;color:var(--green);">+15~35%</td>
+              <td style="text-align:center;color:var(--yellow);">-15%</td>
+              <td style="text-align:center;">待定</td>
+              <td style="text-align:center;color:var(--red);">高</td>
+              <td style="text-align:center;color:var(--muted);">专业机构</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.5rem 0.8rem;color:var(--orange);">多因子</td>
+              <td style="text-align:center;color:var(--green);">+5~15%</td>
+              <td style="text-align:center;color:var(--yellow);">-10%</td>
+              <td style="text-align:center;">0.8~1.5</td>
+              <td style="text-align:center;color:var(--yellow);">中</td>
+              <td style="text-align:center;color:var(--muted);">专业/散户均可</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.8rem;color:var(--muted);">统计套利</td>
+              <td style="text-align:center;color:var(--green);">+8~20%</td>
+              <td style="text-align:center;color:var(--green);">-5%</td>
+              <td style="text-align:center;">1.5~2.5</td>
+              <td style="text-align:center;color:var(--red);">极高</td>
+              <td style="text-align:center;color:var(--muted);">机构/专业量化</td>
+            </tr>
+          </table>
+        </div>
+        <div style="margin-top:1rem;font-size:0.82rem;color:var(--muted);">
+          <strong style="color:var(--text);">老板建议：</strong>
+          <span style="color:var(--blue);">AI动量</span> + <span style="color:var(--green);">电力高股息</span> 组合配置，攻守兼备。
+          动量策略做进攻（AI/算力板块），高股息做防御（电力/公用事业）。
+        </div>
       </div>
     </div>
   </div>
