@@ -122,6 +122,33 @@
       .method-card h3 { font-size: 0.9rem; }
     }
 
+  
+    /* 股票详情模态框 */
+    .stock-modal { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; }
+    .stock-modal.show { display:flex; }
+    .stock-modal .modal-content { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; max-width:560px; width:92%; max-height:88vh; overflow-y:auto; }
+    .modal-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+    .modal-header h3 { color:var(--blue); font-size:1.1rem; margin-bottom:0.3rem; }
+    .modal-header .stock-code-tag { color:var(--muted); font-size:0.82rem; }
+    .modal-close { background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; padding:0; line-height:1; }
+    .modal-close:hover { color:var(--text); }
+    .modal-section { margin-bottom:1.2rem; }
+    .modal-section h4 { color:var(--text); font-size:0.88rem; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+    .modal-section p { color:var(--muted); font-size:0.82rem; line-height:1.7; }
+    .modal-tag { display:inline-block; background:rgba(88,166,255,0.12); color:var(--blue); font-size:0.72rem; padding:2px 8px; border-radius:6px; margin:0.2rem; }
+    .modal-tag.green { background:rgba(63,185,80,0.12); color:var(--green); }
+    .modal-tag.yellow { background:rgba(210,153,34,0.12); color:var(--yellow); }
+    .modal-tag.red { background:rgba(248,81,73,0.12); color:var(--red); }
+    .timeline { border-left:2px solid var(--border); padding-left:1rem; margin-left:0.5rem; }
+    .timeline-item { position:relative; padding-bottom:0.8rem; font-size:0.82rem; }
+    .timeline-item::before { content:''; position:absolute; left:-1.25rem; top:0.3rem; width:8px; height:8px; background:var(--blue); border-radius:50%; }
+    .timeline-item .year { color:var(--blue); font-weight:600; margin-bottom:0.2rem; }
+    .timeline-item .event { color:var(--muted); }
+    .modal-metric { display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.85rem; }
+    .modal-metric:last-child { border-bottom:none; }
+    .modal-metric .label { color:var(--muted); }
+    .modal-metric .val { font-weight:600; }
+
   </style>
 </head>
 <body>
@@ -148,7 +175,7 @@
       <div class="card full">
         <h2><span class="emoji">🤖</span> AI板块核心股 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">2026-04-10 实时行情</span></h2>
         <div class="grid-3">
-          <div class="stock-card">
+          <div class="stock-card" onclick="openStockModal('002230')" style="cursor:pointer" title="点击查看详情">
             <div class="stock-info">
               <div class="stock-name"><span class="tag ai">AI</span>科大讯飞</div>
               <div class="stock-code">SZ 002230</div>
@@ -159,7 +186,7 @@
               <div class="change"><span class="tag up">+0.89%</span></div>
             </div>
           </div>
-          <div class="stock-card">
+          <div class="stock-card" onclick="openStockModal('688041')" style="cursor:pointer" title="点击查看详情">
             <div class="stock-info">
               <div class="stock-name"><span class="tag ai">AI</span>海光信息</div>
               <div class="stock-code">SH 688041</div>
@@ -170,7 +197,7 @@
               <div class="change"><span class="tag up">+2.07%</span></div>
             </div>
           </div>
-          <div class="stock-card">
+          <div class="stock-card" onclick="openStockModal('688256')" style="cursor:pointer" title="点击查看详情">
             <div class="stock-info">
               <div class="stock-name"><span class="tag ai">AI</span>寒武纪</div>
               <div class="stock-code">SH 688256</div>
@@ -187,7 +214,7 @@
       <div class="card full">
         <h2><span class="emoji">⚡</span> 电力防御板块 <span style="font-size:0.72rem;color:var(--muted);margin-left:0.5rem;">高股息稳健</span></h2>
         <div class="grid-3">
-          <div class="stock-card">
+          <div class="stock-card" onclick="openStockModal('600900')" style="cursor:pointer" title="点击查看详情">
             <div class="stock-info">
               <div class="stock-name"><span class="tag power">电力</span>长江电力</div>
               <div class="stock-code">SH 600900</div>
@@ -198,7 +225,7 @@
               <div class="change"><span class="tag down">-0.15%</span></div>
             </div>
           </div>
-          <div class="stock-card">
+          <div class="stock-card" onclick="openStockModal('600406')" style="cursor:pointer" title="点击查看详情">
             <div class="stock-info">
               <div class="stock-name"><span class="tag power">电力</span>国电南瑞</div>
               <div class="stock-code">SH 600406</div>
@@ -209,7 +236,7 @@
               <div class="change"><span class="tag up">+0.52%</span></div>
             </div>
           </div>
-          <div class="stock-card">
+          <div class="stock-card" onclick="openStockModal('601985')" style="cursor:pointer" title="点击查看详情">
             <div class="stock-info">
               <div class="stock-name"><span class="tag power">电力</span>中国核电</div>
               <div class="stock-code">SH 601985</div>
@@ -627,6 +654,138 @@ function switchTab(name){
 document.getElementById('clock').textContent=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
 document.getElementById('last-updated').textContent=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
 setTimeout(()=>location.reload(),5*60*1000);
-</script>
+
+    var stockInfo = {
+      "002230": {
+        name: "科大讯飞", code: "SZ 002230",
+        desc: "科大讯飞成立于1999年，是亚太地区知名的智能语音和人工智能上市企业。公司主要从事语音识别、语义理解、OCR等人工智能技术研究。",
+        founder: "刘庆峰", founded: "1999年", employees: "约1.5万人",
+        business: "语音助手、AI教育、智慧城市、消费者硬件（翻译机、录音笔）",
+        tags: ["AI大模型","语音识别","教育信息化","智能硬件"],
+        risks: ["美国实体清单影响","大模型投入大","竞争加剧"],
+        milestones: [
+          {year:"1999年",event:"成立，专注语音技术"},
+          {year:"2004年",event:"实现盈亏平衡"},
+          {year:"2008年",event:"深交所上市"},
+          {year:"2014年",event:"发布讯飞超脑，进军AI"},
+          {year:"2017年",event:"入选首批国家新一代AI开放创新平台"},
+          {year:"2023年",event:"星火大模型发布，对标ChatGPT"},
+          {year:"2024年",event:"与华为合作，推进国产算力"}
+        ]
+      },
+      "688041": {
+        name: "海光信息", code: "SH 688041",
+        desc: "海光信息成立于2014年，是国内唯一实现量产x86架构GPU的厂商。主要产品包括DCU和CPU，应用于AI训练、推理和数据中心。",
+        founder: "厉伟", founded: "2014年", employees: "约2000人",
+        business: "GPU（DCU）、CPU、服务器整机、AI算力解决方案",
+        tags: ["国产GPU","AI算力","x86","信创"],
+        risks: ["美国芯片管制","技术迭代压力","大客户集中"],
+        milestones: [
+          {year:"2014年",event:"海光信息成立"},
+          {year:"2016年",event:"获得AMD x86架构授权"},
+          {year:"2020年",event:"DCU产品实现量产"},
+          {year:"2022年",event:"科创板上市"},
+          {year:"2023年",event:"美国芯片管制升级，倒逼国产替代加速"},
+          {year:"2024年",event:"营收同比增长80%，成AI算力核心标的"}
+        ]
+      },
+      "688256": {
+        name: "寒武纪", code: "SH 688256",
+        desc: "寒武纪成立于2016年，专注于AI芯片设计，是国内AI芯片龙头。产品涵盖云端、边缘端、终端全场景，代表产品包括思元系列芯片和加速卡。",
+        founder: "陈天石", founded: "2016年", employees: "约2500人",
+        business: "AI芯片（思元系列）、云端/边缘AI加速卡、IP授权",
+        tags: ["AI芯片","云端推理","边缘计算","科创"],
+        risks: ["持续亏损","研发投入大","产品迭代慢"],
+        milestones: [
+          {year:"2016年",event:"寒武纪成立"},
+          {year:"2017年",event:"发布首款AI芯片寒武纪1A"},
+          {year:"2020年",event:"科创板上市"},
+          {year:"2021年",event:"思元370云端训练芯片发布"},
+          {year:"2023年",event:"AIGC行情启动，股价涨幅超200%"},
+          {year:"2024年",event:"亏损收窄，获大模型厂商批量订单"}
+        ]
+      },
+      "600900": {
+        name: "长江电力", code: "SH 600900",
+        desc: "长江电力是全球最大的水电上市公司，运营三峡、溪洛渡、向家坝等巨型水电站。公司以高股息、稳定现金流著称，是A股防御型蓝筹代表。",
+        founder: "中国长江三峡集团（控股）", founded: "2002年", employees: "约4000人",
+        business: "水电发电、配售电、溪洛渡/向家坝/白鹤滩电站运营",
+        tags: ["水电","高股息","防御","绿电"],
+        risks: ["来水量波动","水库移民成本","电价政策变化"],
+        milestones: [
+          {year:"2002年",event:"中国长江电力股份有限公司成立"},
+          {year:"2003年",event:"上交所上市"},
+          {year:"2016年",event:"收购溪洛渡、向家坝电站"},
+          {year:"2021年",event:"乌东德、白鹤滩注入预期"},
+          {year:"2023年",event:"年发电量再创新高，超2100亿千瓦时"},
+          {year:"2024年",event:"股息率4%+，外资持续增持"}
+        ]
+      },
+      "600406": {
+        name: "国电南瑞", code: "SH 600406",
+        desc: "国电南瑞是国内电网自动化龙头企业，国家电网旗下上市平台。主业为电网调度自动化、变电站保护、配电自动化，深度参与智能电网和电力AI建设。",
+        founder: "国家电网（控股）", founded: "2001年", employees: "约8000人",
+        business: "电网调度系统、变电站自动化、配电自动化、充电桩、储能EMS",
+        tags: ["电网自动化","AI调度","特高压","国家电网"],
+        risks: ["电网投资周期性","竞争加剧","应收账款高"],
+        milestones: [
+          {year:"2001年",event:"国电南瑞科技股份有限公司成立"},
+          {year:"2003年",event:"上交所上市"},
+          {year:"2010年",event:"资产重组，成为国网旗下电力自动化旗舰"},
+          {year:"2017年",event:"参与雄安新区智能电网规划"},
+          {year:"2023年",event:"AI电力调度系统发布"},
+          {year:"2024年",event:"受益电力IT投资加速，订单增长30%"}
+        ]
+      },
+      "601985": {
+        name: "中国核电", code: "SH 601985",
+        desc: "中国核电是中核集团旗下核电运营上市平台，管理在运在建核电机组超过30台。公司是中国核电行业的绝对龙头，受益于碳中和背景下的核电重启。",
+        founder: "中国核工业集团（控股）", founded: "2011年", employees: "约1.2万人",
+        business: "核电站运营、新建核电项目、核电技术输出",
+        tags: ["核电","碳中和","绿电","稳健"],
+        risks: ["核安全事故风险","新机组审批节奏","电价市场化改革"],
+        milestones: [
+          {year:"2011年",event:"中国核能电力股份有限公司成立"},
+          {year:"2015年",event:"上交所上市"},
+          {year:"2019年",event:"在运装机容量突破3000万千瓦"},
+          {year:"2022年",event:"核电新项目审批重启（福建漳州等）"},
+          {year:"2024年",event:"核准多个核电新项目，核电建设进入高峰"}
+        ]
+      }
+    };
+
+    function openStockModal(code) {
+      var s = stockInfo[code];
+      if (!s) return;
+      var tagHtml = s.tags.map(function(t){return '<span class="modal-tag">'+t+'</span>'}).join('');
+      var riskHtml = s.risks.map(function(r){return '<span class="modal-tag red">'+r+'</span>'}).join('');
+      var timelineHtml = s.milestones.map(function(m){
+        return '<div class="timeline-item"><div class="year">'+m.year+'</div><div class="event">'+m.event+'</div></div>';
+      }).join('');
+      document.getElementById('modalStockName').textContent = s.name;
+      document.getElementById('modalStockCode').textContent = s.code;
+      document.getElementById('modalBody').innerHTML = '         <div class="modal-section"><h4>公司概况</h4><p>'+s.desc+'</p></div>         <div class="modal-section"><h4>基本信息</h4>           <div class="modal-metric"><span class="label">创始人/实控人</span><span class="val">'+s.founder+'</span></div>           <div class="modal-metric"><span class="label">成立时间</span><span class="val">'+s.founded+'</span></div>           <div class="modal-metric"><span class="label">员工规模</span><span class="val">'+s.employees+'</span></div>           <div class="modal-metric"><span class="label">主营业务</span><span class="val" style="font-size:0.8rem">'+s.business+'</span></div>         </div>         <div class="modal-section"><h4>题材标签</h4><div>'+tagHtml+'</div></div>         <div class="modal-section"><h4>主要风险</h4><div>'+riskHtml+'</div></div>         <div class="modal-section"><h4>发展历程</h4><div class="timeline">'+timelineHtml+'</div></div>       ';
+      document.getElementById('stockModal').classList.add('show');
+    }
+    function closeStockModal() {
+      document.getElementById('stockModal').classList.remove('show');
+    }
+
+  </script>
+
+  <!-- 股票详情模态框 -->
+  <div class="stock-modal" id="stockModal" onclick="if(event.target===this)closeStockModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalStockName"></h3>
+          <div class="stock-code-tag" id="modalStockCode"></div>
+        </div>
+        <button class="modal-close" onclick="closeStockModal()">x</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
 </body>
 </html>
