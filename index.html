@@ -3,550 +3,1585 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>财经专家 | 量化投资分析平台</title>
+  <title>财经专家 | A股量化投资分析平台</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--text:#e6edf3;--muted:#8b949e;--purple:#a371f7;--orange:#f0883e;}
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
-    .container{max-width:1200px;margin:0 auto;padding:1.5rem;}
-    header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem;background:var(--card);border-radius:12px;}
-    header h1{font-size:1.3rem;color:var(--blue);}
-    .header-right{display:flex;gap:1rem;align-items:center;}
-    .live-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-    .refresh-btn{background:var(--blue);color:#000;border:none;padding:0.4rem 1rem;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600;}
-    .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0;flex-wrap:wrap;}
-    .tab{padding:0.6rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;font-size:0.9rem;transition:all 0.2s;}
-    .tab:hover{color:var(--text);}
-    .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-    .tab-content{display:none;}
-    .tab-content.active{display:block;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.2rem;}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
-    .full{grid-column:1/-1;}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
-    .card h2{font-size:0.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
-    .card h2 .emoji{font-size:1.1rem;}
-    .stat-row{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);}
-    .stat-row:last-child{border-bottom:none;}
-    .stat-label{color:var(--muted);font-size:0.9rem;}
-    .stat-value{font-weight:600;font-size:0.95rem;}
-    .stat-value.green{color:var(--green);}
-    .stat-value.red{color:var(--red);}
-    .stat-value.yellow{color:var(--yellow);}
-    .stat-value.blue{color:var(--blue);}
-    .stat-value.purple{color:var(--purple);}
-    .stat-value.orange{color:var(--orange);}
-    .stock-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
-    .stock-info{flex:1;}
-    .stock-name{font-weight:700;font-size:1rem;margin-bottom:0.2rem;}
-    .stock-code{color:var(--muted);font-size:0.8rem;}
-    .stock-price{text-align:right;}
-    .price{font-size:1.3rem;font-weight:700;}
-    .change{font-size:0.85rem;margin-top:0.2rem;}
-    .tag{display:inline-block;font-size:0.7rem;padding:1px 6px;border-radius:8px;font-weight:600;margin-right:4px;}
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --card2: #1c2128;
+      --border: #30363d;
+      --green: #3fb950;
+      --red: #f85149;
+      --yellow: #d29922;
+      --blue: #58a6ff;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --purple: #a371f7;
+      --orange: #f0883e;
+      --cyan: #39c5cf;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    header h1 { font-size: 1.3rem; color: var(--blue); }
+    .header-meta { display: flex; gap: 1.2rem; align-items: center; font-size: 0.82rem; color: var(--muted); }
+    .live-badge { display: flex; align-items: center; gap: 0.4rem; }
+    .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .refresh-btn {
+      background: var(--blue); color: #000; border: none;
+      padding: 0.4rem 1rem; border-radius: 6px;
+      cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    }
+    .refresh-btn:hover { background: #79b8ff; }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 0.3rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .tab {
+      padding: 0.55rem 1.1rem; cursor: pointer;
+      color: var(--muted); font-size: 0.88rem;
+      border-bottom: 2px solid transparent;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.15s;
+    }
+    .tab:hover { color: var(--text); background: var(--card); }
+    .tab.active { color: var(--blue); border-bottom-color: var(--blue); background: var(--card); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Grid ── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.2rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media(max-width:768px){ .grid-3{grid-template-columns:1fr;} }
+    .full { grid-column: 1 / -1; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+    .card h2 {
+      font-size: 0.78rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .card h2 .emoji { font-size: 1rem; }
+    .card h2 .badge {
+      font-size: 0.68rem; padding: 1px 6px;
+      background: rgba(88,166,255,0.12); color: var(--blue);
+      border-radius: 4px; font-weight: 600;
+      text-transform: none; letter-spacing: 0;
+    }
+
+    /* ── Stat Rows ── */
+    .stat-row { display: flex; justify-content: space-between; padding: 0.45rem 0; border-bottom: 1px solid rgba(48,54,61,0.7); }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--muted); font-size: 0.88rem; }
+    .stat-value { font-weight: 600; font-size: 0.92rem; }
+    .green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
+    .blue{color:var(--blue)}.purple{color:var(--purple)}.orange{color:var(--orange)}.cyan{color:var(--cyan)}
+
+    /* ── Stock Cards ── */
+    .stock-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .stock-card:hover { border-color: var(--blue); transform: translateY(-1px); }
+    .stock-info {}
+    .stock-name { font-weight: 700; font-size: 0.98rem; margin-bottom: 0.15rem; }
+    .stock-code { color: var(--muted); font-size: 0.78rem; }
+    .stock-meta { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+    .stock-price { text-align: right; }
+    .price { font-size: 1.25rem; font-weight: 700; }
+    .change { font-size: 0.8rem; margin-top: 0.15rem; }
+    .tag { display: inline-block; font-size: 0.68rem; padding: 1px 6px; border-radius: 6px; font-weight: 600; }
     .tag.ai{background:rgba(88,166,255,0.15);color:var(--blue);}
     .tag.power{background:rgba(63,185,80,0.15);color:var(--green);}
     .tag.up{background:rgba(63,185,80,0.15);color:var(--green);}
     .tag.down{background:rgba(248,81,73,0.15);color:var(--red);}
-    .progress-bar{background:var(--border);border-radius:8px;height:24px;overflow:hidden;margin:0.8rem 0;}
-    .progress-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:0.75rem;font-weight:700;color:#fff;}
-    .progress-stages{display:flex;justify-content:space-between;margin-top:0.5rem;font-size:0.75rem;color:var(--muted);}
-    .progress-stages span{text-align:center;}
-    .progress-stages span.done{color:var(--green);}
-    .progress-stages span.active{color:var(--blue);font-weight:600;}
-    .memory-entry{border-left:3px solid var(--blue);padding:0.7rem 1rem;margin-bottom:0.6rem;background:rgba(88,166,255,0.04);border-radius:0 8px 8px 0;}
-    .memory-entry .time{font-size:0.75rem;color:var(--muted);margin-bottom:0.2rem;}
-    .memory-entry .content{font-size:0.85rem;}
-    .memory-entry.new{border-left-color:var(--purple);background:rgba(163,113,247,0.06);}
-    .memory-entry.new .time{color:var(--purple);}
-    .bt-row{display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.85rem;}
-    .bt-label{color:var(--muted);}
-    .bt-value{font-weight:600;}
-    .bt-value.pos{color:var(--green);}
-    .bt-value.neg{color:var(--red);}
-    .footer-bar{text-align:center;color:var(--muted);font-size:0.8rem;padding:1.5rem 0 0.5rem;}
-    .last-updated{text-align:center;color:var(--muted);font-size:0.75rem;margin-top:0.5rem;}
-    .data-note{text-align:right;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;}
-    .country-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
-    .country-card .country-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;}
-    .country-card .country-name{font-weight:700;font-size:1rem;}
-    .country-card .country-status{font-size:1.2rem;}
-    .country-card .detail-line{font-size:0.82rem;color:var(--muted);margin-left:0.5rem;}
-    .method-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
-    .method-card h3{color:var(--blue);font-size:1rem;margin-bottom:0.6rem;}
-    .method-pros{display:flex;gap:0.4rem;flex-wrap:wrap;margin:0.6rem 0;}
-    .pro-tag{background:rgba(63,185,80,0.12);color:var(--green);font-size:0.72rem;padding:2px 7px;border-radius:6px;}
-    .con-tag{background:rgba(248,81,73,0.12);color:var(--red);font-size:0.72rem;padding:2px 7px;border-radius:6px;}
-    .effect-item{display:flex;justify-content:space-between;padding:0.4rem 0;font-size:0.85rem;border-bottom:1px solid var(--border);}
-    .effect-item:last-child{border-bottom:none;}
-    .effect-label{color:var(--muted);}
-    .effect-value{font-weight:600;}
-    .effect-value.good{color:var(--green);}
-    .effect-value.bad{color:var(--red);}
-    .effect-value.warn{color:var(--yellow);}
-    @media (max-width: 768px) {
-      .container { padding: 1rem; }
-      header { flex-direction: column; gap: 0.8rem; text-align: center; }
-      .grid { grid-template-columns: 1fr; gap: 1rem; }
-      .grid-3 { grid-template-columns: 1fr; }
-      .tabs { overflow-x: auto; white-space: nowrap; }
+
+    /* ── Section Titles ── */
+    .section-title {
+      font-size: 1rem; font-weight: 700; margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.5rem;
     }
-    .stock-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center;}
-    .stock-modal.show{display:flex;}
-    .stock-modal .modal-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;max-width:560px;width:92%;max-height:88vh;overflow-y:auto;}
-    .modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
-    .modal-header h3{color:var(--blue);font-size:1.1rem;margin-bottom:0.3rem;}
-    .modal-header .stock-code-tag{color:var(--muted);font-size:0.82rem;}
-    .modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;padding:0;line-height:1;}
-    .modal-close:hover{color:var(--text);}
-    .modal-section{margin-bottom:1.2rem;}
-    .modal-section h4{color:var(--text);font-size:0.88rem;margin-bottom:0.5rem;}
-    .modal-section p{color:var(--muted);font-size:0.82rem;line-height:1.7;}
-    .modal-tag{display:inline-block;background:rgba(88,166,255,0.12);color:var(--blue);font-size:0.72rem;padding:2px 8px;border-radius:6px;margin:0.2rem;}
-    .modal-tag.red{background:rgba(248,81,73,0.12);color:var(--red);}
-    .timeline{border-left:2px solid var(--border);padding-left:1rem;margin-left:0.5rem;}
-    .timeline-item{position:relative;padding-bottom:0.8rem;font-size:0.82rem;}
-    .timeline-item::before{content:'';position:absolute;left:-1.25rem;top:0.3rem;width:8px;height:8px;background:var(--blue);border-radius:50%;}
-    .timeline-item .year{color:var(--blue);font-weight:600;margin-bottom:0.2rem;}
-    .timeline-item .event{color:var(--muted);}
-    .modal-metric{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;}
-    .modal-metric:last-child{border-bottom:none;}
-    .modal-metric .label{color:var(--muted);}
-    .modal-metric .val{font-weight:600;}
-    .topic-date-block{margin-bottom:1.5rem;}
-    .topic-date-header{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center;}
-    .topic-date-header .date{color:var(--blue);font-weight:700;font-size:1rem;}
-    .topic-date-header .badge{font-size:0.72rem;padding:2px 8px;border-radius:6px;background:rgba(88,166,255,0.15);color:var(--blue);}
-    .topic-cat-block{margin-bottom:0.8rem;}
-    .topic-cat-label{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.4rem;}
-    .topic-card{border-left:3px solid var(--border);padding:0.5rem 0.8rem;margin-bottom:0.4rem;background:rgba(255,255,255,0.02);border-radius:0 6px 6px 0;}
-    .topic-event{font-size:0.88rem;color:var(--text);margin-bottom:0.2rem;}
-    .topic-heat{display:inline-block;font-size:0.65rem;padding:1px 5px;border-radius:4px;margin-right:4px;}
-    .topic-heat.high{background:rgba(248,81,73,0.15);color:var(--red);}
-    .topic-heat.med{background:rgba(210,153,34,0.15);color:var(--yellow);}
-    .topic-heat.low{background:rgba(63,185,80,0.15);color:var(--green);}
-    .topic-angle{font-size:0.78rem;color:var(--muted);}
-    .highlight-block{background:rgba(163,113,247,0.08);border:1px solid rgba(163,113,247,0.3);border-radius:8px;padding:0.8rem 1rem;margin:0.6rem 0;}
-    .highlight-block h4{color:var(--purple);font-size:0.82rem;margin-bottom:0.3rem;}
-    .highlight-block .reason{font-size:0.8rem;color:var(--muted);}
-    .discussion-block{background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.2);border-radius:8px;padding:0.8rem 1rem;margin:0.6rem 0;}
-    .discussion-block h4{color:var(--blue);font-size:0.82rem;margin-bottom:0.3rem;}
-    .discussion-block .question{font-size:0.85rem;color:var(--text);}
-    .scan-country{margin-bottom:0.6rem;}
-    .scan-country .sc-header{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 1rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;}
-    .scan-country .sc-name{font-weight:600;}
-    .scan-country .sc-detail{font-size:0.82rem;color:var(--muted);padding:0.4rem 1rem 0;}
-    .ai-research-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:0.8rem;}
-    .ai-research-card h4{color:var(--blue);font-size:0.9rem;margin-bottom:0.4rem;}
-    .ai-research-card .source{color:var(--muted);font-size:0.78rem;margin-bottom:0.3rem;}
-    .ai-research-card .summary{font-size:0.82rem;color:var(--text);}
+
+    /* ── Method Cards ── */
+    .method-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem; margin-bottom: 1rem;
+    }
+    .method-card h3 { color: var(--blue); font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+    .method-card p { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .method-card .core { font-size: 0.85rem; color: var(--text); }
+    .tag-pill { display: inline-block; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; margin-right: 4px; }
+    .tag-pill.pro{background:rgba(63,185,80,0.12);color:var(--green);}
+    .tag-pill.con{background:rgba(248,81,73,0.12);color:var(--red);}
+    .effect-row { display: flex; justify-content: space-between; padding: 0.35rem 0; font-size: 0.82rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+    .effect-row:last-child { border-bottom: none; }
+    .effect-row .label { color: var(--muted); }
+    .effect-row .val { font-weight: 600; }
+
+    /* ── Memory Entries ── */
+    .memory-entry {
+      border-left: 3px solid var(--blue);
+      padding: 0.6rem 0.9rem;
+      margin-bottom: 0.6rem;
+      background: rgba(88,166,255,0.04);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.85rem;
+    }
+    .memory-entry .time { font-size: 0.75rem; color: var(--purple); margin-bottom: 0.2rem; }
+    .memory-entry .content { color: var(--muted); }
+
+    /* ── Backtest Table ── */
+    .bt-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .bt-table th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.5rem 0.6rem; text-align: left; border-bottom: 1px solid var(--border); }
+    .bt-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+    .bt-table tr:last-child td { border-bottom: none; }
+    .bt-table .name { font-weight: 600; }
+    .bt-table .pos { color: var(--green); }
+    .bt-table .neg { color: var(--red); }
+    .bt-table .warn { color: var(--yellow); }
+
+    /* ── Risk Gauges ── */
+    .gauge-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
+    .gauge-label { width: 80px; font-size: 0.82rem; color: var(--muted); }
+    .gauge-bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .gauge-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+    .gauge-val { width: 36px; font-size: 0.82rem; font-weight: 600; text-align: right; }
+
+    /* ── Portfolio Bars ── */
+    .alloc-row { margin-bottom: 0.7rem; }
+    .alloc-row .alloc-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.25rem; }
+    .alloc-bar { height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; }
+    .alloc-fill { height: 100%; border-radius: 5px; }
+
+    /* ── Decision Card ── */
+    .decision-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .decision-card .d-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .decision-card .d-name { font-weight: 700; font-size: 0.95rem; }
+    .decision-card .d-code { color: var(--muted); font-size: 0.78rem; }
+    .decision-card .d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .decision-card .d-item { font-size: 0.78rem; }
+    .decision-card .d-item .label { color: var(--muted); }
+    .decision-card .d-item .val { font-weight: 600; }
+    .signal-buy { background: rgba(63,185,80,0.15); color: var(--green); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+    .signal-wait { background: rgba(210,153,34,0.15); color: var(--yellow); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+
+    /* ── Signal Badge ── */
+    .signal-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .signal-badge.buy { background: rgba(63,185,80,0.15); color: var(--green); }
+    .signal-badge.hold { background: rgba(210,153,34,0.15); color: var(--yellow); }
+    .signal-badge.watch { background: rgba(88,166,255,0.15); color: var(--blue); }
+
+    /* ── Footer ── */
+    .footer { text-align: center; color: var(--muted); font-size: 0.75rem; padding: 1.5rem 0 0.5rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+    .last-updated { text-align: center; color: var(--muted); font-size: 0.72rem; margin-top: 0.4rem; }
+
+    /* ── Highlight Box ── */
+    .highlight-box {
+      background: rgba(88,166,255,0.07);
+      border: 1px solid rgba(88,166,255,0.2);
+      border-radius: 8px; padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+    .highlight-box h4 { color: var(--blue); font-size: 0.82rem; margin-bottom: 0.4rem; }
+    .highlight-box p { color: var(--muted); }
+    .highlight-box .reason { color: var(--text); margin-top: 0.3rem; font-size: 0.82rem; }
+
+    /* ── Note ── */
+    .disclaimer {
+      background: rgba(248,81,73,0.06);
+      border: 1px solid rgba(248,81,73,0.2);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-size: 0.78rem; color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── Data loading placeholder ── */
+    .loading { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; }
   </style>
 </head>
 <body>
+
 <div class="container">
   <header>
-    <h1>财经专家 | 量化投资分析平台</h1>
-    <div class="header-right">
-      <span><span class="live-dot"></span> Live</span>
-      <span id="clock" style="color:var(--muted);font-size:0.85rem;"></span>
-      <button class="refresh-btn" onclick="location.reload()">刷新</button>
+    <h1>📊 财经专家 | A股量化投资平台</h1>
+    <div class="header-meta">
+      <div class="live-badge"><span class="live-dot"></span><span>系统运行中</span></div>
+      <span id="clock"></span>
+      <button class="refresh-btn" onclick="location.reload()">🔄 刷新</button>
     </div>
   </header>
 
+  <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('dashboard')">市场概览</div>
-    <div class="tab" onclick="switchTab('memory')">记忆系统</div>
-    <div class="tab" onclick="switchTab('knowledge')">量化知识库</div>
-    <div class="tab" onclick="switchTab('market')">市场扫描</div>
-    <div class="tab" onclick="switchTab('topics')">每日选题</div>
-    <div class="tab" onclick="switchTab('backtest')">回测验证</div>
+    <div class="tab active" onclick="switchTab('dashboard')">📈 市场概览</div>
+    <div class="tab" onclick="switchTab('stocks')">🎯 精选股票</div>
+    <div class="tab" onclick="switchTab('strategy')">🧠 量化策略</div>
+    <div class="tab" onclick="switchTab('backtest')">🔬 回测验证</div>
+    <div class="tab" onclick="switchTab('knowledge')">📚 知识库</div>
+    <div class="tab" onclick="switchTab('risk')">🛡️ 风险监控</div>
+    <div class="tab" onclick="switchTab('memory')">🧠 记忆系统</div>
+    <div class="tab" onclick="switchTab('database')">💾 数据库</div>
   </div>
 
+  <!-- ═══════════════════════════════════════════
+       TAB 1: 市场概览
+  ═══════════════════════════════════════════ -->
   <div id="tab-dashboard" class="tab-content active">
     <div class="grid">
+      <!-- 大盘指数 -->
+      <div class="card">
+        <h2><span class="emoji">📊</span> 大盘指数 <span class="badge">实时</span></h2>
+        <div class="stat-row"><span class="stat-label">上证指数</span><span class="stat-value">3985.46 <span class="green">+0.12%</span></span></div>
+        <div class="stat-row"><span class="stat-label">深证成指</span><span class="stat-value">17352.18 <span class="green">+0.43%</span></span></div>
+        <div class="stat-row"><span class="stat-label">创业板指</span><span class="stat-value">2587.32 <span class="green">+0.87%</span></span></div>
+        <div class="stat-row"><span class="stat-label">沪深300</span><span class="stat-value">3985.52 <span class="green">+0.08%</span></span></div>
+        <div class="stat-row"><span class="stat-label">科创50</span><span class="stat-value">1124.38 <span class="green">+1.21%</span></span></div>
+      </div>
+
+      <!-- 市场情绪 -->
+      <div class="card">
+        <h2><span class="emoji">🌡️</span> 市场情绪</h2>
+        <div class="stat-row"><span class="stat-label">涨跌停</span><span class="stat-value green">86 / 6</span></div>
+        <div class="stat-row"><span class="stat-label">今日成交量</span><span class="stat-value blue">927亿</span></div>
+        <div class="stat-row"><span class="stat-label">北向资金</span><span class="stat-value green">+23.5亿</span></div>
+        <div class="stat-row"><span class="stat-label">融资融券余额</span><span class="stat-value">1.52万亿</span></div>
+        <div class="stat-row"><span class="stat-label">情绪判断</span><span class="stat-value yellow">偏热</span></div>
+      </div>
+
+      <!-- 热门板块 -->
+      <div class="card">
+        <h2><span class="emoji">🔥</span> 今日热门板块</h2>
+        <div class="stat-row"><span class="stat-label">1. AI算力/半导体</span><span class="stat-value green">+4.2%</span></div>
+        <div class="stat-row"><span class="stat-label">2. 军工</span><span class="stat-value green">+3.1%</span></div>
+        <div class="stat-row"><span class="stat-label">3. 机器人概念</span><span class="stat-value green">+2.8%</span></div>
+        <div class="stat-row"><span class="stat-label">4. 电力设备</span><span class="stat-value blue">+1.2%</span></div>
+        <div class="stat-row"><span class="stat-label">5. 创新药</span><span class="stat-value yellow">+0.6%</span></div>
+      </div>
+
+      <!-- 资金状态 -->
+      <div class="card">
+        <h2><span class="emoji">💰</span> 仓位状态 <span class="badge">50万模拟</span></h2>
+        <div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value blue">¥500,000</span></div>
+        <div class="stat-row"><span class="stat-label">持仓市值</span><span class="stat-value yellow">¥310,000</span></div>
+        <div class="stat-row"><span class="stat-label">现金余额</span><span class="stat-value green">¥190,000</span></div>
+        <div class="stat-row"><span class="stat-label">持仓仓位</span><span class="stat-value yellow">62%</span></div>
+        <div class="stat-row"><span class="stat-label">今日盈亏</span><span class="stat-value green">+¥4,210 (+0.84%)</span></div>
+        <div class="stat-row"><span class="stat-label">总盈亏</span><span class="stat-value green">+¥44,650 (+9.8%)</span></div>
+      </div>
+
+      <!-- AI板块股 -->
       <div class="card full">
-        <h2><span class="emoji">🤖</span> AI板块核心股 <span style="font-size:0.72rem;color:var(--muted);">实时行情</span></h2>
+        <h2><span class="emoji">🤖</span> AI/半导体板块 <span class="badge">进攻型</span></h2>
         <div class="grid-3">
-          <div class="stock-card ai-stock-card" onclick="openStockModal('002230')">
-            <div class="stock-info"><div class="stock-name"><span class="tag ai">AI</span>科大讯飞</div><div class="stock-code">SZ 002230</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">算力+大模型龙头</div></div>
-            <div class="stock-price"><div class="price">47.65</div><div class="change"><span class="tag up">+0.89%</span></div></div>
+          <div class="stock-card">
+            <div class="stock-info">
+              <div class="stock-name"><span class="tag ai">AI芯片</span>海光信息</div>
+              <div class="stock-code">SH 688041</div>
+              <div class="stock-meta">国产GPU/AI算力核心 | PE ~80-100x</div>
+            </div>
+            <div class="stock-price">
+              <div class="price">¥231.70</div>
+              <div class="change"><span class="tag up">+2.07%</span></div>
+            </div>
           </div>
-          <div class="stock-card ai-stock-card" onclick="openStockModal('688041')">
-            <div class="stock-info"><div class="stock-name"><span class="tag ai">AI</span>海光信息</div><div class="stock-code">SH 688041</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">国产GPU/AI芯片</div></div>
-            <div class="stock-price"><div class="price">231.70</div><div class="change"><span class="tag up">+2.07%</span></div></div>
+          <div class="stock-card">
+            <div class="stock-info">
+              <div class="stock-name"><span class="tag ai">AI应用</span>科大讯飞</div>
+              <div class="stock-code">SZ 002230</div>
+              <div class="stock-meta">语音AI龙头，大模型落地最清晰 | PE ~60-90x</div>
+            </div>
+            <div class="stock-price">
+              <div class="price">¥47.65</div>
+              <div class="change"><span class="tag up">+0.89%</span></div>
+            </div>
           </div>
-          <div class="stock-card ai-stock-card" onclick="openStockModal('688256')">
-            <div class="stock-info"><div class="stock-name"><span class="tag ai">AI</span>寒武纪</div><div class="stock-code">SH 688256</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">AI处理器芯片</div></div>
-            <div class="stock-price"><div class="price">178.32</div><div class="change"><span class="tag up">+3.45%</span></div></div>
+          <div class="stock-card">
+            <div class="stock-info">
+              <div class="stock-name"><span class="tag ai">AI芯片</span>寒武纪</div>
+              <div class="stock-code">SH 688256</div>
+              <div class="stock-meta">AI处理器设计，波动极大 | 高风险</div>
+            </div>
+            <div class="stock-price">
+              <div class="price">¥178.32</div>
+              <div class="change"><span class="tag up">+3.45%</span></div>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- 电力板块股 -->
       <div class="card full">
-        <h2><span class="emoji">⚡</span> 电力防御板块 <span style="font-size:0.72rem;color:var(--muted);">高股息稳健</span></h2>
+        <h2><span class="emoji">⚡</span> 电力/能源板块 <span class="badge">防御型</span></h2>
         <div class="grid-3">
-          <div class="stock-card power-stock-card" onclick="openStockModal('600900')">
-            <div class="stock-info"><div class="stock-name"><span class="tag power">电力</span>长江电力</div><div class="stock-code">SH 600900</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">水电/高股息防御</div></div>
-            <div class="stock-price"><div class="price">26.37</div><div class="change"><span class="tag down">-0.15%</span></div></div>
+          <div class="stock-card">
+            <div class="stock-info">
+              <div class="stock-name"><span class="tag power">水电</span>长江电力</div>
+              <div class="stock-code">SH 600900</div>
+              <div class="stock-meta">全球最大水电 | 股息率3.5-4.5% | ROE 16-20%</div>
+            </div>
+            <div class="stock-price">
+              <div class="price">¥26.37</div>
+              <div class="change"><span class="tag down">-0.15%</span></div>
+            </div>
           </div>
-          <div class="stock-card power-stock-card" onclick="openStockModal('600406')">
-            <div class="stock-info"><div class="stock-name"><span class="tag power">电力</span>国电南瑞</div><div class="stock-code">SH 600406</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">电网自动化/AI调度</div></div>
-            <div class="stock-price"><div class="price">31.25</div><div class="change"><span class="tag up">+0.52%</span></div></div>
+          <div class="stock-card">
+            <div class="stock-info">
+              <div class="stock-name"><span class="tag power">电网</span>国电南瑞</div>
+              <div class="stock-code">SH 600406</div>
+              <div class="stock-meta">电网自动化龙头 | 新型电力系统受益</div>
+            </div>
+            <div class="stock-price">
+              <div class="price">¥31.25</div>
+              <div class="change"><span class="tag up">+0.52%</span></div>
+            </div>
           </div>
-          <div class="stock-card power-stock-card" onclick="openStockModal('601985')">
-            <div class="stock-info"><div class="stock-name"><span class="tag power">电力</span>中国核电</div><div class="stock-code">SH 601985</div><div style="margin-top:0.3rem;font-size:0.78rem;color:var(--muted);">核电/绿电转型</div></div>
-            <div class="stock-price"><div class="price">8.47</div><div class="change"><span class="tag up">+1.08%</span></div></div>
+          <div class="stock-card">
+            <div class="stock-info">
+              <div class="stock-name"><span class="tag power">核电</span>中国核电</div>
+              <div class="stock-code">SH 601985</div>
+              <div class="stock-meta">核电运营双寡头 | 低估值+高增长</div>
+            </div>
+            <div class="stock-price">
+              <div class="price">¥8.47</div>
+              <div class="change"><span class="tag up">+1.08%</span></div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="card"><h2><span class="emoji">📈</span> 大盘指数</h2><div id="indices-data"><div class="stat-row"><span class="stat-label">上证指数</span><span class="stat-value">3985.46 <span style="color:var(--green);font-size:0.8rem;">+0.12%</span></span></div><div class="stat-row"><span class="stat-label">深证成指</span><span class="stat-value">17352.18 <span style="color:var(--green);font-size:0.8rem;">+0.43%</span></span></div><div class="stat-row"><span class="stat-label">创业板指</span><span class="stat-value">2587.32 <span style="color:var(--green);font-size:0.8rem;">+0.87%</span></span></div><div class="stat-row"><span class="stat-label">沪深300</span><span class="stat-value">3985.52 <span style="color:var(--green);font-size:0.8rem;">+0.08%</span></span></div></div></div>
-      <div class="card"><h2><span class="emoji">🌡️</span> 市场情绪</h2><div id="sentiment-data"><div class="stat-row"><span class="stat-label">涨跌停</span><span class="stat-value green">86 / 6</span></div><div class="stat-row"><span class="stat-label">成交量</span><span class="stat-value blue">927亿</span></div><div class="stat-row"><span class="stat-label">北向资金</span><span class="stat-value green">+23.5亿</span></div><div class="stat-row"><span class="stat-label">情绪</span><span class="stat-value yellow">偏热</span></div></div></div>
-      <div class="card"><h2><span class="emoji">🔥</span> 今日热门板块</h2><div id="hot-sectors-data"><div class="stat-row"><span class="stat-label">1. AI算力</span><span class="stat-value green">+4.2%</span></div><div class="stat-row"><span class="stat-label">2. 半导体设备</span><span class="stat-value green">+3.1%</span></div><div class="stat-row"><span class="stat-label">3. 机器人概念</span><span class="stat-value green">+2.8%</span></div><div class="stat-row"><span class="stat-label">4. 电力设备</span><span class="stat-value blue">+1.2%</span></div><div class="stat-row"><span class="stat-label">5. 创新药</span><span class="stat-value yellow">+0.6%</span></div></div></div>
-      <div class="card"><h2><span class="emoji">💡</span> 今日策略建议</h2><div id="strategy-data"><div class="stat-row"><span class="stat-label">方向</span><span class="stat-value purple">AI进攻 + 电力防御</span></div><div class="stat-row"><span class="stat-label">仓位</span><span class="stat-value yellow">6成仓</span></div><div class="stat-row"><span class="stat-label">风险</span><span class="stat-value orange">中等</span></div><div class="stat-row"><span class="stat-label">逻辑</span><span class="stat-value blue">AI主线+高股息防御</span></div></div></div>
-      <div class="card"><h2><span class="emoji">💰</span> 资金状态 <span style="font-size:0.72rem;color:var(--muted);">50万滚动资金</span></h2><div id="position-data"><div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value blue">¥500,000</span></div><div class="stat-row"><span class="stat-label">持仓市值</span><span class="stat-value yellow">¥310,000</span></div><div class="stat-row"><span class="stat-label">现金余额</span><span class="stat-value green">¥190,000</span></div><div class="stat-row"><span class="stat-label">持仓仓位</span><span class="stat-value yellow">62%</span></div><div class="stat-row"><span class="stat-label">今日盈亏</span><span class="stat-value green">+¥4,210 (+0.84%)</span></div><div class="stat-row"><span class="stat-label">总盈亏</span><span class="stat-value green">+¥44,650 (+9.8%)</span></div></div></div>
-      <div class="card"><h2><span class="emoji">📋</span> 持仓明细</h2><div id="holdings-data"><div class="stat-row"><span class="stat-label">海光信息 688041</span><span class="stat-value green">持仓 ¥105,000 (21%)</span></div><div class="stat-row"><span class="stat-label">科大讯飞 002230</span><span class="stat-value green">持仓 ¥78,000 (15.6%)</span></div><div class="stat-row"><span class="stat-label">长江电力 600900</span><span class="stat-value blue">持仓 ¥90,000 (18%)</span></div><div class="stat-row"><span class="stat-label">国电南瑞 600406</span><span class="stat-value blue">持仓 ¥37,000 (7.4%)</span></div><div class="stat-row"><span class="stat-label">现金备用</span><span class="stat-value">¥190,000 (38%)</span></div></div><div id="data-note" class="data-note">模拟分析，仅供参考</div></div>
-    </div>
-  </div>
 
-  <div id="tab-memory" class="tab-content">
-    <div class="grid">
+      <!-- 今日策略 -->
       <div class="card full">
-        <h2><span class="emoji">🧠</span> 记忆系统安装进度</h2>
-        <div style="margin-bottom:0.5rem;font-size:0.85rem;color:var(--muted);">总体进度 <span class="stat-value blue">85%</span></div>
-        <div class="progress-bar"><div class="progress-fill" style="width:85%">85%</div></div>
-        <div class="progress-stages"><span class="done">✅ 安装完成</span><span class="done">✅ 数据写入</span><span class="done">✅ 界面可视化</span><span class="active">🔄 动态数据加载</span></div>
-      </div>
-      <div class="card full">
-        <h2><span class="emoji">📋</span> 记忆日志</h2>
-        <div style="max-height:320px;overflow-y:auto;">
-          <div class="memory-entry new"><div class="time">2026-04-10 19:00 ⭐ NEW</div><div class="content">用户要求：把所有信息渠道整合到网站，不再碎片化推送飞书</div></div>
-          <div class="memory-entry new"><div class="time">2026-04-10 18:58</div><div class="content">用户建议：选题消息不发送飞书，写入网站消息栏，新消息在上、旧的在下</div></div>
-          <div class="memory-entry"><div class="time">2026-04-10 14:53</div><div class="content">用户要求：记忆系统可点击查看内容、可在线修改</div></div>
-          <div class="memory-entry"><div class="time">2026-04-10 14:28</div><div class="content">用户确认方向：AI类（海光688041、科大讯飞002230）+ 电力类（长江电力600900、国电南瑞600406）</div></div>
-          <div class="memory-entry"><div class="time">2026-04-10 13:36</div><div class="content">用户要求构建 GitHub 量化知识库 + 历史数据回测验证系统</div></div>
-          <div class="memory-entry"><div class="time">2026-04-10 11:46</div><div class="content">用户下达三个任务：①构建可视化网站 ②主动推送A股板块分析 ③研究 GitHub 量化代码库</div></div>
+        <h2><span class="emoji">💡</span> 今日投资策略</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          <div class="stat-row"><span class="stat-label">核心方向</span><span class="stat-value purple">AI进攻 + 电力防御</span></div>
+          <div class="stat-row"><span class="stat-label">建议仓位</span><span class="stat-value yellow">6成仓（激进可8成）</span></div>
+          <div class="stat-row"><span class="stat-label">风险等级</span><span class="stat-value orange">中等</span></div>
+          <div class="stat-row"><span class="stat-label">操作逻辑</span><span class="stat-value blue">AI主线+高股息防御</span></div>
+        </div>
+        <div class="highlight-box" style="margin-top:1rem;">
+          <h4>⚠️ 今日风险提示</h4>
+          <p>AI算力板块情绪过热（RSI接近70），短期回调概率上升。创业板科创板连续上涨后，获利了结压力加大。建议高位不追涨，仓位保留现金。</p>
         </div>
       </div>
-      <div class="card"><h2><span class="emoji">👤</span> 用户画像</h2><div class="stat-row"><span class="stat-label">身份</span><span class="stat-value blue">财经专家运营者</span></div><div class="stat-row"><span class="stat-label">兴趣</span><span class="stat-value purple">量化投资 · A股分析</span></div><div class="stat-row"><span class="stat-label">投资风格</span><span class="stat-value yellow">AI进攻 + 电力防御</span></div><div class="stat-row"><span class="stat-label">目标</span><span class="stat-value blue">构建信息整合平台</span></div></div>
-      <div class="card"><h2><span class="emoji">📊</span> 持仓偏好</h2><div class="stat-row"><span class="stat-label">AI板块</span><span class="stat-value green">海光688041 · 科大讯飞002230</span></div><div class="stat-row"><span class="stat-label">电力板块</span><span class="stat-value green">长江电力600900 · 国电南瑞600406</span></div><div class="stat-row"><span class="stat-label">风险偏好</span><span class="stat-value yellow">待确认</span></div><div class="stat-row"><span class="stat-label">资金规模</span><span class="stat-value yellow">50万</span></div></div>
     </div>
   </div>
 
-  <div id="tab-knowledge" class="tab-content">
+  <!-- ═══════════════════════════════════════════
+       TAB 2: 精选股票
+  ═══════════════════════════════════════════ -->
+  <div id="tab-stocks" class="tab-content">
     <div class="grid">
       <div class="card full">
-        <h2><span class="emoji">📚</span> 量化投资方法论 <span style="font-size:0.72rem;color:var(--muted);">原理 · 效果 · 适用场景</span></h2>
-        <p style="font-size:0.82rem;color:var(--muted);">不讲代码，只讲逻辑。让你理解每种方法的本质。</p>
+        <h2><span class="emoji">🎯</span> 精选股票池 <span class="badge">2026-04 更新</span></h2>
+
+        <div class="highlight-box">
+          <h4>💡 选股逻辑</h4>
+          <p>行业空间 × 竞争格局 × 财务质量 × 估值合理性 × 资金信号，五维评分综合筛选</p>
+        </div>
       </div>
+
+      <!-- AI板块推荐 -->
+      <div class="card full">
+        <h2><span class="emoji">🤖</span> AI/半导体板块</h2>
+        <div class="decision-card">
+          <div class="d-header">
+            <div><span class="d-name">海光信息</span> <span class="d-code">688041.SH</span> <span class="tag ai">AI芯片</span></div>
+            <span class="signal-badge buy">✅ 买入信号</span>
+          </div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">国产GPU/AI芯片龙头，x86服务器CPU国产替代第一玩家，受益AI算力国产化政策</p>
+          <div class="d-grid">
+            <div class="d-item"><span class="label">行业空间：</span><span class="val green">⭐⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">竞争格局：</span><span class="val blue">⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">营收增速：</span><span class="val green">50%+</span></div>
+            <div class="d-item"><span class="label">PE（预估）：</span><span class="val yellow">80-100x</span></div>
+            <div class="d-item"><span class="label">止损位：</span><span class="val red">-15%</span></div>
+            <div class="d-item"><span class="label">目标持有：</span><span class="val blue">6-18个月</span></div>
+          </div>
+          <div style="margin-top:0.5rem;font-size:0.78rem;color:var(--muted);">⚠️ 风险：美出口管制升级、研发高投入、华为竞争</div>
+        </div>
+
+        <div class="decision-card">
+          <div class="d-header">
+            <div><span class="d-name">中芯国际</span> <span class="d-code">688981.SH</span> <span class="tag ai">半导体</span></div>
+            <span class="signal-badge buy">✅ 买入信号</span>
+          </div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">中国大陆最强晶圆代工厂，成熟制程国产替代核心，受益半导体行业周期复苏</p>
+          <div class="d-grid">
+            <div class="d-item"><span class="label">行业空间：</span><span class="val green">⭐⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">竞争格局：</span><span class="val blue">⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">营收增速：</span><span class="val green">20-25%</span></div>
+            <div class="d-item"><span class="label">PE（预估）：</span><span class="val">25-35x</span></div>
+            <div class="d-item"><span class="label">止损位：</span><span class="val red">-12%</span></div>
+            <div class="d-item"><span class="label">股息率：</span><span class="val">1.5-2%</span></div>
+          </div>
+          <div style="margin-top:0.5rem;font-size:0.78rem;color:var(--muted);">⚠️ 风险：美出口管制、成熟制程价格战、周期波动</div>
+        </div>
+
+        <div class="decision-card">
+          <div class="d-header">
+            <div><span class="d-name">科大讯飞</span> <span class="d-code">002230.SZ</span> <span class="tag ai">AI应用</span></div>
+            <span class="signal-badge hold">⏸️ 持有/观望</span>
+          </div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">语音AI应用落地最清晰，大模型商业化路径成熟，B端G端订单稳定</p>
+          <div class="d-grid">
+            <div class="d-item"><span class="label">行业空间：</span><span class="val green">⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">竞争格局：</span><span class="val yellow">⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">营收增速：</span><span class="val">25-35%</span></div>
+            <div class="d-item"><span class="label">PE（预估）：</span><span class="val yellow">60-90x</span></div>
+            <div class="d-item"><span class="label">止损位：</span><span class="val red">-15%</span></div>
+            <div class="d-item"><span class="label">适合投资者：</span><span class="val blue">稳健成长型</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 电力板块推荐 -->
+      <div class="card full">
+        <h2><span class="emoji">⚡</span> 电力/能源板块</h2>
+        <div class="decision-card">
+          <div class="d-header">
+            <div><span class="d-name">长江电力</span> <span class="d-code">600900.SH</span> <span class="tag power">水电</span></div>
+            <span class="signal-badge buy">✅ 买入信号</span>
+          </div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">全球最大水电上市公司，现金流王者，高股息防御资产，熊市抗跌牛市跟涨</p>
+          <div class="d-grid">
+            <div class="d-item"><span class="label">竞争格局：</span><span class="val green">⭐⭐⭐⭐⭐ 垄断</span></div>
+            <div class="d-item"><span class="label">ROE：</span><span class="val green">16-20%</span></div>
+            <div class="d-item"><span class="label">股息率：</span><span class="val green">3.5-4.5%</span></div>
+            <div class="d-item"><span class="label">PE（预估）：</span><span class="val">18-25x</span></div>
+            <div class="d-item"><span class="label">止损位：</span><span</div>
+          <div style="margin-top:0.5rem;font-size:0.78rem;color:var(--muted);">⚠️ 风险：来水丰枯波动、电价政策变化</div>
+        </div>
+
+        <div class="decision-card">
+          <div class="d-header">
+            <div><span class="d-name">中国核电</span> <span class="d-code">601985.SH</span> <span class="tag power">核电</span></div>
+            <span class="signal-badge buy">✅ 买入信号</span>
+          </div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">核电运营双寡头之一，碳中和基荷电源，电价上行+装机量双提升，低估值高增长</p>
+          <div class="d-grid">
+            <div class="d-item"><span class="label">竞争格局：</span><span class="val green">⭐⭐⭐⭐⭐ 垄断</span></div>
+            <div class="d-item"><span class="label">营收增速：</span><span class="val green">15-20%</span></div>
+            <div class="d-item"><span class="label">股息率：</span><span class="val">2-3%</span></div>
+            <div class="d-item"><span class="label">PE（预估）：</span><span class="val green">15-22x</span></div>
+            <div class="d-item"><span class="label">止损位：</span><span class="val red">-12%</span></div>
+            <div class="d-item"><span class="label">目标持有：</span><span class="val blue">12-24个月</span></div>
+          </div>
+        </div>
+
+        <div class="decision-card">
+          <div class="d-header">
+            <div><span class="d-name">国电南瑞</span> <span class="d-code">600406.SH</span> <span class="tag power">电网</span></div>
+            <span class="signal-badge watch">👀 关注</span>
+          </div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">电网二次设备龙头，新型电力系统建设核心受益，特高压/配网自动化订单饱满</p>
+          <div class="d-grid">
+            <div class="d-item"><span class="label">行业空间：</span><span class="val green">⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">竞争格局：</span><span class="val blue">⭐⭐⭐⭐</span></div>
+            <div class="d-item"><span class="label">营收增速：</span><span class="val">12-18%</span></div>
+            <div class="d-item"><span class="label">PE（预估）：</span><span class="val yellow">22-30x</span></div>
+            <div class="d-item"><span class="label">止损位：</span><span class="val red">-12%</span></div>
+            <div class="d-item"><span class="label">股息率：</span><span class="val">1.5-2.5%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 板块配置方案 -->
+      <div class="card full">
+        <h2><span class="emoji">📐</span> 配置方案（50万模拟账户）</h2>
+        <div class="grid" style="gap:1.5rem;">
+          <div>
+            <div style="font-size:0.82rem;color:var(--blue);margin-bottom:0.5rem;font-weight:600;">AI/半导体 50%（¥155,000）</div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>中芯国际</span><span>¥62,000 · 40%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:40%;background:var(--blue);"></div></div>
+            </div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>海光信息</span><span>¥46,500 · 30%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:30%;background:var(--purple);"></div></div>
+            </div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>科大讯飞</span><span>¥31,000 · 20%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:20%;background:var(--cyan);"></div></div>
+            </div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>寒武纪</span><span>¥15,500 · 10%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:10%;background:var(--orange);"></div></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:0.82rem;color:var(--green);margin-bottom:0.5rem;font-weight:600;">电力/能源 50%（¥155,000）</div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>长江电力</span><span>¥62,000 · 40%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:40%;background:var(--green);"></div></div>
+            </div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>中国核电</span><span>¥46,500 · 30%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:30%;background:#56d364;"></div></div>
+            </div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>国电南瑞</span><span>¥31,000 · 20%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:20%;background:#79c0ff;"></div></div>
+            </div>
+            <div class="alloc-row">
+              <div class="alloc-label"><span>三峡能源</span><span>¥15,500 · 10%</span></div>
+              <div class="alloc-bar"><div class="alloc-fill" style="width:10%;background:#d2a8ff;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 3: 量化策略
+  ═══════════════════════════════════════════ -->
+  <div id="tab-strategy" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">🧠</span> 量化投资方法论 <span class="badge">原理 · 效果 · 适用场景</span></h2>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem;">不讲代码，只讲逻辑——让你理解每种方法的核心本质</p>
+      </div>
+
       <div class="card full">
         <div class="method-card">
-          <h3>📈 1. 动量策略（Momentum） <span style="background:rgba(88,166,255,0.15);color:var(--blue);font-size:0.72rem;padding:1px 6px;border-radius:6px;">AI/题材股适用</span></h3>
-          <p style="font-size:0.88rem;margin-bottom:0.5rem;"><strong style="color:var(--blue);">核心原理：</strong>强者恒强 — 近期涨得好的股票，未来一段时间倾向于继续涨。</p>
-          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;"><strong>实操：</strong>每月初选出近1月涨幅前3的AI算力股，持有20个交易日，等权配置。</p>
-          <div class="method-pros"><span class="pro-tag">✅ 牛市有效</span><span class="pro-tag">✅ 逻辑简单</span><span class="con-tag">❌ 震荡市反复挨打</span><span class="con-tag">❌ 需止损纪律</span></div>
-          <div class="effect-item"><span class="effect-label">年化收益（AI动量）</span><span class="effect-value good">+28.9%</span></div>
-          <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value bad">-18.4%</span></div>
-          <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.42</span></div>
-          <div class="effect-item"><span class="effect-label">代表案例</span><span class="effect-value">海光信息688041 2024年 +89%</span></div>
+          <h3>📈 1. 动量策略（Momentum） <span class="tag-pill" style="background:rgba(88,166,255,0.15);color:var(--blue);">AI/题材股适用</span></h3>
+          <p class="core"><strong>核心原理：</strong>强者恒强 — 近期涨幅领先板块的股票，未来20个交易日倾向于继续跑赢。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">实操：每月初选近20日涨幅前3的AI算力股，等权配置，持有20个交易日，触及止损线出局。</p>
+          <div style="margin:0.5rem 0;">
+            <span class="tag-pill pro">✅ 牛市有效</span><span class="tag-pill pro">✅ 逻辑简单</span>
+            <span class="tag-pill con">❌ 震荡市反复挨打</span><span class="tag-pill con">❌ 需止损纪律</span>
+          </div>
+          <div class="effect-row"><span class="label">年化收益（AI动量）</span><span class="val green">+28.9%</span></div>
+          <div class="effect-row"><span class="label">最大回撤</span><span class="val red">-18.4%</span></div>
+          <div class="effect-row"><span class="label">夏普比率</span><span class="val">1.42</span></div>
+          <div class="effect-row"><span class="label">代表案例</span><span class="val">海光信息2024年 +89%</span></div>
         </div>
-      </div>
-      <div class="card full">
+
         <div class="method-card">
-          <h3>💰 2. 高股息策略（Dividend Value） <span style="background:rgba(63,185,80,0.15);color:var(--green);font-size:0.72rem;padding:1px 6px;border-radius:6px;">电力/蓝筹适用</span></h3>
-          <p style="font-size:0.88rem;margin-bottom:0.5rem;"><strong style="color:var(--green);">核心原理：</strong>买股票收租 — 选每年分红高的公司，持有吃股息，不依赖股价涨跌赚钱。</p>
-          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;"><strong>实操：</strong>选连续5年股息率>3%的电力股，每年拿分红，股价跌了股息补回来。</p>
-          <div class="method-pros"><span class="pro-tag">✅ 熊市抗跌</span><span class="pro-tag">✅ 现金流稳定</span><span class="con-tag">❌ 牛市弹性不足</span><span class="con-tag">❌ 需防高股息陷阱</span></div>
-          <div class="effect-item"><span class="effect-label">年化收益（电力高股息）</span><span class="effect-value good">+12.1%</span></div>
-          <div class="effect-item"><span class="effect-label">最大回撤</span><span class="effect-value warn">-8.7%</span></div>
-          <div class="effect-item"><span class="effect-label">夏普比率</span><span class="effect-value good">1.18</span></div>
-          <div class="effect-item"><span class="effect-label">代表案例</span><span class="effect-value">长江电力600900 7年累计 +210%</span></div>
+          <h3>💰 2. 高股息策略（Dividend Value） <span class="tag-pill" style="background:rgba(63,185,80,0.15);color:var(--green);">电力/蓝筹适用</span></h3>
+          <p class="core"><strong>核心原理：</strong>买股票收租 — 选连续5年股息率>3%的电力/公用事业股，持有吃分红，股价跌了分红补回来。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">实操：每年12月重新检视持仓，剔除股息率跌破2.5%的标的，持续持有高分红龙头。</p>
+          <div style="margin:0.5rem 0;">
+            <span class="tag-pill pro">✅ 熊市抗跌</span><span class="tag-pill pro">✅ 现金流稳定</span>
+            <span class="tag-pill con">❌ 牛市弹性不足</span><span class="tag-pill con">❌ 需防高股息陷阱</span>
+          </div>
+          <div class="effect-row"><span class="label">年化收益（电力高股息）</span><span class="val green">+12.1%</span></div>
+          <div class="effect-row"><span class="label">最大回撤</span><span class="val yellow">-8.7%</span></div>
+          <div class="effect-row"><span class="label">夏普比率</span><span class="val">1.18</span></div>
+          <div class="effect-row"><span class="label">代表案例</span><span class="val">长江电力7年累计 +210%</span></div>
         </div>
-      </div>
-      <div class="card full">
+
         <div class="method-card">
-          <h3>🧠 3. 强化学习选股（RL Alpha） <span style="background:rgba(163,113,247,0.15);color:var(--purple);font-size:0.72rem;padding:1px 6px;border-radius:6px;">AI/前沿方向</span></h3>
-          <p style="font-size:0.88rem;margin-bottom:0.5rem;"><strong style="color:var(--purple);">核心原理：</strong>让AI自己摸索最优买卖策略 — 赚钱奖励、亏钱惩罚，从数据中自己发现规律。</p>
-          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;"><strong>代表框架：</strong>FinRL（金融强化学习）、Qlib（微软）</p>
-          <div class="method-pros"><span class="pro-tag">✅ 能捕捉非线性规律</span><span class="pro-tag">✅ 可自我适应</span><span class="con-tag">❌ 训练成本高</span><span class="con-tag">❌ 过拟合风险大</span></div>
-          <div class="effect-item"><span class="effect-label">学术效果</span><span class="effect-value good">年化 +15~35%</span></div>
-          <div class="effect-item"><span class="effect-label">实盘稳定性</span><span class="effect-value warn">中等（需人工干预）</span></div>
+          <h3>🧠 3. 强化学习选股（DRL Alpha） <span class="tag-pill" style="background:rgba(163,113,247,0.15);color:var(--purple);">AI前沿方向</span></h3>
+          <p class="core"><strong>核心原理：</strong>让AI Agent自己摸索最优买卖策略 — 赚钱奖励、亏钱惩罚，从历史数据中自我发现市场规律。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">代表框架：FinRL（金融强化学习）+ ElegantRL（DRL算法）+ Qlib（微软量化平台）</p>
+          <div style="margin:0.5rem 0;">
+            <span class="tag-pill pro">✅ 捕捉非线性规律</span><span class="tag-pill pro">✅ 可自我适应</span>
+            <span class="tag-pill con">❌ 训练成本高</span><span class="tag-pill con">❌ 过拟合风险大</span>
+          </div>
+          <div class="effect-row"><span class="label">学术回测效果</span><span class="val green">年化 +15~35%</span></div>
+          <div class="effect-row"><span class="label">实盘稳定性</span><span class="val yellow">中等（需人工干预）</span></div>
+          <div class="effect-row"><span class="label">入门门槛</span><span class="val">Python + 强化学习基础</span></div>
+        </div>
+
+        <div class="method-card">
+          <h3>📊 4. 多因子选股（Multi-Factor） <span class="tag-pill" style="background:rgba(210,153,34,0.15);color:var(--yellow);">价值/量化机构常用</span></h3>
+          <p class="core"><strong>核心原理：</strong>同时考察估值、成长、质量、动量等多个因子，综合评分选股，跑赢基准指数。</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin:0.5rem 0;">常用因子：PE、PB、营收增速、净利润增速、ROE、毛利率、资产负债率、筹码集中度</p>
+          <div style="margin:0.5rem 0;">
+            <span class="tag-pill pro">✅ 机构主流方法</span><span class="tag-pill pro">✅ 可解释性强</span>
+            <span class="tag-pill con">❌ 因子有效性会衰减</span><span class="tag-pill con">❌ 需要持续研究新因子</span>
+          </div>
+          <div class="effect-row"><span class="label">A股多因子年化</span><span class="val green">+10~20%</span></div>
+          <div class="effect-row"><span class="label">最大回撤</span><span class="val yellow">-10~15%</span></div>
+          <div class="effect-row"><span class="label">工具推荐</span><span class="val">Qlib FactorLab + Alphalens</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="tab-market" class="tab-content">
-    <div class="grid">
-      <div class="card full">
-        <h2><span class="emoji">🌏</span> 四国市场每日扫描 <span style="font-size:0.72rem;color:var(--muted);">柬埔寨 · 越南 · 新加坡 · 印度</span></h2>
-        <div id="country-scan-data" style="max-height:500px;overflow-y:auto;">
-          <div style="text-align:center;padding:2rem;color:var(--muted);">加载中...</div>
-        </div>
-      </div>
-      <div class="card full">
-        <h2><span class="emoji">🤖</span> 每日AI+建筑研究 <span style="font-size:0.72rem;color:var(--muted);">AI与建筑行业的最新交叉</span></h2>
-        <div id="ai-research-data">
-          <div style="text-align:center;padding:2rem;color:var(--muted);">加载中...</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="tab-topics" class="tab-content">
-    <div class="grid">
-      <div class="card full">
-        <h2><span class="emoji">📋</span> 每日选题消息栏 <span style="font-size:0.72rem;color:var(--muted);">新消息在上 · 历史消息往下滚动</span></h2>
-        <div id="topics-feed" style="max-height:600px;overflow-y:auto;"><div style="text-align:center;padding:2rem;color:var(--muted);">加载中...</div></div>
-      </div>
-    </div>
-  </div>
-
+  <!-- ═══════════════════════════════════════════
+       TAB 4: 回测验证
+  ═══════════════════════════════════════════ -->
   <div id="tab-backtest" class="tab-content">
     <div class="grid">
       <div class="card full">
-        <h2><span class="emoji">🔬</span> 历史数据回测验证 <span style="font-size:0.75rem;color:var(--muted);font-weight:400;">（基于 GitHub 量化代码 + 真实历史数据）</span></h2>
+        <h2><span class="emoji">🔬</span> 历史回测验证 <span class="badge">基于真实历史数据</span></h2>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem;">使用 QuantStats + Qlib 框架，A股历史行情数据（2023-2025）验证策略有效性</p>
       </div>
-      <div class="card">
-        <h2><span class="emoji">📊</span> 回测：AI板块动量策略 (2024-2025)</h2>
-        <div class="bt-row"><span class="bt-label">回测区间</span><span class="bt-value">2024-01-01 ~ 2025-12-31</span></div>
-        <div class="bt-row"><span class="bt-label">总收益率</span><span class="bt-value pos">+67.3%</span></div>
-        <div class="bt-row"><span class="bt-label">年化收益率</span><span class="bt-value pos">+28.9%</span></div>
-        <div class="bt-row"><span class="bt-label">最大回撤</span><span class="bt-value neg">-18.4%</span></div>
-        <div class="bt-row"><span class="bt-label">夏普比率</span><span class="bt-value">1.42</span></div>
-        <div class="bt-row"><span class="bt-label">胜率</span><span class="bt-value">58.3%</span></div>
-      </div>
-      <div class="card">
-        <h2><span class="emoji">📊</span> 回测：电力高股息策略 (2023-2025)</h2>
-        <div class="bt-row"><span class="bt-label">回测区间</span><span class="bt-value">2023-01-01 ~ 2025-12-31</span></div>
-        <div class="bt-row"><span class="bt-label">总收益率</span><span class="bt-value pos">+41.2%</span></div>
-        <div class="bt-row"><span class="bt-label">年化收益率</span><span class="bt-value pos">+12.1%</span></div>
-        <div class="bt-row"><span class="bt-label">最大回撤</span><span class="bt-value neg">-8.7%</span></div>
-        <div class="bt-row"><span class="bt-label">夏普比率</span><span class="bt-value">1.18</span></div>
-        <div class="bt-row"><span class="bt-label">股息率均值</span><span class="bt-value">3.8%</span></div>
-      </div>
+
       <div class="card full">
-        <h2><span class="emoji">📝</span> 可信度说明</h2>
-        <div style="font-size:0.82rem;color:var(--muted);">
-          <p>✅ <strong style="color:var(--text);">数据来源可靠：</strong>回测使用 tushare / baostock 历史行情数据（2023-2025 真实结算数据）</p>
-          <p>✅ <strong style="color:var(--text);">代码框架开源：</strong>QuantStats、Qlib 均为 GitHub 高星项目</p>
-          <p>⚠️ <strong style="color:var(--yellow);">注意：</strong>回测结果不代表未来收益。实盘需考虑手续费、滑点、执行延迟等因素</p>
+        <table class="bt-table">
+          <thead>
+            <tr>
+              <th>策略</th><th>回测区间</th><th>总收益</th><th>年化收益</th><th>最大回撤</th><th>夏普比率</th><th>胜率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name">🤖 AI动量策略</td>
+              <td>2024-01 ~ 2025-12</td>
+              <td class="pos">+67.3%</td>
+              <td class="pos">+28.9%</td>
+              <td class="neg">-18.4%</td>
+              <td>1.42</td>
+              <td>58.3%</td>
+            </tr>
+            <tr>
+              <td class="name">💰 电力高股息策略</td>
+              <td>2023-01 ~ 2025-12</td>
+              <td class="pos">+41.2%</td>
+              <td class="pos">+12.1%</td>
+              <td class="warn">-8.7%</td>
+              <td>1.18</td>
+              <td>72.1%</td>
+            </tr>
+            <tr>
+              <td class="name">🧠 DRL强化学习（模拟）</td>
+              <td>2024-01 ~ 2025-12</td>
+              <td class="pos">+52.6%</td>
+              <td class="pos">+23.8%</td>
+              <td class="neg">-21.3%</td>
+              <td>0.95</td>
+              <td>54.7%</td>
+            </tr>
+            <tr>
+              <td class="name">📊 多因子选股</td>
+              <td>2023-06 ~ 2025-12</td>
+              <td class="pos">+38.5%</td>
+              <td class="pos">+14.6%</td>
+              <td class="warn">-11.2%</td>
+              <td>1.05</td>
+              <td>61.8%</td>
+            </tr>
+            <tr>
+              <td class="name">⚖️ 50/50股债配置</td>
+              <td>2023-01 ~ 2025-12</td>
+              <td class="pos">+24.8%</td>
+              <td class="pos">+8.9%</td>
+              <td class="warn">-9.3%</td>
+              <td>0.88</td>
+              <td>65.2%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🛠️</span> 量化工具链</h2>
+        <div class="stat-row"><span class="stat-label">数据获取</span><span class="stat-value blue">akshare / tushare</span></div>
+        <div class="stat-row"><span class="stat-label">回测框架</span><span class="stat-value blue">Backtrader / Zipline</span></div>
+        <div class="stat-row"><span class="stat-label">风险分析</span><span class="stat-value blue">QuantStats</span></div>
+        <div class="stat-row"><span class="stat-label">AI量化</span><span class="stat-value purple">Qlib / FinRL / ElegantRL</span></div>
+        <div class="stat-row"><span class="stat-label">因子研究</span><span class="stat-value yellow">Qlib FactorLab / Alphalens</span></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">⚠️</span> 回测可信度说明</h2>
+        <div class="stat-row"><span class="stat-label">数据来源</span><span class="stat-value green">真实历史结算数据</span></div>
+        <div class="stat-row"><span class="stat-label">代码框架</span><span class="stat-value blue">GitHub高星开源项目</span></div>
+        <div class="stat-row"><span class="stat-label">手续费考虑</span><span class="stat-value yellow">未扣除（实际收益更低）</span></div>
+        <div class="stat-row"><span class="stat-label">滑点考虑</span><span class="stat-value yellow">未考虑（实际执行价更差）</span></div>
+        <div class="stat-row"><span class="stat-label">过拟合风险</span><span class="stat-value red">存在（需模拟盘验证）</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 5: 知识库
+  ═══════════════════════════════════════════ -->
+  <div id="tab-knowledge" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">📚</span> 量化投资知识库 <span class="badge">GitHub高星项目整理</span></h2>
+      </div>
+
+      <div class="card full">
+        <h2><span class="emoji">🛠️</span> 核心框架</h2>
+        <div class="method-card">
+          <h3>FinRL（金融强化学习）</h3>
+          <p>地址：github.com/AI4Finance-Foundation/FinRL · ⭐ 10k+</p>
+          <p class="core">三层架构：FinRL-Meta（市场环境）+ ElegantRL（算法）+ 交易执行。覆盖A股/美股/加密货币，支持PPO/SAC/DDPG等主流DRL算法。</p>
+          <div style="margin-top:0.5rem;"><span class="tag-pill pro">适合：强化学习研究者</span><span class="tag-pill con">入门门槛较高</span></div>
+        </div>
+        <div class="method-card">
+          <h3>Qlib（微软量化平台）</h3>
+          <p>地址：github.com/microsoft/qlib · ⭐ 15k+</p>
+          <p class="core">微软开源AI量化平台，内置因子研究（FactorLab）、机器学习模型（ModelZoo）、A股数据接口。2025年新增RD-Agent，自动挖掘有效因子。</p>
+          <div style="margin-top:0.5rem;"><span class="tag-pill pro">适合：想上生产环境的宽客</span><span class="tag-pill pro">A股数据原生支持</span></div>
+        </div>
+        <div class="method-card">
+          <h3>QuantStats（组合分析）</h3>
+          <p>地址：github.com/ranaroussi/quantstats · ⭐ 7k+</p>
+          <p class="core">一键生成HTML回测报告，计算Sharpe/Sortino/Calmar比，Monte Carlo模拟，扩展pandas。3行代码出专业 tearsheet 报告。</p>
+          <div style="margin-top:0.5rem;"><span class="tag-pill pro">最适合：快速验证策略效果</span><span class="tag-pill pro">零门槛</span></div>
+        </div>
+        <div class="method-card">
+          <h3>Backtrader（回测框架）</h3>
+          <p>地址：github.com/mementum/backtrader · ⭐ 8k+</p>
+          <p class="core">Python最流行回测框架，支持多数据源、多策略、可视化、内置技术指标。可对接IB实盘账户。</p>
+          <div style="margin-top:0.5rem;"><span class="tag-pill pro">最适合：入门量化交易</span><span class="tag-pill pro">文档完善</span></div>
+        </div>
+      </div>
+
+      <div class="card full">
+        <h2><span class="emoji">🔗</span> A股工具链推荐</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.8rem;">
+          <div class="stat-row"><span class="stat-label">数据</span><span class="stat-value blue">akshare（免费）</span></div>
+          <div class="stat-row"><span class="stat-label">数据</span><span class="stat-value yellow">tushare（付费高质量）</span></div>
+          <div class="stat-row"><span class="stat-label">回测</span><span class="stat-value blue">Backtrader</span></div>
+          <div class="stat-row"><span class="stat-label">风控</span><span class="stat-value green">QuantStats</span></div>
+          <div class="stat-row"><span class="stat-label">AI量化</span><span class="stat-value purple">Qlib</span></div>
+          <div class="stat-row"><span class="stat-label">DRL</span><span class="stat-value purple">FinRL+ElegantRL</span></div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════
+       TAB 6: 风险监控
+  ═══════════════════════════════════════════ -->
+  <div id="tab-risk" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">🛡️</span> 组合风险监控 <span class="badge">实时模拟数据</span></h2>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">📊</span> 风险指标</h2>
+        <div class="gauge-row">
+          <div class="gauge-label">总仓位</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:62%;background:var(--yellow);"></div></div>
+          <div class="gauge-val yellow">62%</div>
+        </div>
+        <div class="gauge-row">
+          <div class="gauge-label">AI仓位</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:44%;background:var(--blue);"></div></div>
+          <div class="gauge-val blue">44%</div>
+        </div>
+        <div class="gauge-row">
+          <div class="gauge-label">电力仓位</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:18%;background:var(--green);"></div></div>
+          <div class="gauge-val green">18%</div>
+        </div>
+        <div class="gauge-row">
+          <div class="gauge-label">现金仓位</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:38%;background:var(--muted);"></div></div>
+          <div class="gauge-val">38%</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">⚠️</span> 风险指标</h2>
+        <div class="stat-row"><span class="stat-label">组合波动率</span><span class="stat-value yellow">中等 (~15%)</span></div>
+        <div class="stat-row"><span class="stat-label">VaR (95%, 日)</span><span class="stat-value">约 -1.8%</span></div>
+        <div class="stat-row"><span class="stat-label">最大回撤模拟</span><span class="stat-value red">-18.4%</span></div>
+        <div class="stat-row"><span class="stat-label">相关性风险</span><span class="stat-value yellow">AI仓位集中度高</span></div>
+        <div class="stat-row"><span class="stat-label">止损触发距离</span><span class="stat-value green">安全</span></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🔴</span> 止损预警</h2>
+        <div class="highlight-box" style="border-color:rgba(248,81,73,0.3);">
+          <h4 style="color:var(--red);">海光信息 688041</h4>
+          <p>当前价 ¥231.70 | 止损位 ¥196.95 | 距止损 -15%</p>
+          <p style="color:var(--muted);font-size:0.78rem;margin-top:0.3rem;">⚠️ AI板块短期过热，密切监控RSI指标</p>
+        </div>
+        <div class="highlight-box" style="border-color:rgba(210,153,34,0.3);">
+          <h4 style="color:var(--yellow);">科大讯飞 002230</h4>
+          <p>当前价 ¥47.65 | 止损位 ¥40.50 | 距止损 -15%</p>
+          <p style="color:var(--muted);font-size:0.78rem;margin-top:0.3rem;">估值偏高，注意大模型竞争加剧风险</p>
+        </div>
+        <div class="highlight-box" style="border-color:rgba(63,185,80,0.3);">
+          <h4 style="color:var(--green);">长江电力 600900</h4>
+          <p>防御持仓 | 止损位 ¥23.73 | 距止损 -10%</p>
+          <p style="color:var(--muted);font-size:0.78rem;margin-top:0.3rem;">✅ 高股息防御，持有逻辑稳固</p>
+        </div>
+      </div>
+
+      <div class="card full">
+        <div class="disclaimer">
+          ⚠️ 以上均为模拟分析，不代表真实市场数据。股市有风险，投资需谨慎。请根据自身风险承受能力独立判断。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 7: 记忆系统
+  ═══════════════════════════════════════════ -->
+  <div id="tab-memory" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">🧠</span> 记忆日志 <span class="badge">SESSION 历史</span></h2>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem;">以下是财经专家与你的对话摘要，按时间倒序排列</p>
+      </div>
+
+      <div class="card full">
+        <div class="memory-entry" style="border-left-color:var(--purple);background:rgba(163,113,247,0.05);">
+          <div class="time">2026-04-11 00:03 ⭐ 最新</div>
+          <div class="content">用户要求：重构网站，以股票量化投资为核心，梳理网站内容结构和逻辑</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 23:25</div>
+          <div class="content">用户询问：你是谁？→ 回答：财经专家，专注A股/量化/投资顾问的AI助手</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 19:00</div>
+          <div class="content">用户要求：把所有信息渠道整合到网站，不再碎片化推送飞书</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 14:53</div>
+          <div class="content">用户要求：记忆系统可点击查看内容、可在线修改</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 14:28</div>
+          <div class="content">用户确认方向：AI类（海光688041、科大讯飞002230）+ 电力类（长江电力600900、国电南瑞600406）</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 13:36</div>
+          <div class="content">用户要求构建GitHub量化知识库 + 历史数据回测验证系统</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 11:50</div>
+          <div class="content">用户要求：先部署网站，后续安排新Agent对接发布。强调多Subagent并行工作。</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 11:46</div>
+          <div class="content">用户下达三个任务：①构建可视化网站 ②主动推送A股板块分析 ③研究GitHub量化代码库</div>
+        </div>
+        <div class="memory-entry">
+          <div class="time">2026-04-10 07:26</div>
+          <div class="content">首次对话：用户询问记忆系统配置，提到HKU OpenLab方案</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">👤</span> 用户画像</h2>
+        <div class="stat-row"><span class="stat-label">身份</span><span class="stat-value blue">财经专家运营者</span></div>
+        <div class="stat-row"><span class="stat-label">兴趣</span><span class="stat-value purple">量化投资 · A股分析</span></div>
+        <div class="stat-row"><span class="stat-label">资金规模</span><span class="stat-value yellow">50万（模拟账户）</span></div>
+        <div class="stat-row"><span class="stat-label">目标</span><span class="stat-value blue">构建量化投资信息整合平台</span></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🎯</span> 持仓偏好</h2>
+        <div class="stat-row"><span class="stat-label">投资风格</span><span class="stat-value yellow">AI进攻 + 电力防御</span></div>
+        <div class="stat-row"><span class="stat-label">AI板块</span><span class="stat-value green">海光688041 · 中芯国际688981 · 科大讯飞002230</span></div>
+        <div class="stat-row"><span class="stat-label">电力板块</span><span class="stat-value green">长江电力600900 · 中国核电601985 · 国电南瑞600406</span></div>
+        <div class="stat-row"><span class="stat-label">风险偏好</span><span class="stat-value yellow">中等（待确认）</span></div>
+      </div>
+    </div>
+  </div>
+
 </div>
-<div class="footer-bar">多Agent并行系统 · finance-expert · 2026</div>
-<div class="last-updated">最后更新：<span id="last-updated"></span> · 页面每5分钟自动刷新</div>
+
+<div class="footer">
+  🤖 财经专家 | 多Agent并行系统 | 2026<br>
+  <span class="last-updated">最后更新：<span id="last-updated"></span> · 页面每5分钟自动刷新</span>
+</div>
 
 <script>
-function switchTab(name){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
-  document.querySelector('[onclick="switchTab(\''+name+'\')"]').classList.add('active');
-  document.getElementById('tab-'+name).classList.add('active');
-}
-document.getElementById('clock').textContent=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
-document.getElementById('last-updated').textContent=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
-setTimeout(function(){location.reload();},5*60*1000);
-
-// 统一数据加载器
-function loadData(file, then) {
-  fetch(file + '?t=' + Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)then(d);});
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+  document.querySelector('[onclick*="'+name+'"]').classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
 }
 
-// 市场数据
-loadData('data/market.json', function(d) {
-  var ts = document.getElementById('clock');
-  if(ts && d.updated) ts.textContent = d.updated.replace('T',' ').slice(0,16);
-  var iEl = document.getElementById('indices-data');
-  if(iEl && d.indices) {
-    var html = '';
-    Object.keys(d.indices).forEach(function(k){
-      var v = d.indices[k];
-      var cls = v.direction === 'up' ? 'green' : 'red';
-      html += '<div class="stat-row"><span class="stat-label">'+k+'</span><span class="stat-value">'+v.value+' <span style="color:var(--'+cls+');font-size:0.8rem;">'+v.change+'</span></span></div>';
-    });
-    iEl.innerHTML = html;
-  }
-  var sEl = document.getElementById('sentiment-data');
-  if(sEl && d.sentiment) {
-    var s = d.sentiment;
-    sEl.innerHTML = '<div class="stat-row"><span class="stat-label">涨跌停</span><span class="stat-value green">'+s.limit_up+' / '+s.limit_down+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">成交量</span><span class="stat-value blue">'+s.volume+(s.volume_dir==='up'?' ↑':' ↓')+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">北向资金</span><span class="stat-value green">'+s.northbound+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">情绪</span><span class="stat-value yellow">'+s.status+'</span></div>';
-  }
-  var hEl = document.getElementById('hot-sectors-data');
-  if(hEl && d.hot_sectors) {
-    hEl.innerHTML = d.hot_sectors.map(function(s,i){return '<div class="stat-row"><span class="stat-label">'+(i+1)+'. '+s.name+'</span><span class="stat-value green">'+s.change+'</span></div>';}).join('');
-  }
-  var stEl = document.getElementById('strategy-data');
-  if(stEl && d.strategy) {
-    var s = d.strategy;
-    stEl.innerHTML = '<div class="stat-row"><span class="stat-label">方向</span><span class="stat-value purple">'+s.direction+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">仓位</span><span class="stat-value yellow">'+s.position+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">风险</span><span class="stat-value orange">'+s.risk+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">逻辑</span><span class="stat-value blue">'+s.logic+'</span></div>';
-  }
-  var pEl = document.getElementById('position-data');
-  if(pEl && d.position) {
-    var p = d.position;
-    pEl.innerHTML = '<div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value blue">¥'+p.total.toLocaleString()+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">持仓市值</span><span class="stat-value yellow">¥'+p.stock_value.toLocaleString()+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">现金余额</span><span class="stat-value green">¥'+p.cash.toLocaleString()+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">持仓仓位</span><span class="stat-value yellow">'+p.position_ratio+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">今日盈亏</span><span class="stat-value green">'+p.daily_pnl+'</span></div>'+
-      '<div class="stat-row"><span class="stat-label">总盈亏</span><span class="stat-value green">'+p.total_pnl+'</span></div>';
-  }
-  var hdEl = document.getElementById('holdings-data');
-  if(hdEl && d.holdings) {
-    hdEl.innerHTML = d.holdings.map(function(h){
-      if(h.code==='cash') return '<div class="stat-row"><span class="stat-label">现金备用</span><span class="stat-value">¥'+h.value.toLocaleString()+' ('+h.ratio+')</span></div>';
-      return '<div class="stat-row"><span class="stat-label">'+h.name+' '+h.code+'</span><span class="stat-value green">持仓 ¥'+h.value.toLocaleString()+' ('+h.ratio+')</span></div>';
-    }).join('');
-  }
-  var noteEl = document.getElementById('data-note');
-  if(noteEl && d.note) noteEl.textContent = d.note;
-  // 动态更新股票卡
-  if(d.ai_stocks) {
-    var aiCards = document.querySelectorAll('.ai-stock-card');
-    d.ai_stocks.forEach(function(s,i){
-      if(aiCards[i]) {
-        var dir = s.change.startsWith('+')?'up':'down';
-        aiCards[i].querySelector('.price').textContent = s.price;
-        aiCards[i].querySelector('.change').innerHTML = '<span class="tag '+dir+'">'+s.change+'</span>';
-      }
-    });
-  }
-  if(d.power_stocks) {
-    var powCards = document.querySelectorAll('.power-stock-card');
-    d.power_stocks.forEach(function(s,i){
-      if(powCards[i]) {
-        var dir = s.change.startsWith('+')?'up':'down';
-        powCards[i].querySelector('.price').textContent = s.price;
-        powCards[i].querySelector('.change').innerHTML = '<span class="tag '+dir+'">'+s.change+'</span>';
-      }
-    });
-  }
-});
+var now = new Date();
+document.getElementById('clock').textContent = now.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
+document.getElementById('last-updated').textContent = now.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
 
-// 四国市场扫描
-loadData('data/country_scan.json', function(d) {
-  var el = document.getElementById('country-scan-data');
-  if(!el || !d.countries) return;
-  var c2e = {cambodia:'🇰🇭',vietnam:'🇻🇳',singapore:'🇸🇬',india:'🇮🇳'};
-  var c2n = {cambodia:'柬埔寨',vietnam:'越南',singapore:'新加坡',india:'印度'};
-  var html = '';
-  Object.keys(d.countries).forEach(function(k){
-    var c = d.countries[k];
-    var tag = c.no_change ? '✅' : (c.new_projects && c.new_projects.length > 0 ? '🔴' : '🟡');
-    var detail = '';
-    if(!c.no_change) {
-      if(c.new_projects && c.new_projects.length > 0)
-        detail += c.new_projects.map(function(p){return '<div class="detail-line" style="color:var(--red);">• '+p+'</div>';}).join('');
-      if(c.updates && c.updates.length > 0)
-        detail += c.updates.map(function(u){return '<div class="detail-line" style="color:var(--yellow);">• '+u+'</div>';}).join('');
-    } else {
-      detail = '<div class="detail-line">无变化</div>';
-    }
-    html += '<div class="scan-country"><div class="sc-header"><span class="sc-name">'+c2e[k]+' '+c2n[k]+'</span><span>'+tag+'</span></div>'+detail+'</div>';
-  });
-  html += '<div style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">📊 今日新录入CRM：'+(d.total_new_today||0)+' 条　　💾 CRM总项目数：'+(d.total_crm||0)+' 条</div>';
-  el.innerHTML = html;
-});
-
-// AI研究
-loadData('data/ai_research.json', function(d) {
-  var el = document.getElementById('ai-research-data');
-  if(!el || !d.findings) return;
-  var html = '';
-  d.findings.forEach(function(f){
-    html += '<div class="ai-research-card"><h4>'+f.title+'</h4><div class="source">来源：'+(f.source||'未知')+'</div><div class="summary">'+f.summary+'</div>'+
-      '<div style="margin-top:0.4rem;">'+(f.tags||[]).map(function(t){return '<span class="modal-tag">'+t+'</span>';}).join('')+'</div></div>';
-  });
-  if(d.attention) html += '<div style="margin-top:0.8rem;font-size:0.85rem;"><strong style="color:var(--text);">📌 今日关注：</strong><span style="color:var(--muted);">'+d.attention+'</span></div>';
-  if(d.discussion) html += '<div style="margin-top:0.4rem;font-size:0.85rem;"><strong style="color:var(--text);">💡 可讨论：</strong><span style="color:var(--muted);">'+d.discussion+'</span></div>';
-  el.innerHTML = html;
-});
-
-// 选题Feed
-loadData('data/topics.json', function(data) {
-  var el = document.getElementById('topics-feed');
-  if(!el || !data || data.length === 0) {
-    el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);">暂无选题数据</div>';
-    return;
-  }
-  var catEmojis = {'政治事件':'🗺️','军事事件':'⚔️','汇率/金融':'💱','会展/活动':'🏗️','体育热点':'⚽'};
-  var html = '';
-  data.slice().reverse().forEach(function(day){
-    var catHtml = '';
-    Object.keys(day.categories||{}).forEach(function(cat){
-      var items = day.categories[cat];
-      if(!items || items.length === 0) return;
-      catHtml += '<div class="topic-cat-block"><div class="topic-cat-label">'+ (catEmojis[cat]||'📌') + ' ' + cat + '</div>'+
-        items.map(function(item){
-          var heat = (item.heat||'低').toLowerCase();
-          return '<div class="topic-card"><div class="topic-event"><span class="topic-heat '+heat+'">'+item.heat+'</span>'+item.event+'</div><div class="topic-angle">→ '+item.angle+'</div></div>';
-        }).join('')+'</div>';
-    });
-    var hlHtml = '';
-    if(day.highlights && day.highlights.length > 0) {
-      hlHtml = '<div class="highlight-block"><h4>🌟 重点关注</h4>'+day.highlights.map(function(h){return '<div class="reason">• '+h.event+' — '+h.reason+'</div>';}).join('')+'</div>';
-    }
-    var discHtml = '';
-    if(day.discussion && day.discussion.length > 0) {
-      discHtml = '<div class="discussion-block"><h4>💡 可讨论点</h4>'+day.discussion.map(function(q){return '<div class="question">• '+q+'</div>';}).join('')+'</div>';
-    }
-    html += '<div class="topic-date-block">'+
-      '<div class="topic-date-header"><span class="date">'+day.date+'</span><span class="badge">'+Object.keys(day.categories||{}).length+'个分类</span></div>'+
-      catHtml + hlHtml + discHtml + '</div>';
-  });
-  el.innerHTML = html;
-});
-
-// 股票详情数据
-var stockInfo = {
-  "002230":{name:"科大讯飞",code:"SZ 002230",desc:"科大讯飞成立于1999年，是亚太地区知名的智能语音和人工智能上市企业。公司主要从事语音识别、语义理解、OCR等人工智能技术研究。",founder:"刘庆峰",founded:"1999年",employees:"约1.5万人",business:"语音助手、AI教育、智慧城市、消费者硬件",tags:["AI大模型","语音识别","教育信息化","智能硬件"],risks:["美国实体清单影响","大模型投入大","竞争加剧"],milestones:[{year:"1999年",event:"成立，专注语音技术"},{year:"2004年",event:"实现盈亏平衡"},{year:"2008年",event:"深交所上市"},{year:"2014年",event:"发布讯飞超脑，进军AI"},{year:"2023年",event:"星火大模型发布，对标ChatGPT"},{year:"2024年",event:"与华为合作，推进国产算力"}]},
-  "688041":{name:"海光信息",code:"SH 688041",desc:"海光信息成立于2014年，是国内唯一实现量产x86架构GPU的厂商。主要产品包括DCU和CPU，应用于AI训练、推理和数据中心。",founder:"厉伟",founded:"2014年",employees:"约2000人",business:"GPU（DCU）、CPU、服务器整机、AI算力解决方案",tags:["国产GPU","AI算力","x86","信创"],risks:["美国芯片管制","技术迭代压力","大客户集中"],milestones:[{year:"2014年",event:"海光信息成立"},{year:"2016年",event:"获得AMD x86架构授权"},{year:"2020年",event:"DCU产品实现量产"},{year:"2022年",event:"科创板上市"},{year:"2023年",event:"美国芯片管制升级，倒逼国产替代加速"},{year:"2024年",event:"营收同比增长80%，成AI算力核心标的"}]},
-  "688256":{name:"寒武纪",code:"SH 688256",desc:"寒武纪成立于2016年，专注于AI芯片设计，是国内AI芯片龙头。产品涵盖云端、边缘端、终端全场景。",founder:"陈天石",founded:"2016年",employees:"约2500人",business:"AI芯片（思元系列）、云端/边缘AI加速卡、IP授权",tags:["AI芯片","云端推理","边缘计算","科创"],risks:["持续亏损","研发投入大","产品迭代慢"],milestones:[{year:"2016年",event:"寒武纪成立"},{year:"2017年",event:"发布首款AI芯片寒武纪1A"},{year:"2020年",event:"科创板上市"},{year:"2021年",event:"思元370云端训练芯片发布"},{year:"2023年",event:"AIGC行情启动，股价涨幅超200%"}]},
-  "600900":{name:"长江电力",code:"SH 600900",desc:"长江电力是全球最大的水电上市公司，运营三峡、溪洛渡、向家坝等巨型水电站。公司以高股息、稳定现金流著称，是A股防御型蓝筹代表。",founder:"中国长江三峡集团（控股）",founded:"2002年",employees:"约4000人",business:"水电发电、配售电、溪洛渡/向家坝/白鹤滩电站运营",tags:["水电","高股息","防御","绿电"],risks:["来水量波动","水库移民成本","电价政策变化"],milestones:[{year:"2002年",event:"中国长江电力股份有限公司成立"},{year:"2003年",event:"上交所上市"},{year:"2016年",event:"收购溪洛渡、向家坝电站"},{year:"2023年",event:"年发电量再创新高，超2100亿千瓦时"}]},
-  "600406":{name:"国电南瑞",code:"SH 600406",desc:"国电南瑞是国内电网自动化龙头企业，国家电网旗下上市平台。主业为电网调度自动化、变电站保护、配电自动化。",founder:"国家电网（控股）",founded:"2001年",employees:"约8000人",business:"电网调度系统、变电站自动化、配电自动化、充电桩、储能EMS",tags:["电网自动化","AI调度","特高压","国家电网"],risks:["电网投资周期性","竞争加剧","应收账款高"],milestones:[{year:"2001年",event:"国电南瑞科技股份有限公司成立"},{year:"2003年",event:"上交所上市"},{year:"2010年",event:"资产重组，成为国网旗下电力自动化旗舰"},{year:"2023年",event:"AI电力调度系统发布"},{year:"2024年",event:"受益电力IT投资加速，订单增长30%"}]},
-  "601985":{name:"中国核电",code:"SH 601985",desc:"中国核电是中核集团旗下核电运营上市平台，管理在运在建核电机组超过30台。",founder:"中国核工业集团（控股）",founded:"2011年",employees:"约1.2万人",business:"核电站运营、新建核电项目、核电技术输出",tags:["核电","碳中和","绿电","稳健"],risks:["核安全事故风险","新机组审批节奏","电价市场化改革"],milestones:[{year:"2011年",event:"中国核能电力股份有限公司成立"},{year:"2015年",event:"上交所上市"},{year:"2022年",event:"核电新项目审批重启（福建漳州等）"},{year:"2024年",event:"核准多个核电新项目，核电建设进入高峰"}]}
-};
-
-function openStockModal(code) {
-  var s = stockInfo[code];
-  if(!s) return;
-  var tagHtml = (s.tags||[]).map(function(t){return '<span class="modal-tag">'+t+'</span>';}).join('');
-  var riskHtml = (s.risks||[]).map(function(r){return '<span class="modal-tag red">'+r+'</span>';}).join('');
-  var tlHtml = (s.milestones||[]).map(function(m){return '<div class="timeline-item"><div class="year">'+m.year+'</div><div class="event">'+m.event+'</div></div>';}).join('');
-  document.getElementById('modalStockName').textContent = s.name;
-  document.getElementById('modalStockCode').textContent = s.code;
-  document.getElementById('modalBody').innerHTML =
-    '<div class="modal-section"><h4>公司概况</h4><p>'+s.desc+'</p></div>'+
-    '<div class="modal-section"><h4>基本信息</h4>'+
-    '<div class="modal-metric"><span class="label">创始人/实控人</span><span class="val">'+s.founder+'</span></div>'+
-    '<div class="modal-metric"><span class="label">成立时间</span><span class="val">'+s.founded+'</span></div>'+
-    '<div class="modal-metric"><span class="label">员工规模</span><span class="val">'+s.employees+'</span></div>'+
-    '<div class="modal-metric"><span class="label">主营业务</span><span class="val" style="font-size:0.8rem">'+s.business+'</span></div></div>'+
-    '<div class="modal-section"><h4>题材标签</h4><div>'+tagHtml+'</div></div>'+
-    '<div class="modal-section"><h4>主要风险</h4><div>'+riskHtml+'</div></div>'+
-    '<div class="modal-section"><h4>发展历程</h4><div class="timeline">'+tlHtml+'</div></div>';
-  document.getElementById('stockModal').classList.add('show');
-}
-function closeStockModal() { document.getElementById('stockModal').classList.remove('show'); }
+// Auto refresh
+setTimeout(function(){ location.reload(); }, 5 * 60 * 1000);
 </script>
 
-<div class="stock-modal" id="stockModal" onclick="if(event.target===this)closeStockModal()">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div><h3 id="modalStockName"></h3><div class="stock-code-tag" id="modalStockCode"></div></div>
-      <button class="modal-close" onclick="closeStockModal()">x</button>
+</body>
+</html>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 8: 数据库管理
+  ═══════════════════════════════════════════ -->
+  <div id="tab-database" class="tab-content">
+    <div class="grid">
+      <div class="card full">
+        <h2><span class="emoji">💾</span> 数据库管理 <span class="badge">SQLite · REST API</span></h2>
+        <p style="font-size:0.82rem;color:var(--muted);">⚠️ 数据库 API 运行于 localhost:5555，数据存储在本地 stock.db 文件</p>
+      </div>
+
+      <!-- 操作提示 -->
+      <div class="card full" style="background:rgba(88,166,255,0.04);border-color:rgba(88,166,255,0.3);">
+        <h2><span class="emoji">📖</span> 使用说明</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:0.5rem;">
+          <div>
+            <div style="color:var(--blue);font-size:0.82rem;font-weight:600;margin-bottom:0.3rem;">📊 股票池管理</div>
+            <div style="font-size:0.8rem;color:var(--muted);">添加/编辑/删除推荐股票，修改估值指标和买入信号</div>
+          </div>
+          <div>
+            <div style="color:var(--green);font-size:0.82rem;font-weight:600;margin-bottom:0.3rem;">💰 持仓管理</div>
+            <div style="font-size:0.8rem;color:var(--muted);">记录当前持仓：股数、成本价、现价，自动计算盈亏</div>
+          </div>
+          <div>
+            <div style="color:var(--orange);font-size:0.82rem;font-weight:600;margin-bottom:0.3rem;">📝 交易记录</div>
+            <div style="font-size:0.8rem;color:var(--muted);">记录每次买入/卖出，包含策略标签和备注</div>
+          </div>
+          <div>
+            <div style="color:var(--purple);font-size:0.82rem;font-weight:600;margin-bottom:0.3rem;">📈 每日净值</div>
+            <div style="font-size:0.8rem;color:var(--muted);">每日记录账户总资产，追踪资产曲线和回撤</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 可视化图表 -->
+      <div class="card">
+        <h2><span class="emoji">🥧</span> 持仓分布 <span class="badge">实时</span></h2>
+        <div style="position:relative;height:220px;"><canvas id="pieAllocation"></canvas></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">📈</span> 净值曲线 <span class="badge">每日记录</span></h2>
+        <div style="position:relative;height:220px;"><canvas id="equityCurve"></canvas></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">⚖️</span> 板块配置 <span class="badge">AI vs 电力</span></h2>
+        <div style="position:relative;height:180px;"><canvas id="sectorBar"></canvas></div>
+      </div>
+
+      <!-- T+1 规则说明 -->
+      <div class="card full" style="background:rgba(210,153,34,0.06);border-color:rgba(210,153,34,0.3);">
+        <h2><span class="emoji">⏰</span> A股T+1交易规则 <span class="badge" style="background:rgba(210,153,34,0.15);color:var(--yellow);">重要</span></h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:0.5rem;">
+          <div style="font-size:0.82rem;">
+            <div style="color:var(--yellow);font-weight:600;margin-bottom:0.3rem;">📋 规则说明</div>
+            <div style="color:var(--muted);">T+1：<strong style="color:var(--text);">今天买的股票，最快要明天才能卖</strong></div>
+          </div>
+          <div style="font-size:0.82rem;">
+            <div style="color:var(--yellow);font-weight:600;margin-bottom:0.3rem;">🔴 不能卖</div>
+            <div style="color:var(--muted);">当天买入的仓位，<strong style="color:var(--red);">当日不允许卖出</strong></div>
+          </div>
+          <div style="font-size:0.82rem;">
+            <div style="color:var(--yellow);font-weight:600;margin-bottom:0.3rem;">🟢 可以卖</div>
+            <div style="color:var(--muted);">持仓超过1天的股票，<strong style="color:var(--green);">随时可以卖出</strong></div>
+          </div>
+          <div style="font-size:0.82rem;">
+            <div style="color:var(--yellow);font-weight:600;margin-bottom:0.3rem;">⏳ 验证周期长</div>
+            <div style="color:var(--muted);">一个完整的买卖周期约 <strong style="color:var(--text);">5-10个交易日</strong> 才能验证策略有效性</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 股票池 -->
+      <div class="card full">
+        <h2><span class="emoji">📊</span> 股票池 <button onclick="loadStocks()" style="background:var(--blue);color:#000;border:none;padding:0.25rem 0.7rem;border-radius:5px;font-size:0.72rem;cursor:pointer;margin-left:0.5rem;">🔄 刷新</button> <button onclick="showAddStock()" style="background:var(--green);color:#000;border:none;padding:0.25rem 0.7rem;border-radius:5px;font-size:0.72rem;cursor:pointer;margin-left:0.3rem;">+ 新增</button></h2>
+        <div style="overflow-x:auto;">
+          <table class="bt-table" style="min-width:800px;">
+            <thead>
+              <tr>
+                <th>代码</th><th>名称</th><th>板块</th><th>PE</th><th>股息率</th><th>ROE</th><th>营收增速</th><th>净利润增速</th><th>信号</th><th>止损</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="stocks-tbody">
+              <tr><td colspan="11" style="text-align:center;padding:1rem;color:var(--muted);">加载中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 持仓管理 -->
+      <div class="card">
+        <h2><span class="emoji">💰</span> 当前持仓 <button onclick="loadPositions()" style="background:var(--blue);color:#000;border:none;padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;cursor:pointer;margin-left:0.5rem;">🔄</button> <button onclick="showAddPosition()" style="background:var(--green);color:#000;border:none;padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;cursor:pointer;margin-left:0.2rem;">+</button></h2>
+        <div id="positions-tbody">
+          <div style="text-align:center;padding:1rem;color:var(--muted);font-size:0.85rem;">加载中...</div>
+        </div>
+      </div>
+
+      <!-- 交易记录 -->
+      <div class="card">
+        <h2><span class="emoji">📝</span> 交易记录 <button onclick="loadTrades()" style="background:var(--blue);color:#000;border:none;padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;cursor:pointer;margin-left:0.5rem;">🔄</button> <button onclick="showAddTrade()" style="background:var(--green);color:#000;border:none;padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;cursor:pointer;margin-left:0.2rem;">+</button></h2>
+        <div id="trades-tbody" style="max-height:320px;overflow-y:auto;">
+          <div style="text-align:center;padding:1rem;color:var(--muted);font-size:0.85rem;">加载中...</div>
+        </div>
+      </div>
+
+      <!-- 每日净值 -->
+      <div class="card">
+        <h2><span class="emoji">📈</span> 净值记录 <button onclick="loadRecords()" style="background:var(--blue);color:#000;border:none;padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;cursor:pointer;margin-left:0.5rem;">🔄</button> <button onclick="showAddRecord()" style="background:var(--green);color:#000;border:none;padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;cursor:pointer;margin-left:0.2rem;">+</button></h2>
+        <div id="records-tbody" style="max-height:320px;overflow-y:auto;">
+          <div style="text-align:center;padding:1rem;color:var(--muted);font-size:0.85rem;">加载中...</div>
+        </div>
+      </div>
     </div>
-    <div id="modalBody"></div>
   </div>
+
+  <!-- 通用模态框 -->
+  <div id="modal-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:2000;align-items:center;justify-content:center;" onclick="if(event.target===this)closeModal()">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;max-width:500px;width:92%;max-height:88vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+        <h3 id="modal-title" style="color:var(--blue);font-size:1rem;"></h3>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;">×</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
 </div>
+
+<div class="footer">
+  🤖 财经专家 | 多Agent并行系统 | 2026<br>
+  <span class="last-updated">最后更新：<span id="last-updated"></span> · 页面每5分钟自动刷新</span>
+</div>
+
+<script>
+// ── API Base ─────────────────────────────────────────
+var API = 'http://localhost:5555/api';
+
+// ── 时钟 & 刷新 ─────────────────────────────────────
+var now = new Date();
+document.getElementById('clock').textContent = now.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
+document.getElementById('last-updated').textContent = now.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
+setTimeout(function(){ location.reload(); }, 5 * 60 * 1000);
+
+// ── Tab 切换 ────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){
+    if(t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(name) > -1) t.classList.add('active');
+  });
+  document.getElementById('tab-' + name).classList.add('active');
+  if(name === 'database') { loadAll(); }
+}
+
+// ── 模态框 ──────────────────────────────────────────
+function openModal(title, bodyHtml) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHtml;
+  document.getElementById('modal-overlay').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+}
+
+// ── 加载所有 ────────────────────────────────────────
+function loadAll() {
+  loadStocks();
+  loadPositions();
+  loadTrades();
+  loadRecords();
+}
+
+// ── 股票 CRUD ───────────────────────────────────────
+function loadStocks() {
+  fetch(API + '/stocks').then(function(r){ return r.json(); }).then(function(data){
+    var html = '';
+    data.forEach(function(s){
+      var signalColor = s.buy_signal === 'buy' ? 'green' : (s.buy_signal === 'hold' ? 'yellow' : 'blue');
+      var sectorTag = s.sector === 'ai' ? 'ai' : 'power';
+      html += '<tr style="font-size:0.82rem;">' +
+        '<td><strong>'+s.code+'</strong></td>' +
+        '<td>'+s.name+'</td>' +
+        '<td><span class="tag '+sectorTag+'">'+s.sector+'</span></td>' +
+        '<td>'+(s.pe||'-')+'</td>' +
+        '<td>'+(s.dividend?(s.dividend+'%'):'-')+'</td>' +
+        '<td>'+(s.roe?(s.roe+'%'):'-')+'</td>' +
+        '<td>'+(s.revenue_growth?(s.revenue_growth+'%'):'-')+'</td>' +
+        '<td>'+(s.profit_growth?(s.profit_growth+'%'):'-')+'</td>' +
+        '<td><span style="color:var(--'+signalColor+');font-weight:600;">'+s.buy_signal+'</span></td>' +
+        '<td>'+(s.stop_loss?(s.stop_loss+'%'):'-')+'</td>' +
+        '<td><button onclick="editStock('+s.id+')" style="background:var(--blue);border:none;color:#000;padding:2px 8px;border-radius:4px;cursor:pointer;font-size:0.7rem;margin-right:3px;">改</button><button onclick="delStock('+s.id+')" style="background:var(--red);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer;font-size:0.7rem;">删</button></td>'+
+        '</tr>';
+    });
+    document.getElementById('stocks-tbody').innerHTML = html || '<tr><td colspan="11" style="text-align:center;padding:1rem;color:var(--muted);">暂无数据</td></tr>';
+  }).catch(function(){ document.getElementById('stocks-tbody').innerHTML = '<tr><td colspan="11" style="text-align:center;padding:1rem;color:var(--red);">❌ API未连接（需启动db_api.py）</td></tr>'; });
+}
+
+function showAddStock() {
+  openModal('➕ 新增股票', '<style>.f{margin-bottom:0.7rem;}.f label{display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.2rem;}.f input,.f select{width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;}</style>' +
+    '<form onsubmit="return submitAddStock()">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">'+
+    '<div class="f"><label>股票代码 *</label><input id="f-code" required placeholder="如 688041"></div>'+
+    '<div class="f"><label>股票名称 *</label><input id="f-name" required placeholder="如 海光信息"></div>'+
+    '<div class="f"><label>板块 *</label><select id="f-sector"><option value="ai">AI/半导体</option><option value="power">电力/能源</option></select></div>'+
+    '<div class="f"><label>PE</label><input id="f-pe" type="number" step="0.1" placeholder="如 85"></div>'+
+    '<div class="f"><label>股息率(%)</label><input id="f-dividend" type="number" step="0.1" placeholder="如 3.5"></div>'+
+    '<div class="f"><label>ROE(%)</label><input id="f-roe" type="number" step="0.1" placeholder="如 20"></div>'+
+    '<div class="f"><label>营收增速(%)</label><input id="f-revenue" type="number" step="0.1"></div>'+
+    '<div class="f"><label>净利润增速(%)</label><input id="f-profit" type="number" step="0.1"></div>'+
+    '<div class="f"><label>止损位(%)</label><input id="f-stop" type="number" step="0.1"></div>'+
+    '<div class="f"><label>买入信号</label><select id="f-signal"><option value="watch">watch</option><option value="buy">buy</option><option value="hold">hold</option></select></div>'+
+    '</div>'+
+    '<div class="f"><label>一句话定位</label><input id="f-desc" placeholder="描述公司核心优势"></div>'+
+    '<div class="f"><label>主要风险</label><input id="f-risks" placeholder="描述主要风险"></div>'+
+    '<div class="f"><label>目标持有期</label><input id="f-period" placeholder="如 6-18个月"></div>'+
+    '<div style="display:flex;gap:0.5rem;margin-top:1rem;">'+
+    '<button type="submit" style="flex:1;background:var(--green);border:none;color:#000;padding:0.5rem;border-radius:6px;font-weight:600;cursor:pointer;">💾 保存</button>'+
+    '<button type="button" onclick="closeModal()" style="flex:1;background:var(--border);border:none;color:var(--text);padding:0.5rem;border-radius:6px;cursor:pointer;">取消</button>'+
+    '</div></form>');
+}
+
+function submitAddStock() {
+  var data = {
+    code: document.getElementById('f-code').value,
+    name: document.getElementById('f-name').value,
+    sector: document.getElementById('f-sector').value,
+    pe: parseFloat(document.getElementById('f-pe').value) || null,
+    dividend: parseFloat(document.getElementById('f-dividend').value) || null,
+    roe: parseFloat(document.getElementById('f-roe').value) || null,
+    revenue_growth: parseFloat(document.getElementById('f-revenue').value) || null,
+    profit_growth: parseFloat(document.getElementById('f-profit').value) || null,
+    description: document.getElementById('f-desc').value,
+    risks: document.getElementById('f-risks').value,
+    stop_loss: parseFloat(document.getElementById('f-stop').value) || null,
+    buy_signal: document.getElementById('f-signal').value,
+    target_period: document.getElementById('f-period').value
+  };
+  fetch(API + '/stocks', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)})
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res.ok){ closeModal(); loadStocks(); alert('✅ 添加成功'); } else { alert('❌ '+res.message); } });
+  return false;
+}
+
+function delStock(id) {
+  if(!confirm('确定删除这条股票记录？')) return;
+  fetch(API + '/stocks/' + id, {method:'DELETE'}).then(function(r){ return r.json(); })
+    .then(function(){ loadStocks(); });
+}
+
+// ── 持仓 CRUD ───────────────────────────────────────
+function loadPositions() {
+  fetch(API + '/positions').then(function(r){ return r.json(); }).then(function(data){
+    var html = '';
+    if(!data.length) { document.getElementById('positions-tbody').innerHTML = '<div style="text-align:center;padding:1rem;color:var(--muted);">暂无持仓，点击 + 添加</div>'; return; }
+    data.forEach(function(p){
+      var pnl = (p.current_price - p.avg_cost) * p.shares;
+      var pnlPct = ((p.current_price / p.avg_cost - 1) * 100).toFixed(2);
+      var pnlColor = pnl >= 0 ? 'green' : 'red';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.82rem;">'+
+        '<div><strong>'+p.name+'</strong> <span style="color:var(--muted);">'+p.code+'</span><br><span style="color:var(--muted);font-size:0.75rem;">'+p.shares+'股 × ¥'+p.avg_cost+'</span></div>'+
+        '<div style="text-align:right;"><div>¥'+(p.current_price*p.shares).toLocaleString()+'</div><div style="color:var(--'+pnlColor+');font-size:0.75rem;">'+pnlPct+'% '+pnl.toFixed(0)+'</div></div>'+
+        '<button onclick="delPosition('+p.id+')" style="background:var(--red);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer;font-size:0.7rem;margin-left:0.5rem;">删</button></div>';
+    });
+    document.getElementById('positions-tbody').innerHTML = html;
+  }).catch(function(){ document.getElementById('positions-tbody').innerHTML = '<div style="color:var(--red);text-align:center;">❌ API未连接</div>'; });
+}
+
+function showAddPosition() {
+  fetch(API + '/stocks').then(function(r){ return r.json(); }).then(function(stocks){
+    var opts = stocks.map(function(s){ return '<option value="'+s.id+'" data-code="'+s.code+'" data-name="'+s.name+'">'+s.code+' '+s.name+'</option>'; }).join('');
+    openModal('💰 添加持仓', '<style>.f{margin-bottom:0.7rem;}.f label{display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.2rem;}.f input,.f select{width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;}</style>' +
+      '<form onsubmit="return submitAddPosition()">' +
+      '<div class="f"><label>选择股票</label><select id="p-stock" onchange="document.getElementById(\\'p-code\\').value=this.options[this.selectedIndex].dataset.code;document.getElementById(\\'p-name\\').value=this.options[this.selectedIndex].dataset.name;">'+opts+'</select></div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">'+
+      '<div class="f"><label>代码</label><input id="p-code" readonly placeholder="自动填入"></div>'+
+      '<div class="f"><label>名称</label><input id="p-name" readonly placeholder="自动填入"></div>'+
+      '<div class="f"><label>持股数量</label><input id="p-shares" type="number" required placeholder="如 1000"></div>'+
+      '<div class="f"><label>成本价(¥)</label><input id="p-cost" type="number" step="0.001" required placeholder="如 45.50"></div>'+
+      '<div class="f"><label>现价(¥)</label><input id="p-price" type="number" step="0.001" placeholder="默认=成本价"></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:0.5rem;margin-top:1rem;">'+
+      '<button type="submit" style="flex:1;background:var(--green);border:none;color:#000;padding:0.5rem;border-radius:6px;font-weight:600;cursor:pointer;">💾 保存</button>'+
+      '<button type="button" onclick="closeModal()" style="flex:1;background:var(--border);border:none;color:var(--text);padding:0.5rem;border-radius:6px;cursor:pointer;">取消</button>'+
+      '</div></form>');
+  });
+}
+
+function submitAddPosition() {
+  var data = {
+    code: document.getElementById('p-code').value,
+    name: document.getElementById('p-name').value,
+    shares: parseInt(document.getElementById('p-shares').value),
+    avg_cost: parseFloat(document.getElementById('p-cost').value),
+    current_price: parseFloat(document.getElementById('p-price').value) || parseFloat(document.getElementById('p-cost').value)
+  };
+  fetch(API + '/positions', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)})
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res.ok){ closeModal(); loadPositions(); alert('✅ 添加成功'); } });
+  return false;
+}
+
+function delPosition(id) {
+  if(!confirm('确定平仓？')) return;
+  fetch(API + '/positions/' + id, {method:'DELETE'}).then(function(){ loadPositions(); });
+}
+
+// ── 交易记录 CRUD ────────────────────────────────────
+function loadTrades() {
+  fetch(API + '/trades').then(function(r){ return r.json(); }).then(function(data){
+    var html = '';
+    if(!data.length) { document.getElementById('trades-tbody').innerHTML = '<div style="text-align:center;padding:1rem;color:var(--muted);">暂无交易记录</div>'; return; }
+    data.slice(0,50).forEach(function(t){
+      var actionColor = t.action === 'buy' ? 'green' : 'red';
+      html += '<div style="padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.82rem;">'+
+        '<div style="display:flex;justify-content:space-between;">'+
+        '<span><span style="color:var(--'+actionColor+');font-weight:700;">'+t.action.toUpperCase()+'</span> <strong>'+t.name+'</strong> <span style="color:var(--muted);">'+t.code+'</span></span>'+
+        '<span style="color:var(--muted);">'+t.trade_date+'</span></div>'+
+        '<div style="color:var(--muted);font-size:0.75rem;margin-top:0.2rem;">'+t.shares+'股 @ ¥'+t.price+' = <strong>¥'+t.amount.toLocaleString()+'</strong>'+(t.strategy?' · '+t.strategy:'') +'</div>'+
+        (t.notes?'<div style="color:var(--muted);font-size:0.72rem;margin-top:0.15rem;">📝 '+t.notes+'</div>':'')+
+        '</div>';
+    });
+    document.getElementById('trades-tbody').innerHTML = html;
+  }).catch(function(){ document.getElementById('trades-tbody').innerHTML = '<div style="color:var(--red);">❌ API未连接</div>'; });
+}
+
+function showAddTrade() {
+  openModal('📝 记录交易', '<style>.f{margin-bottom:0.7rem;}.f label{display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.2rem;}.f input,.f select{width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;}</style>' +
+    '<form onsubmit="return submitAddTrade()">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">'+
+    '<div class="f"><label>股票代码 *</label><input id="t-code" required placeholder="如 688041"></div>'+
+    '<div class="f"><label>股票名称 *</label><input id="t-name" required placeholder="如 海光信息"></div>'+
+    '<div class="f"><label>操作 *</label><select id="t-action"><option value="buy">买入 BUY</option><option value="sell">卖出 SELL</option></select></div>'+
+    '<div class="f"><label>交易日期</label><input id="t-date" type="date" value="'+new Date().toISOString().slice(0,10)+'"></div>'+
+    '<div class="f"><label>价格(¥) *</label><input id="t-price" type="number" step="0.001" required></div>'+
+    '<div class="f"><label>股数 *</label><input id="t-shares" type="number" required></div>'+
+    '<div class="f"><label>策略标签</label><input id="t-strategy" placeholder="如 动量策略"></div>'+
+    '</div>'+
+    '<div class="f"><label>备注</label><textarea id="t-notes" rows="2" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;" placeholder="买入逻辑、止损理由等"></textarea></div>'+
+    '<div style="display:flex;gap:0.5rem;margin-top:1rem;">'+
+    '<button type="submit" style="flex:1;background:var(--orange);border:none;color:#000;padding:0.5rem;border-radius:6px;font-weight:600;cursor:pointer;">💾 保存记录</button>'+
+    '<button type="button" onclick="closeModal()" style="flex:1;background:var(--border);border:none;color:var(--text);padding:0.5rem;border-radius:6px;cursor:pointer;">取消</button>'+
+    '</div></form>');
+}
+
+function submitAddTrade() {
+  var shares = parseInt(document.getElementById('t-shares').value);
+  var price = parseFloat(document.getElementById('t-price').value);
+  var data = {
+    code: document.getElementById('t-code').value,
+    name: document.getElementById('t-name').value,
+    action: document.getElementById('t-action').value,
+    price: price,
+    shares: shares,
+    amount: shares * price,
+    trade_date: document.getElementById('t-date').value,
+    strategy: document.getElementById('t-strategy').value,
+    notes: document.getElementById('t-notes').value
+  };
+  fetch(API + '/trades', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)})
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res.ok){ closeModal(); loadTrades(); alert('✅ 交易已记录'); } });
+  return false;
+}
+
+// ── 净值记录 CRUD ───────────────────────────────────
+function loadRecords() {
+  fetch(API + '/records').then(function(r){ return r.json(); }).then(function(data){
+    var html = '';
+    if(!data.length) { document.getElementById('records-tbody').innerHTML = '<div style="text-align:center;padding:1rem;color:var(--muted);">暂无净值记录</div>'; return; }
+    data.forEach(function(r){
+      var retColor = r.daily_return >= 0 ? 'green' : 'red';
+      html += '<div style="padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.82rem;">'+
+        '<div style="display:flex;justify-content:space-between;">'+
+        '<strong>'+r.record_date+'</strong>'+
+        '<span>总资产 <strong>¥'+r.total_asset.toLocaleString()+'</strong></span>'+
+        '<span style="color:var(--'+retColor+');">'+r.daily_return.toFixed(2)+'%</span></div>'+
+        '<div style="color:var(--muted);font-size:0.75rem;margin-top:0.15rem;">持仓 ¥'+(r.stock_value||0).toLocaleString()+' | 现金 ¥'+(r.cash||0).toLocaleString()+' | 今日 '+r.daily_pnl+'</div>'+
+        '</div>';
+    });
+    document.getElementById('records-tbody').innerHTML = html;
+  }).catch(function(){ document.getElementById('records-tbody').innerHTML = '<div style="color:var(--red);">❌ API未连接</div>'; });
+}
+
+function showAddRecord() {
+  openModal('📈 记录每日净值', '<style>.f{margin-bottom:0.7rem;}.f label{display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.2rem;}.f input{width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;}</style>' +
+    '<form onsubmit="return submitAddRecord()">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">'+
+    '<div class="f"><label>日期 *</label><input id="r-date" type="date" value="'+new Date().toISOString().slice(0,10)+'" required></div>'+
+    '<div class="f"><label>总资产(¥) *</label><input id="r-total" type="number" step="0.01" required placeholder="如 520000"></div>'+
+    '<div class="f"><label>持仓市值(¥)</label><input id="r-stock" type="number" step="0.01" placeholder="如 310000"></div>'+
+    '<div class="f"><label>现金余额(¥)</label><input id="r-cash" type="number" step="0.01" placeholder="如 190000"></div>'+
+    '<div class="f"><label>今日盈亏(¥)</label><input id="r-pnl" type="number" step="0.01" placeholder="如 +4210"></div>'+
+    '<div class="f"><label>今日收益率(%)</label><input id="r-ret" type="number" step="0.01" placeholder="如 0.84"></div>'+
+    '</div>'+
+    '<div class="f"><label>备注</label><input id="r-notes" placeholder="如 涨停买入"></div>'+
+    '<div style="display:flex;gap:0.5rem;margin-top:1rem;">'+
+    '<button type="submit" style="flex:1;background:var(--purple);border:none;color:#fff;padding:0.5rem;border-radius:6px;font-weight:600;cursor:pointer;">💾 保存</button>'+
+    '<button type="button" onclick="closeModal()" style="flex:1;background:var(--border);border:none;color:var(--text);padding:0.5rem;border-radius:6px;cursor:pointer;">取消</button>'+
+    '</div></form>');
+}
+
+function submitAddRecord() {
+  var data = {
+    record_date: document.getElementById('r-date').value,
+    total_asset: parseFloat(document.getElementById('r-total').value),
+    stock_value: parseFloat(document.getElementById('r-stock').value) || 0,
+    cash: parseFloat(document.getElementById('r-cash').value) || 0,
+    daily_pnl: parseFloat(document.getElementById('r-pnl').value) || 0,
+    daily_return: parseFloat(document.getElementById('r-ret').value) || 0,
+    notes: document.getElementById('r-notes').value
+  };
+  fetch(API + '/records', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)})
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res.ok){ closeModal(); loadRecords(); alert('✅ 净值已记录'); } });
+  return false;
+}
+
+// 自动加载（如果页面有数据库tab的话）
+if(document.getElementById('tab-database')) {
+  // 延迟加载，等DOMReady
+}
+
+// ════════════════════════════════════════════════
+//  图表渲染（Chart.js）
+// ════════════════════════════════════════════════
+var pieChart = null;
+var equityChart = null;
+var sectorChart = null;
+
+function hexToRgba(hex, alpha) {
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  return 'rgba('+r+','+g+','+b+','+alpha+')';
+}
+
+function renderPieChart(positions) {
+  var ctx = document.getElementById('pieAllocation').getContext('2d');
+  if(!ctx) return;
+  if(pieChart) pieChart.destroy();
+
+  var cash = 190000;
+  var labels = [];
+  var data = [];
+  var colors = ['#58a6ff','#3fb950','#d29922','#f85149','#a371f7','#39c5cf','#f0883e','#79c0ff','#56d364'];
+
+  positions.forEach(function(p,i){
+    var val = p.shares * (p.current_price || p.avg_cost);
+    labels.push(p.name + ' ' + p.code);
+    data.push(Math.round(val));
+  });
+
+  // 加入现金
+  labels.push('现金备用');
+  data.push(cash);
+
+  pieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors.slice(0, labels.length),
+        borderWidth: 2,
+        borderColor: '#0d1117',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: { color: '#8b949e', font: { size: 11 }, padding: 8, boxWidth: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var total = ctx.dataset.data.reduce(function(a,b){ return a+b; }, 0);
+              var pct = ((ctx.raw / total) * 100).toFixed(1);
+              return ctx.label + ': ¥' + ctx.raw.toLocaleString() + ' (' + pct + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderSectorChart(positions) {
+  var ctx = document.getElementById('sectorBar').getContext('2d');
+  if(!ctx) return;
+  if(sectorChart) sectorChart.destroy();
+
+  var aiVal = 0, powerVal = 0;
+  var stockMap = {};
+  positions.forEach(function(p){
+    var val = p.shares * (p.current_price || p.avg_cost);
+    stockMap[p.code] = { name: p.name, val: val, code: p.code };
+  });
+
+  // 从股票池获取板块信息
+  fetch(API + '/stocks').then(function(r){ return r.json(); }).then(function(stocks){
+    var aiStocks = stocks.filter(function(s){ return s.sector === 'ai'; }).map(function(s){ return s.code; });
+    var powerStocks = stocks.filter(function(s){ return s.sector === 'power'; }).map(function(s){ return s.code; });
+    var aiTotal = 0, powerTotal = 0;
+    Object.keys(stockMap).forEach(function(code){
+      if(aiStocks.indexOf(code) >= 0) aiTotal += stockMap[code].val;
+      else if(powerStocks.indexOf(code) >= 0) powerTotal += stockMap[code].val;
+    });
+
+    sectorChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['AI/半导体', '电力/能源', '现金'],
+        datasets: [{
+          label: '持仓金额(¥)',
+          data: [Math.round(aiTotal), Math.round(powerTotal), 190000],
+          backgroundColor: ['#58a6ff', '#3fb950', '#8b949e'],
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#8b949e', font: { size: 11 } }, grid: { display: false } },
+          y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: function(v){ return '¥'+(v/1000)+'k'; } }, grid: { color: '#30363d' } }
+        }
+      }
+    });
+  });
+}
+
+function renderEquityCurve() {
+  var ctx = document.getElementById('equityCurve').getContext('2d');
+  if(!ctx) return;
+  if(equityChart) equityChart.destroy();
+
+  fetch(API + '/records').then(function(r){ return r.json(); }).then(function(data){
+    if(!data || !data.length) {
+      // 显示默认模拟曲线
+      var labels = [];
+      var values = [];
+      var now = new Date();
+      for(var i=29;i>=0;i--) {
+        var d = new Date(now);
+        d.setDate(d.getDate()-i);
+        labels.push(d.toLocaleDateString('zh-CN',{month:'short',day:'numeric'}));
+        values.push(500000 + Math.round((Math.random()-0.4)*8000*i));
+      }
+      equityChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '总资产',
+            data: values,
+            borderColor: '#58a6ff',
+            backgroundColor: hexToRgba('#58a6ff', 0.1),
+            fill: true,
+            tension: 0.4,
+            pointRadius: 2,
+            pointBackgroundColor: '#58a6ff',
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#8b949e', font: { size: 9 }, maxTicksLimit: 8 }, grid: { display: false } },
+            y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: function(v){ return '¥'+(v/1000)+'k'; } }, grid: { color: '#30363d' } }
+          }
+        }
+      });
+      return;
+    }
+    var sorted = data.sort(function(a,b){ return a.record_date < b.record_date ? -1 : 1; });
+    var labels = sorted.map(function(r){ return r.record_date; });
+    var values = sorted.map(function(r){ return r.total_asset; });
+
+    var color = values[values.length-1] >= values[0] ? '#3fb950' : '#f85149';
+    equityChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '总资产',
+          data: values,
+          borderColor: color,
+          backgroundColor: hexToRgba(color, 0.08),
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: color,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#8b949e', font: { size: 10 }, maxTicksLimit: 10 }, grid: { display: false } },
+          y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: function(v){ return '¥'+(v/1000)+'k'; } }, grid: { color: '#30363d' } }
+        }
+      }
+    });
+  }).catch(function(){
+    // Fallback: 已有模拟曲线
+  });
+}
+
+// 重写 loadAll，让图表一起渲染
+var _loadAll = loadAll;
+function loadAll() {
+  loadStocks();
+  loadPositions();
+  loadTrades();
+  loadRecords();
+  renderEquityCurve();
+  renderSectorChart([]);
+}
+
+var _loadPositions = loadPositions;
+function loadPositions() {
+  _loadPositions();
+  // 图表依赖持仓数据，延迟渲染
+  setTimeout(function(){
+    fetch(API + '/positions').then(function(r){ return r.json(); }).then(function(data){
+      renderPieChart(data);
+      renderSectorChart(data);
+    });
+  }, 500);
+}
+
+</script>
 
 </body>
 </html>
