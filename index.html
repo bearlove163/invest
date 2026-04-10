@@ -90,6 +90,38 @@
     .desc-detail strong{color:var(--text);}
     .desc-detail span.green{color:var(--green);}
     .desc-detail span.yellow{color:var(--yellow);}
+  
+    /* 响应式适配 - 手机+平板 */
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      header { flex-direction: column; gap: 0.8rem; text-align: center; }
+      header h1 { font-size: 1.1rem; }
+      .header-right { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+      .tabs { overflow-x: auto; white-space: nowrap; }
+      .tab { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+      .grid { grid-template-columns: 1fr; gap: 1rem; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .card { padding: 1rem; }
+      .card h2 { font-size: 0.8rem; }
+      .stock-card { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .stock-price { text-align: left; }
+      .price { font-size: 1.1rem; }
+      .progress-stages { font-size: 0.65rem; }
+      .stat-row { padding: 0.4rem 0; }
+      .stat-label { font-size: 0.82rem; }
+      .stat-value { font-size: 0.85rem; }
+      table { font-size: 0.78rem; }
+      th, td { padding: 0.4rem 0.4rem !important; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0.8rem; }
+      header h1 { font-size: 1rem; }
+      .card { padding: 0.8rem; }
+      .bt-row { font-size: 0.78rem; }
+      .effect-item { font-size: 0.78rem; }
+      .method-card h3 { font-size: 0.9rem; }
+    }
+
   </style>
 </head>
 <body>
