@@ -1,42 +1,62 @@
 {
-  "updated": "2026-04-11T00:00:00+08:00",
-  "total_new_today": 3,
-  "total_crm": 47,
+  "updated": "2026-04-11",
   "countries": {
     "cambodia": {
-      "no_change": false,
-      "new_projects": [
-        "三星C&T 预中标 金边某商业综合体项目（金额待确认）",
-        "中国路桥 新签 公路改造升级协议（约$2800万）"
-      ],
+      "emoji": "🇰🇭",
+      "name": "柬埔寨",
+      "new_projects": [],
       "updates": [
-        "柬埔寨2026年基建预算同比+12%，外资参与门槛降低"
-      ]
+        "ADB预测2026年GDP增长4.5%，面临边境争端、贸易壁垒、油价三重冲击",
+        "Q1国际贸易达169.3亿美元（+17.1%），中国/美国/越南/日本为主要贸易伙伴",
+        "泰柬边境紧张局势持续，泰国在柬领土内布置铁丝网和集装箱",
+        "CRM中柬埔寨项目记录为空（7个已知项目均未录入），建议补充录入Kok Thlok Stadium、Funan Techo Canal等",
+        "旅游下滑：吴哥窟3月游客同比下降34%"
+      ],
+      "no_change": true
     },
     "vietnam": {
-      "no_change": false,
-      "new_projects": [
-        "三星C&T 河内地铁5号线意向函（4月30日前确认）",
-        "VinGroup 工业区光伏EPC分包招标（5月截标）"
-      ],
+      "emoji": "🇻🇳",
+      "name": "越南",
+      "new_projects": [],
       "updates": [
-        "越南制造业PMI创24个月新高，外资FDI加速流入"
-      ]
+        "Cầu Tứ Liên（四连桥）：河内市重大项目，20,171亿越盾（~$800M+），5.15km，拆迁收尾中即将全面施工——非精工核心市场（河内），属市政桥",
+        "边和-头顿高速(QL51)：BOT扩建已完成投资回收，收费站拆除为收尾工作，无新增钢结构机会",
+        "广宁省：2025年GRDP增速11.89%全国第一，目标2026年增速12.5%+，申请升级中央直辖市——非精工核心市场",
+        "新内阁上任（2026-2031）：总理Lê Minh Hưng表态「不接受过热增长」，经济政策以稳定为主",
+        "持续监控：隆城国际机场（预计2026年底运营，关注航站楼钢结构/空间网格分包招标）",
+        "本次扫描无Tier 1新线索（$1亿以上新项目或新关键人物）"
+      ],
+      "no_change": true
     },
     "singapore": {
-      "no_change": true,
-      "new_projects": [],
-      "updates": []
-    },
-    "india": {
-      "no_change": false,
+      "emoji": "🇸🇬",
+      "name": "新加坡",
       "new_projects": [
-        "印度Reliance 工业园区污水处理厂EPC议标（邀请制）"
+        "樟宜机场T5扩建（S$47.5亿合同，CCCC+Obayashi JV 38亿大单，2030年代中完工）",
+        "Micron先进晶圆厂（US$240亿，H2 2028投产，洁净室钢结构需求）",
+        "拉斯维加斯金沙Marina Bay新度假村（US$80亿，Woh Hup总承包，2030年完工）",
+        "Afro-Asia i-Mark（63 Robinson Road，19层钢结构办公，钢-混凝土混合结构）",
+        "LTA地铁跨岛线延伸Contract T318（截标2026年4月22日，隧道钢结构）"
       ],
       "updates": [
-        "印度政府推动制造业国产化，中国工程企业进入难度增加",
-        "印度卢比持续走弱，在印资产汇兑风险上升"
-      ]
+        "T1机构新发现：中国交通建设（CCCC）首进新加坡T5核心标（38亿合同）；Micron宣布$240亿新加坡投资；Las Vegas Sands新进新加坡",
+        "T1人物：Lim Ming Yan（CAG新主席2025.4）、Manish Bhatia（Micron EVP Global Ops）、Patrick Dumont（LVS董事长兼CEO）、Ong Chee Chiau（CAG T5项目执行负责人）",
+        "Exyte（德国洁净室EPC）：2024年SBR奖，Siltronic新加坡半导体晶圆厂18/22月完成RFE，可作为潜在合作方",
+        "精工切入点优先级：Micron Fab（⭐⭐⭐）> CCCC+Obayashi JV（⭐⭐⭐）> Woh Hup战略合作（⭐⭐）> CAG新主席（⭐⭐）",
+        "CRM新加坡记录为空——所有T1项目/机构/人物均需新建档案"
+      ],
+      "no_change": false
+    },
+    "india": {
+      "emoji": "🇮🇳",
+      "name": "印度",
+      "new_projects": [],
+      "updates": [
+        "今日扫描文件不存在（/memory/india_scan_2026-04-11.md），无数据"
+      ],
+      "no_change": true
     }
-  }
+  },
+  "total_crm": 0,
+  "total_new_today": 0
 }
