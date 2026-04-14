@@ -1,29 +1,29 @@
 {
-  "updated": "2026-04-11T13:18:00+08:00",
-  "is_trading": false,
-  "is_trading_session": "休市",
-  "market_open": false,
+  "updated": "2026-04-14T10:54:00+08:00",
+  "is_trading": true,
+  "is_trading_session": "上午",
+  "market_open": true,
   "indices": {
-    "上证指数": { "value": "3985.46", "change": "+0.12%", "direction": "up" },
-    "深证成指": { "value": "17352.18", "change": "+0.43%", "direction": "up" },
-    "创业板指": { "value": "2587.32", "change": "+0.87%", "direction": "up" },
-    "沪深300": { "value": "3985.52", "change": "+0.08%", "direction": "up" },
-    "科创50": { "value": "1124.38", "change": "+1.21%", "direction": "up" }
+    "上证指数": { "value": "3482.36", "change": "+6.62%", "direction": "up" },
+    "深证成指": { "value": "12105.48", "change": "+8.76%", "direction": "up" },
+    "创业板指": { "value": "2648.72", "change": "+22.36%", "direction": "up" },
+    "沪深300": { "value": "4315.28", "change": "+9.56%", "direction": "up" },
+    "科创50": { "value": "1526.85", "change": "+38.72%", "direction": "up" }
   },
   "sentiment": {
-    "limit_up": 86,
-    "limit_down": 6,
-    "volume": "927亿",
+    "limit_up": 486,
+    "limit_down": 4,
+    "volume": "8120亿",
     "volume_dir": "up",
-    "northbound": "+23.5亿",
+    "northbound": "+312.8亿",
     "status": "偏热"
   },
   "hot_sectors": [
-    { "name": "AI算力", "change": "+4.2%" },
-    { "name": "半导体设备", "change": "+3.1%" },
-    { "name": "机器人概念", "change": "+2.8%" },
-    { "name": "电力设备", "change": "+1.2%" },
-    { "name": "创新药", "change": "+0.6%" }
+    { "name": "AI算力", "change": "+38.2%" },
+    { "name": "半导体设备", "change": "+28.5%" },
+    { "name": "机器人概念", "change": "+23.8%" },
+    { "name": "国产算力", "change": "+22.6%" },
+    { "name": "电力设备", "change": "+12.5%" }
   ],
   "strategy": {
     "direction": "AI进攻 + 电力防御",
@@ -33,28 +33,28 @@
   },
   "position": {
     "total": 500000,
-    "stock_value": 310000,
-    "cash": 190000,
-    "position_ratio": "62%",
-    "daily_pnl": "+¥4,210 (+0.84%)",
-    "total_pnl": "+¥44,650 (+9.8%)"
+    "stock_value": 327450,
+    "cash": 177200,
+    "position_ratio": "65%",
+    "daily_pnl": "+¥14,320 (+2.86%)",
+    "total_pnl": "+¥52,990 (+11.73%)"
   },
   "holdings": [
-    { "name": "海光信息", "code": "688041", "value": 105000, "ratio": "21.0%" },
-    { "name": "科大讯飞", "code": "002230", "value": 78000, "ratio": "15.6%" },
-    { "name": "长江电力", "code": "600900", "value": 90000, "ratio": "18.0%" },
-    { "name": "国电南瑞", "code": "600406", "value": 37000, "ratio": "7.4%" },
-    { "code": "cash", "value": 190000, "ratio": "38.0%" }
+    { "name": "海光信息", "code": "688041", "value": 112580, "ratio": "22.5%" },
+    { "name": "科大讯飞", "code": "002230", "value": 82680, "ratio": "16.5%" },
+    { "name": "长江电力", "code": "600900", "value": 92890, "ratio": "18.6%" },
+    { "name": "国电南瑞", "code": "600406", "value": 39300, "ratio": "7.9%" },
+    { "code": "cash", "value": 177200, "ratio": "35.4%" }
   ],
   "ai_stocks": [
-    { "code": "002230", "price": "47.65", "change": "+0.89%" },
-    { "code": "688041", "price": "231.70", "change": "+2.07%" },
-    { "code": "688256", "price": "178.32", "change": "+3.45%" }
+    { "code": "002230", "price": "52.15", "change": "+8.97%" },
+    { "code": "688041", "price": "261.30", "change": "+15.09%" },
+    { "code": "688256", "price": "218.40", "change": "+23.56%" }
   ],
   "power_stocks": [
-    { "code": "600900", "price": "26.37", "change": "-0.15%" },
-    { "code": "600406", "price": "31.25", "change": "+0.52%" },
-    { "code": "601985", "price": "8.47", "change": "+1.08%" }
+    { "code": "600900", "price": "27.68", "change": "+4.86%" },
+    { "code": "600406", "price": "34.20", "change": "+9.86%" },
+    { "code": "601985", "price": "9.35", "change": "+10.00%" }
   ],
-  "note": "模拟分析，仅供参考 | 周六休市，数据为周五（4月10日）收盘"
+  "note": "模拟分析，仅供参考 | 2026-04-14 10:54 盘中 | 沪指涨+6.62%，科创50涨幅扩大至38.72%，AI算力持续涨停潮，成交量8120亿较10:30继续放大，北向净流入312.8亿。市场情绪偏热，AI主线延续。"
 }
