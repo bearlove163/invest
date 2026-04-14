@@ -1,49 +1,39 @@
 {
-  "updated": "2026-04-11",
+  "updated": "2026-04-12",
   "countries": {
     "cambodia": {
       "emoji": "🇰🇭",
       "name": "柬埔寨",
-      "new_projects": [],
-      "updates": [
-        "ADB预测2026年GDP增长4.5%，面临边境争端、贸易壁垒、油价三重冲击",
-        "Q1国际贸易达169.3亿美元（+17.1%），中国/美国/越南/日本为主要贸易伙伴",
-        "泰柬边境紧张局势持续，泰国在柬领土内布置铁丝网和集装箱",
-        "CRM中柬埔寨项目记录为空（7个已知项目均未录入），建议补充录入Kok Thlok Stadium、Funan Techo Canal等",
-        "旅游下滑：吴哥窟3月游客同比下降34%"
+      "new_projects": [
+        "柬埔寨-韩国友谊大桥（第九桥）$250M（韩国进出口银行融资，2026开工）",
+        "Koh Norea-Mekong Quay大桥（第十桥）$200-300M（PPP模式，OCIC+TP Moral Group）"
       ],
-      "no_change": true
+      "updates": [
+        "JICA Nirodh水厂扩建$140M+（2027年2月招标）",
+        "JICA第三期金边输配电系统扩建$150M+（2027年8月招标）",
+        "新机构：TP Moral Group（第十桥私方）",
+        "新机构：Korea Eximbank（第九桥融资方）",
+        "新联系人：H.E. Peng Ponea（MPWT部长，负责10 Bridges Plan）"
+      ],
+      "no_change": false
     },
     "vietnam": {
       "emoji": "🇻🇳",
       "name": "越南",
       "new_projects": [],
-      "updates": [
-        "Cầu Tứ Liên（四连桥）：河内市重大项目，20,171亿越盾（~$800M+），5.15km，拆迁收尾中即将全面施工——非精工核心市场（河内），属市政桥",
-        "边和-头顿高速(QL51)：BOT扩建已完成投资回收，收费站拆除为收尾工作，无新增钢结构机会",
-        "广宁省：2025年GRDP增速11.89%全国第一，目标2026年增速12.5%+，申请升级中央直辖市——非精工核心市场",
-        "新内阁上任（2026-2031）：总理Lê Minh Hưng表态「不接受过热增长」，经济政策以稳定为主",
-        "持续监控：隆城国际机场（预计2026年底运营，关注航站楼钢结构/空间网格分包招标）",
-        "本次扫描无Tier 1新线索（$1亿以上新项目或新关键人物）"
-      ],
+      "updates": [],
       "no_change": true
     },
     "singapore": {
       "emoji": "🇸🇬",
       "name": "新加坡",
-      "new_projects": [
-        "樟宜机场T5扩建（S$47.5亿合同，CCCC+Obayashi JV 38亿大单，2030年代中完工）",
-        "Micron先进晶圆厂（US$240亿，H2 2028投产，洁净室钢结构需求）",
-        "拉斯维加斯金沙Marina Bay新度假村（US$80亿，Woh Hup总承包，2030年完工）",
-        "Afro-Asia i-Mark（63 Robinson Road，19层钢结构办公，钢-混凝土混合结构）",
-        "LTA地铁跨岛线延伸Contract T318（截标2026年4月22日，隧道钢结构）"
-      ],
+      "new_projects": [],
       "updates": [
-        "T1机构新发现：中国交通建设（CCCC）首进新加坡T5核心标（38亿合同）；Micron宣布$240亿新加坡投资；Las Vegas Sands新进新加坡",
-        "T1人物：Lim Ming Yan（CAG新主席2025.4）、Manish Bhatia（Micron EVP Global Ops）、Patrick Dumont（LVS董事长兼CEO）、Ong Chee Chiau（CAG T5项目执行负责人）",
-        "Exyte（德国洁净室EPC）：2024年SBR奖，Siltronic新加坡半导体晶圆厂18/22月完成RFE，可作为潜在合作方",
-        "精工切入点优先级：Micron Fab（⭐⭐⭐）> CCCC+Obayashi JV（⭐⭐⭐）> Woh Hup战略合作（⭐⭐）> CAG新主席（⭐⭐）",
-        "CRM新加坡记录为空——所有T1项目/机构/人物均需新建档案"
+        "LTA Contract T318截标2026年4月22日（跨岛线延长线基础设施建设，S$5亿+）",
+        "T5樟宜机场扩建：下一阶段航站楼主体钢结构+屋顶工程，预计2026-2027年进入采购",
+        "Microsoft新加坡300MW数据中心（2026年建设期，空间钢结构机会）",
+        "Micron新加坡Fab扩产（2026-2027年EPC招标，洁净室钢结构/吊挂结构）",
+        "新机构候选：Siltronic/GlobalFoundries/Microsoft Singapore/JTC Corporation"
       ],
       "no_change": false
     },
@@ -51,12 +41,10 @@
       "emoji": "🇮🇳",
       "name": "印度",
       "new_projects": [],
-      "updates": [
-        "今日扫描文件不存在（/memory/india_scan_2026-04-11.md），无数据"
-      ],
+      "updates": [],
       "no_change": true
     }
   },
   "total_crm": 0,
-  "total_new_today": 0
+  "total_new_today": 2
 }
