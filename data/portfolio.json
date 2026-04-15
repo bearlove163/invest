@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "name": "实盘模拟组合",
+    "startDate": "2026-04-15",
+    "capital": 1000000,
+    "benchmark": "沪深300",
+    "benchmarkCode": "000300",
+    "benchmarkStartValue": 4676.12,
+    "goal": "跑赢沪深300，年化15%+"
+  },
+  "nav": {
+    "date": "2026-04-15",
+    "value": 1000000,
+    "dailyReturn": 0,
+    "totalReturn": 0,
+    "hs300": 4676.12,
+    "hs300Change": 0,
+    "excessReturn": 0
+  },
+  "positions": [],
+  "trades": [],
+  "weeklyReports": []
+}
